@@ -38,8 +38,42 @@ class OrganizationalLegalForm(models.Model):
     short_name = models.CharField(max_length=10, blank=False, null=False, verbose_name='Краткое наименование')
 
     def __str__(self):
-        return '%s' % (self.short_name)
+        return '%s' % self.short_name
 
     class Meta:
         verbose_name = 'Организационно-правовая форма'
         verbose_name_plural = 'Организационно-правовые формы'
+
+
+class Address(models.Model):
+    locality = models.CharField(max_length=255, blank=False, null=False, verbose_name='Населенный пункт')
+    street = models.CharField(max_length=255, blank=True, null=True, verbose_name='Улица')
+    number_of_building = models.CharField(max_length=31, blank=True, null=True, verbose_name='Номер строения')
+    apartment_number = models.CharField(max_length=31, blank=True, null=True, verbose_name='Номер квартиры/офиса')
+    latitude = models.FloatField(blank=True, null=True, verbose_name='Широта')
+    longitude = models.FloatField(blank=True, null=True, verbose_name='Долгота')
+    map_link = models.URLField(blank=True, null=True, verbose_name='Ссылка на карты')
+
+    def __str__(self):
+        return '%s' % self.map_link
+
+    class Meta:
+        verbose_name = 'Адрес'
+        verbose_name_plural = 'Адреса'
+
+
+class Organization(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
+    payment_account = models.CharField(max_length=20, blank=False, null=False, verbose_name='Расчетный счет')
+    organizational_legal_form = models.ForeignKey('OrganizationalLegalForm', on_delete=models.PROTECT,
+                                                  null=False, blank=False, verbose_name='ОПФ')
+    inn = models.CharField(max_length=12, blank=False, null=False, verbose_name='ИНН')
+    address = models.ForeignKey('Address', on_delete=models.PROTECT,
+                                                  null=False, blank=False, verbose_name='Адрес')
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = 'Организация'
+        verbose_name_plural = 'Организации'
