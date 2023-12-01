@@ -77,3 +77,40 @@ class Organization(models.Model):
     class Meta:
         verbose_name = 'Организация'
         verbose_name_plural = 'Организации'
+
+
+class Employer(Person):
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE,
+                                     null=False, blank=False, verbose_name='Организация')
+    position = models.CharField(max_length=90, blank=False,  null=False, verbose_name='Должность')
+
+    def __str__(self):
+        return '%s %s %s' % (self.surname, self.name, self.organization.name)
+
+    class Meta:
+        verbose_name = 'Работодатель'
+        verbose_name_plural = 'Работодатели'
+
+
+class EmployeePosition(models.Model):
+    name = models.CharField(max_length=90, blank=False, null=False, verbose_name='Наименование')
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = 'Должность'
+        verbose_name_plural = 'Должности'
+
+class Employee(CustomUser):
+    date_of_employment = models.DateField(blank=False, null=False, verbose_name='Дата приёма')
+    date_of_dismissal = models.DateField(blank=True, null=True, verbose_name='Дата увольнения')
+    employee_position = models.ForeignKey('EmployeePosition', on_delete=models.PROTECT,
+                                          null=False, blank=False, verbose_name='Должность')
+
+    def __str__(self):
+        return '%s %s %s' % (self.last_name, self.first_name, self.employee_position.name)
+
+    class Meta:
+        verbose_name = 'Работник'
+        verbose_name_plural = 'Работники'
