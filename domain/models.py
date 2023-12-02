@@ -102,6 +102,7 @@ class EmployeePosition(models.Model):
         verbose_name = 'Должность'
         verbose_name_plural = 'Должности'
 
+
 class Employee(CustomUser):
     date_of_employment = models.DateField(blank=False, null=False, verbose_name='Дата приёма')
     date_of_dismissal = models.DateField(blank=True, null=True, verbose_name='Дата увольнения')
@@ -114,3 +115,42 @@ class Employee(CustomUser):
     class Meta:
         verbose_name = 'Работник'
         verbose_name_plural = 'Работники'
+
+
+class EducationalOrganization(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
+    address = models.ForeignKey('Address', on_delete=models.PROTECT,
+                                null=False, blank=False, verbose_name='Адрес')
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = 'Образовательное учреждение'
+        verbose_name_plural = 'Образовательные учреждения'
+
+
+class EducationLevel(models.Model):
+    name = models.CharField(max_length=90, blank=False, null=False, verbose_name='Наименование')
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = 'Уровень образования'
+        verbose_name_plural = 'Уровни образования'
+
+
+class Education(models.Model):
+    organization = models.ForeignKey('EducationalOrganization', on_delete=models.PROTECT,
+                                     null=False, blank=False, verbose_name='Образовательное учреждение')
+    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
+    code = models.CharField(max_length=9, blank=True, null=True, verbose_name='Код специальности')
+    education_level = models.ForeignKey('EducationLevel', on_delete=models.PROTECT, null=False, blank=False, verbose_name='Уровень образования')
+
+    def __str__(self):
+        return '%s %s %s' % (self.name, self.code, self.organization)
+
+    class Meta:
+        verbose_name = 'Образование'
+        verbose_name_plural = 'Образования'
