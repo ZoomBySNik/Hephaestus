@@ -69,7 +69,7 @@ class Organization(models.Model):
                                                   null=False, blank=False, verbose_name='ОПФ')
     inn = models.CharField(max_length=12, blank=False, null=False, verbose_name='ИНН')
     address = models.ForeignKey('Address', on_delete=models.PROTECT,
-                                                  null=False, blank=False, verbose_name='Адрес')
+                                null=False, blank=False, verbose_name='Адрес')
 
     def __str__(self):
         return '%s' % self.name
@@ -82,7 +82,7 @@ class Organization(models.Model):
 class Employer(Person):
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE,
                                      null=False, blank=False, verbose_name='Организация')
-    position = models.CharField(max_length=90, blank=False,  null=False, verbose_name='Должность')
+    position = models.CharField(max_length=90, blank=False, null=False, verbose_name='Должность')
 
     def __str__(self):
         return '%s %s %s' % (self.surname, self.name, self.organization.name)
@@ -146,7 +146,8 @@ class Education(models.Model):
                                      null=False, blank=False, verbose_name='Образовательное учреждение')
     name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
     code = models.CharField(max_length=9, blank=True, null=True, verbose_name='Код специальности')
-    education_level = models.ForeignKey('EducationLevel', on_delete=models.PROTECT, null=False, blank=False, verbose_name='Уровень образования')
+    education_level = models.ForeignKey('EducationLevel', on_delete=models.PROTECT, null=False, blank=False,
+                                        verbose_name='Уровень образования')
 
     def __str__(self):
         return '%s %s %s' % (self.name, self.code, self.organization)
@@ -154,3 +155,47 @@ class Education(models.Model):
     class Meta:
         verbose_name = 'Образование'
         verbose_name_plural = 'Образования'
+
+
+class Skill(models.Model):
+    name = models.CharField(max_length=100, blank=False, null=False, verbose_name='Наименование')
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = 'Навык'
+        verbose_name_plural = 'Навыки'
+
+
+class Specialization(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = 'Специализация'
+        verbose_name_plural = 'Специализации'
+
+
+class SoftwareAndHardwareTool(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = 'Программно-техническое средство'
+        verbose_name_plural = 'Программно-технические средства'
+
+
+class WorkSchedule(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = 'График работы'
+        verbose_name_plural = 'Графики работы'
