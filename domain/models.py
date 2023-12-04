@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
@@ -199,3 +201,53 @@ class WorkSchedule(models.Model):
     class Meta:
         verbose_name = 'График работы'
         verbose_name_plural = 'Графики работы'
+
+
+class JobSeeker(Person):
+    birthdate = models.DateField(blank=False, null=False, verbose_name='Дата рождения')
+    address = models.ForeignKey('Address', blank=False, null=False, on_delete=models.PROTECT, verbose_name='Адрес')
+    skill = models.ManyToManyField('Skill', blank=True, null=True, verbose_name='Навыки')
+    specialization = models.ManyToManyField('Specialization', blank=True, null=True, verbose_name='Специализация')
+
+    def __str__(self):
+        return '%s %s %s' % (self.surname, self.name, self.birthdate.isoformat())
+
+    class Meta:
+        verbose_name = 'Соискатель'
+        verbose_name_plural = 'Соискатели'
+
+
+class WorkExperience(models.Model):
+    job_seeker = models.ForeignKey('JobSeeker', blank=False, null=False,
+                                   on_delete=models.CASCADE, verbose_name='Соискатель')
+    date_of_employment = models.DateField(blank=False, null=False, verbose_name='Дата приёма')
+    date_of_dismissal = models.DateField(blank=True, null=True, verbose_name='Дата увольнения')
+    organization = models.CharField(max_length=255, blank=False, null=False, verbose_name='Организация')
+    position = models.CharField(max_length=255, blank=False, null=False, verbose_name='Должность')
+
+    def __str__(self):
+        return '%s %s лет %s' % \
+            (self.job_seeker.__str__(),
+             ((self.date_of_dismissal-self.date_of_employment
+              if self.date_of_dismissal else datetime.date.today()-self.date_of_employment).days) // 365, self.position)
+
+    class Meta:
+        verbose_name = 'Опыт работы'
+        verbose_name_plural = 'Опыты работ'
+
+
+class EducationOfJobSeeker(models.Model):
+
+    job_seeker = models.ForeignKey('JobSeeker', blank=False, null=False,
+                                   on_delete=models.CASCADE, verbose_name='Соискатель')
+    education = models.ForeignKey('Education', blank=False, null=False,
+                                  on_delete=models.PROTECT, verbose_name='Образование')
+    year_received = models.DateField(blank=False, null=False, verbose_name='Год получениия')
+
+    def __str__(self):
+        return '%s %s лет %s' % (self.job_seeker.__str__(), self.education.__str__(), self.year_received.year)
+
+    class Meta:
+        verbose_name = 'Образование соискателя'
+        verbose_name_plural = 'Образования соискателей'
+
