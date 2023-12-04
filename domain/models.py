@@ -54,7 +54,7 @@ class Address(models.Model):
     apartment_number = models.CharField(max_length=31, blank=True, null=True, verbose_name='Номер квартиры/офиса')
     latitude = models.FloatField(blank=True, null=True, verbose_name='Широта')
     longitude = models.FloatField(blank=True, null=True, verbose_name='Долгота')
-    map_link = models.URLField(blank=True, null=True, verbose_name='Ссылка на карты')
+    map_link = models.URLField(max_length=2083, blank=True, null=True, verbose_name='Ссылка на карты')
 
     def __str__(self):
         return '%s' % self.map_link
@@ -206,8 +206,9 @@ class WorkSchedule(models.Model):
 class JobSeeker(Person):
     birthdate = models.DateField(blank=False, null=False, verbose_name='Дата рождения')
     address = models.ForeignKey('Address', blank=False, null=False, on_delete=models.PROTECT, verbose_name='Адрес')
-    skill = models.ManyToManyField('Skill', blank=True, null=True, verbose_name='Навыки')
-    specialization = models.ManyToManyField('Specialization', blank=True, null=True, verbose_name='Специализация')
+    skill = models.ManyToManyField('Skill', blank=True, verbose_name='Навыки')
+    specialization = models.ManyToManyField('Specialization', blank=True, verbose_name='Специализация')
+    about = models.TextField(blank=True, null=True, verbose_name='Описание профиля')
 
     def __str__(self):
         return '%s %s %s' % (self.surname, self.name, self.birthdate.isoformat())
@@ -228,8 +229,9 @@ class WorkExperience(models.Model):
     def __str__(self):
         return '%s %s лет %s' % \
             (self.job_seeker.__str__(),
-             ((self.date_of_dismissal-self.date_of_employment
-              if self.date_of_dismissal else datetime.date.today()-self.date_of_employment).days) // 365, self.position)
+             ((self.date_of_dismissal - self.date_of_employment
+               if self.date_of_dismissal else datetime.date.today() - self.date_of_employment).days) // 365,
+             self.position)
 
     class Meta:
         verbose_name = 'Опыт работы'
@@ -237,17 +239,91 @@ class WorkExperience(models.Model):
 
 
 class EducationOfJobSeeker(models.Model):
-
     job_seeker = models.ForeignKey('JobSeeker', blank=False, null=False,
                                    on_delete=models.CASCADE, verbose_name='Соискатель')
     education = models.ForeignKey('Education', blank=False, null=False,
                                   on_delete=models.PROTECT, verbose_name='Образование')
-    year_received = models.DateField(blank=False, null=False, verbose_name='Год получениия')
+    year_choices = [(year, str(year)) for year in range(1950, datetime.datetime.now().year + 1)]
+    year_received = models.IntegerField(choices=year_choices, blank=False, null=False, verbose_name='Год получения')
 
     def __str__(self):
-        return '%s %s лет %s' % (self.job_seeker.__str__(), self.education.__str__(), self.year_received.year)
+        return '%s %s лет %s' % (self.job_seeker.__str__(), self.education.__str__(), self.year_received)
 
     class Meta:
         verbose_name = 'Образование соискателя'
         verbose_name_plural = 'Образования соискателей'
 
+
+class SoftwareAndHardwareToolOfJobSeeker(models.Model):
+    job_seeker = models.ForeignKey('JobSeeker', blank=False, null=False,
+                                   on_delete=models.CASCADE, verbose_name='Соискатель')
+    software_and_hardware_tool = models.ForeignKey('SoftwareAndHardwareTool', blank=False, null=False,
+                                                   on_delete=models.CASCADE,
+                                                   verbose_name='Программно-техническое средство')
+    proficiency_level = models.CharField(max_length=20, blank=True, null=True, verbose_name='Уровень владения')
+    comment = models.TextField(blank=True, null=True, verbose_name='Комментарий')
+
+    def __str__(self):
+        return '%s %s' % (self.job_seeker.__str__(), self.software_and_hardware_tool.name)
+
+    class Meta:
+        verbose_name = 'Уровень владения программно-техническим средством'
+        verbose_name_plural = 'Уровни владения программно-техническими средствами'
+
+
+class Resume(models.Model):
+    RELOCATE_CHOICES = [
+        ('yes', 'Готов к переезду'),
+        ('no', 'Не готов к переезду'),
+        ('maybe', 'Может быть'),
+        ('not_specified', 'Не указано'),
+    ]
+
+    job_seeker = models.ForeignKey('JobSeeker', blank=False, null=False,
+                                   on_delete=models.CASCADE, verbose_name='Соискатель')
+    position = models.CharField(max_length=100, blank=False, null=False, verbose_name='Должность')
+    desired_salary = models.CharField(max_length=100, blank=False, null=False, verbose_name='Желаемая зарплата')
+    willing_to_relocate = models.CharField(max_length=13, choices=RELOCATE_CHOICES, null=False, blank=False,
+                                           default='not_specified', verbose_name='Готовность к переезду')
+    work_schedule = models.ForeignKey('WorkSchedule', blank=False, null=False,
+                                      on_delete=models.PROTECT, verbose_name='График работы')
+    date_of_creation = models.DateTimeField(auto_now_add=True, editable=False, verbose_name='Дата отправки')
+    closing_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата закрытия резюме')
+
+    def __str__(self):
+        return 'Резюме %s от %s' % (self.job_seeker.__str__(), self.date_of_creation.date)
+
+    class Meta:
+        verbose_name = 'Резюме'
+        verbose_name_plural = 'Резюме'
+
+
+class Publication(models.Model):
+    job_seeker = models.ForeignKey('JobSeeker', blank=False, null=False,
+                                   on_delete=models.CASCADE, verbose_name='Соискатель')
+    description = models.TextField(blank=True, null=True, verbose_name='Описание')
+    time_of_publication = models.DateTimeField(auto_now_add=True, editable=False, verbose_name='Время публикации')
+    time_of_moderation = models.DateTimeField(null=True, blank=True, verbose_name='Время модерации')
+    time_of_edition = models.DateTimeField(null=True, blank=True, verbose_name='Время изменения')
+    software_and_hardware_tool = models.ManyToManyField('SoftwareAndHardwareTool', blank=True,
+                                                        verbose_name='Программно-техническое средство')
+
+    def __str__(self):
+        return 'Публикация %s от %s' % (self.job_seeker.__str__(), self.time_of_publication)
+
+    class Meta:
+        verbose_name = 'Публикация'
+        verbose_name_plural = 'Публикации'
+
+
+class AttachmentToPublication(models.Model):
+    publication = models.ForeignKey('Publication', blank=False, null=False, on_delete=models.CASCADE)
+    file = models.FileField(blank=False, null=False,
+                            verbose_name='Приложение к публикации', upload_to='attachment_to_publications')
+
+    def __str__(self):
+        return 'Приложение к (%s): %s' % (self.publication.__str__(), self.file.name)
+
+    class Meta:
+        verbose_name = 'Приложение к публикации'
+        verbose_name_plural = 'Приложения к публикациям'
