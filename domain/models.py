@@ -67,6 +67,7 @@ class Address(models.Model):
 class Organization(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
     payment_account = models.CharField(max_length=20, blank=False, null=False, verbose_name='Расчетный счет')
+    okved_kode = models.CharField(max_length=9, blank=True, null=True, verbose_name='Код ОКВЭД')
     organizational_legal_form = models.ForeignKey('OrganizationalLegalForm', on_delete=models.PROTECT,
                                                   null=False, blank=False, verbose_name='ОПФ')
     inn = models.CharField(max_length=12, blank=False, null=False, verbose_name='ИНН')
@@ -327,3 +328,45 @@ class AttachmentToPublication(models.Model):
     class Meta:
         verbose_name = 'Приложение к публикации'
         verbose_name_plural = 'Приложения к публикациям'
+
+
+class Application(models.Model):
+    STATUS_CHOICES = [
+        ('new', 'Новая'),
+        ('in_progress', 'В обработке'),
+        ('pending_approval', 'На согласовании'),
+        ('completed', 'Завершена'),
+        ('canceled', 'Отменена'),
+        ('payment_received', 'Получена оплата')
+    ]
+    employer = models.ForeignKey('Employer', blank=False, null=False,
+                                 on_delete=models.CASCADE, verbose_name='Работодатель')
+    date_of_application = models.DateField(blank=False, null=False, auto_now_add=True,
+                                           editable=False, verbose_name='Дата заявки')
+    desired_date = models.DateField(blank=True, null=True, verbose_name='Желательный срок')
+    final_date = models.DateField(blank=True, null=True, verbose_name='Крайний срок')
+    position = models.CharField(blank=False, null=False, max_length=255, verbose_name='Должность')
+    salary = models.CharField(blank=False, null=False, max_length=255, verbose_name='Зарплата')
+    specialization = models.ForeignKey('Specialization', blank=False, null=False,
+                                       on_delete=models.PROTECT, verbose_name='Специализация')
+    education_level = models.ForeignKey('EducationLevel', blank=True, null=True,
+                                        on_delete=models.PROTECT, verbose_name='Уровень образования')
+    skills = models.ManyToManyField('Skill', blank=True, verbose_name='Навыки')
+    software_and_hardware_tools = models.ManyToManyField('SoftwareAndHardwareTool', blank=True,
+                                                         verbose_name='Требуемые программно-технические средства')
+    experience = models.IntegerField(blank=False, null=False, default=0, verbose_name='Опыт (лет)')
+    work_schedule = models.ForeignKey('WorkSchedule', blank=False, null=False,
+                                      on_delete=models.PROTECT, verbose_name='График работы')
+    employee = models.ForeignKey('Employee', blank=False, null=False,
+                                 on_delete=models.PROTECT, verbose_name='Работник')
+    date_of_completion = models.DateField(blank=False, null=False, verbose_name='Дата выполнения')
+    date_of_cancellation = models.DateField(blank=False, null=False, verbose_name='Дата отмены')
+    status = models.CharField(blank=False, null=False, max_length=20, choices=STATUS_CHOICES,
+                              default='new', verbose_name='Статус')
+
+    def __str__(self):
+        return 'Заявка %s от %s на должность %s' % (self.employer.__str__, self.skills.__str__, self.position)
+
+    class Meta:
+        verbose_name = 'Заявка на подбор специалиста'
+        verbose_name_plural = 'Заявки на подбор специалистов'
