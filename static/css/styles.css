@@ -1,0 +1,77 @@
+*{
+    font-size: 20px;
+    padding: 0;
+    margin: 0;
+    font-family: Inter;
+}
+.body {
+    background: #282828;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+.nav-bar {
+    display: flex;
+    position: sticky;
+    height: 10%;
+    height: 100%;
+    margin: auto;
+    padding: 0 6em;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+    border-radius: 0 0 1.4em 1.4em;
+    background: #404040;
+    box-shadow: 0 0.2em 0.5em 0.1em rgba(0, 0, 0, 0.25);
+}
+.nav-part{
+    height: 100%;
+    padding: 0.4em 1em;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1em;
+    display: inline-flex;
+    flex-wrap: nowrap;
+}
+.logo{
+    align-self: stretch;
+    object-fit: contain;
+}
+.logo-container{
+    width: 3.2em;
+    aspect-ratio: 1 / 1;
+    justify-content: center;
+    align-items: center;
+    display: flex
+}
+.title{
+    color: #BAFFF3;
+    font-size: 2em;
+    font-weight: 400;
+    word-wrap: break-word;
+    padding-right: 3em;
+}
+.button{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-style: none;
+    border-radius: 0.4em;
+    background: #242424;
+    padding: 0.6em 0.4em;
+    color: #66FFE3;
+    gap: 0.2em;
+    box-shadow: 0px 0px 0.5em 0.1em rgba(0, 0, 0, 0.35);
+}
+.button:hover{
+    background: #303030;
+    box-shadow: 0px 0px 0.6em 0.2em rgba(48, 48, 48, 0.8);
+}
+.logout-button{
+    filter: brightness(0) saturate(100%) invert(24%) sepia(29%) saturate(4645%) hue-rotate(345deg) brightness(83%) contrast(84%);
+}
+.logout-button:hover{
+    filter: drop-shadow(0 0 0.5em #FF3838) brightness(0) saturate(100%) invert(46%) sepia(91%) saturate(4760%) hue-rotate(339deg) brightness(102%) contrast(104%);;
+}
