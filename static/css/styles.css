@@ -60,6 +60,10 @@
     font-weight: 400;
     word-wrap: break-word;
     padding-right: 3em;
+    text-shadow: 0 0 0.065em #BAFFF3;
+}
+.title:hover{
+    text-shadow: 0 0 0.1em #BAFFF3;
 }
 
 .button {
@@ -105,7 +109,7 @@
     flex-direction: column;
     align-items: flex-start;
     background: #303030;
-    padding: 0.8em 0.6em;
+    padding: 0.8em 1em;
     border-radius: 0.4em;
     gap: 0.4em;
     box-shadow: 0 0.2em 0.5em 0.1em rgba(0, 0, 0, 0.25);
@@ -113,4 +117,25 @@
 
 .button:hover .expanded {
     visibility: visible;
+}
+.two-split-section{
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: flex-start;
+    justify-content: space-around;
+    padding-top: 2em;
+    padding-right: 6.8em;
+    padding-left: 6.8em;
+}
+.split-section{
+    display: contents;
+    height: fit-content;
+}
+.content-box{
+    width: 100%;
+    height: 100%;
+    padding: 2em;
+    border-radius: 2em;
+    background: #404040;
 }
