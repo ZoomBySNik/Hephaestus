@@ -6,17 +6,41 @@
                 <img src="{% static 'images/logo.png' %}" class="logo"/>
             </div>
             <div class="title">Гефест</div>
+            <div class="button">
+                Работодатели
+                <img src="{% static 'icons/arrow-down.svg' %}" class="icon">
+                <div class="expanded">
+                    <div class="expanded-block">
+                        <a href="#">Создать заявку</a>
+                        <a href="#">Просмотр текущих заявок</a>
+                        <a href="#">Просмотр архивных заявок</a>
+                        <a href="#">Отчёты по заявкам</a>
+                    </div>
+                </div>
+            </div>
             <button class="button">
                 Соискатели
                 <img src="{% static 'icons/arrow-down.svg' %}" class="icon">
-            </button>
-            <button class="button">
-                Резюме
-                <img src="{% static 'icons/arrow-down.svg' %}" class="icon">
+                <div class="expanded">
+                    <div class="expanded-block">
+                        <a href="#">Просмотр резюме</a>
+                        <a href="#">Создать профиль соискателя</a>
+                        <a href="#">Создать публикацию в портфолио</a>
+                        <br>
+                    </div>
+                </div>
             </button>
             <button class="button">
                 Справочники
                 <img src="{% static 'icons/arrow-down.svg' %}" class="icon">
+                <div class="expanded">
+                    <div class="expanded-block">
+                        <a href="#">Просмотр справочников</a>
+                        <a href="#">Справочник "Программно-техническое средство"</a>
+                        <a href="#">Справочник "Навык"</a>
+                        <br>
+                    </div>
+                </div>
             </button>
         </div>
         <div class="nav-part">
