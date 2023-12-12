@@ -173,6 +173,7 @@
     justify-content: space-between;
     gap: 3em;
 }
+
 .input-field{
     border-style: none;
     border-radius: 0.5em;
@@ -191,6 +192,16 @@
     background: #303030;
     box-shadow: 0 0 0.5em 0.3em rgba(0, 0, 0, 0.25);
 }
+.input-field:required:invalid{
+    box-shadow: 0 0 0.5em 0.3em #9D2727;
+    background: #9D2727;
+}
+.input-field:-webkit-autofill,
+.input-field:-webkit-autofill:hover,
+.input-field:-webkit-autofill:focus {
+    box-shadow: 0 0 0.5em 0.3em #BAFFF3;
+}
+
 .error-message{
     color: #FF3838;
     text-shadow: 0 0 0.1em #FF3838;
