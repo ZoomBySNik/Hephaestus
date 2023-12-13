@@ -163,6 +163,7 @@
     flex: 0.2;
 }
 .splitted-part {
+    text-shadow: 0 0 0.07em #B4B4B4;
     flex: 1;
     padding: 1em;
     text-align: center;
