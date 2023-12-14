@@ -1,33 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <section class="two-split-section">
-        <div class="split-section">
-            <div class="content-block">
-                <h1 class="title">Заявки</h1>
-                <div class="content-box">
-                    <div class="top-splitter-two">
-                        <div class="splitted-part left active">Новые</div>
-                        <div class="splitted-part right">Горящие</div>
-                    </div>
-                    <div class="content">
-                        Кря
-                    </div>
-                </div>
-            </div>
-
+    <section class="two-split-section flex-horizontal gap-1em">
+        <div class="split-section flex-vertical gap-2em">
+            {% include 'home/components/applications_block.html' %}
+            {% include 'home/components/resume_block.html' %}
         </div>
-        <div class="split-section">
-            <div class="content-block">
-                <h1 class="title">Заявки</h1>
-                <div class="content-box">
-                    <div class="top-splitter-two">
-                        <div class="splitted-part left">Новые</div>
-                        <div class="splitted-part right active">Горящие</div>
-                    </div>
-                    <div class="content"></div>
-                </div>
-            </div>
+        <div class="split-section flex-vertical gap-2em">
+            {% include 'home/components/resume_block.html' %}
+            {% include 'home/components/applications_block.html' %}
         </div>
     </section>
 {% endblock %}

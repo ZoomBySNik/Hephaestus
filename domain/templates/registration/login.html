@@ -9,16 +9,16 @@
 </head>
 <body class="body">
 <section class="main">
-    <div class="to_center">
-        <div class="login-container">
+    <div class="to_center flex-horizontal">
+        <div class="login-container flex-vertical gap-1em">
             <h1 class="title">Вход</h1>
             <form method="POST" action="{% url 'login' %}">
                 {% csrf_token %}
-                <div class="input-line">
+                <div class="input-line flex-horizontal gap-3em">
                     <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
                     <div>{{ form.username|add_class:"input-field" }}</div>
                 </div>
-                <div class="input-line">
+                <div class="input-line flex-horizontal gap-3em">
                     <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
                     <div>{{ form.password|add_class:"input-field" }}</div>
                 </div>

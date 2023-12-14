@@ -1,7 +1,7 @@
 {% load static %}
 {% block content %}
-    <div class="nav-bar">
-        <div class="nav-part">
+    <div class="nav-bar flex-horizontal gap-1em">
+        <div class="nav-part flex-horizontal gap-1em">
             <div class="logo-container">
                 <img src="{% static 'images/logo.png' %}" class="logo"/>
             </div>
@@ -10,7 +10,7 @@
                 Работодатели
                 <img src="{% static 'icons/arrow-down.svg' %}" class="icon">
                 <div class="expanded">
-                    <div class="expanded-block">
+                    <div class="expanded-block flex-vertical">
                         <a href="#" class="expanded-link">Создать заявку</a>
                         <a href="#" class="expanded-link">Просмотр текущих заявок</a>
                         <a href="#" class="expanded-link">Просмотр архивных заявок</a>
@@ -22,7 +22,7 @@
                 Соискатели
                 <img src="{% static 'icons/arrow-down.svg' %}" class="icon">
                 <div class="expanded">
-                    <div class="expanded-block">
+                    <div class="expanded-block flex-vertical">
                         <a href="#" class="expanded-link">Просмотр резюме</a>
                         <a href="#" class="expanded-link">Создать профиль соискателя</a>
                         <a href="#" class="expanded-link">Создать публикацию в портфолио</a>
@@ -34,7 +34,7 @@
                 Справочники
                 <img src="{% static 'icons/arrow-down.svg' %}" class="icon">
                 <div class="expanded">
-                    <div class="expanded-block">
+                    <div class="expanded-block flex-vertical">
                         <a href="#" class="expanded-link">Просмотр справочников</a>
                         <a href="#" class="expanded-link">Справочник "Программно-техническое средство"</a>
                         <a href="#" class="expanded-link">Справочник "Навык"</a>
@@ -43,11 +43,40 @@
                 </div>
             </button>
         </div>
-        <div class="nav-part">
+        <div class="nav-part flex-horizontal gap-1em">
             <h2 class="text1">{{ user.last_name }} {{ user.first_name }} {{ user.patronymic }}</h2>
             <a href="{% url 'logout' %}">
                 <img src="{% static 'icons/logout.svg' %}" class="logout-button"/>
             </a>
         </div>
     </div>
+    <style>
+        .nav-bar {
+            position: sticky;
+            height: 100%;
+            margin: auto;
+            padding: 0 6em;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 1.4em 1.4em;
+            background: #404040;
+            box-shadow: 0 0.2em 0.5em 0.1em rgba(0, 0, 0, 0.25);
+        }
+
+        .nav-part {
+            height: 100%;
+            padding: 0.4em 1em;
+            justify-content: flex-start;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+
+        .logout-button {
+            filter: brightness(0) saturate(100%) invert(24%) sepia(29%) saturate(4645%) hue-rotate(345deg) brightness(83%) contrast(84%);
+        }
+
+        .logout-button:hover {
+            filter: drop-shadow(0 0 0.8em #FF3838) brightness(0) saturate(100%) invert(46%) sepia(91%) saturate(4760%) hue-rotate(339deg) brightness(102%) contrast(104%);;
+        }
+    </style>
 {% endblock content %}
