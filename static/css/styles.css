@@ -216,14 +216,23 @@
     padding: 1em;
 }
 
-.submit {
+button.submit {
     background: #325a39;
     box-shadow: 0 0 0.6em 0.2em rgba(50, 90, 57, 0.8);
 }
 
-.submit:hover {
+button.submit:hover {
     background: #40734b;
     box-shadow: 0 0 0.6em 0.2em rgba(64, 155, 75, 0.8);
+}
+button.reject {
+    background: #9D2727;
+    box-shadow: 0 0 0.6em 0.2em rgba(150, 39, 39, 0.8);
+}
+
+button.reject:hover{
+    background: #D73535CC;
+    box-shadow: 0 0 0.6em 0.4em rgba(215, 53, 53, 0.85);
 }
 
 .table {
