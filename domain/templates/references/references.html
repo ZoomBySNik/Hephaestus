@@ -29,8 +29,9 @@
                         {% endfor %}
                         <tr>
                             <td></td>
-                            <td><input type="text" class="input-field text-size-smaller"></td>
-                            <td><input type="text" class="input-field text-size-smaller"></td>
+                            {% for field in fields_names %}
+                                <td><input type="text" class="input-field text-size-smaller"></td>
+                            {% endfor %}
                             <td>
                                 <button type="submit" class="button submit text-size-smaller">+</button>
                             </td>
