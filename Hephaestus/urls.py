@@ -17,12 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as v
-from domain import views
+from domain.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home_view, name='home'),
-    path('references/', views.references_view, name='references'),
+    path('', home_view, name='home'),
+    path('references/', references_view, name='references'),
+    path('references/<str:reference>/', references_view, name='references'),
+
     path('login/', v.LoginView.as_view(next_page='home'), name='login'),
     path('logout/', v.LogoutView.as_view(next_page='login'), name='logout'),
+
+    path('error_page/<str:error_message>/', error_view, name='error_page'),
 ]

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="to_center flex-horizontal">
+        <div class="login-container flex-vertical gap-1em">
+            <h1 class="title">Ошибка: {{ error_message }}</h1>
+            <a href="{% url 'home' %}">
+                <button class="button submit">Вернуться на главную</button>
+            </a>
+        </div>
+    </div>
+{% endblock %}

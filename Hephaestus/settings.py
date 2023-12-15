@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'domain.middleware.AllowOnlySpecificPagesMiddleware',
+    'domain.middleware.ErrorHandlingMiddleware',
 ]
 
 ROOT_URLCONF = 'Hephaestus.urls'
@@ -69,6 +70,10 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'domain.context_processors.user'
             ],
+            'libraries': {
+                'filters': 'domain.filters',
+
+            }
         },
     },
 ]

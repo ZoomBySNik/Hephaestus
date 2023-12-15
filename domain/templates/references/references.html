@@ -1,42 +1,39 @@
 {% extends 'base.html' %}
+{% load filters %}
 {% load static %}
 {% block content %}
     <section class="split-section flex-vertical gap-2em">
         <div class="content-block flex-vertical gap-1em">
             <button class="button">Справочник 1</button>
-            <h1 class="title">Заявки</h1>
             <div class="content-box flex-vertical gap-1em">
                 <div class="content flex-vertical gap-1em">
+                    <h1 class="title">{{ display_name }}</h1>
                     <table class="table">
                         <tr>
-                            <th>Время создания</th>
-                            <th>Заказчик</th>
-                            <th>Должность</th>
-                            <th>Подробнее</th>
+                            <th>№</th>
+                            {% for field in fields_names %}
+                                <th>{{ field.verbose_name }}</th>
+                            {% endfor %}
+                            <th></th>
                         </tr>
+                        {% for item in model %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                {% for field in fields_names %}
+                                    {% with field_value=item|get_value:field.name %}
+                                        <td>{{ field_value }}</td>
+                                    {% endwith %}
+                                {% endfor %}
+                                <td>edit</td>
+                            </tr>
+                        {% endfor %}
                         <tr>
-                            <td>11.12.2023 11:17</td>
-                            <td>with two columns</td>
-                            <td>with two columns</td>
-                            <td>edit</td>
-                        </tr>
-                        <tr>
-                            <td>11.12.2023 11:17</td>
-                            <td>with two columns</td>
-                            <td>with two columns</td>
-                            <td>edit</td>
-                        </tr>
-                        <tr>
-                            <td>11.12.2023 11:17</td>
-                            <td>with two columns</td>
-                            <td>with two columns</td>
-                            <td>edit</td>
-                        </tr>
-                        <tr>
+                            <td></td>
                             <td><input type="text" class="input-field text-size-smaller"></td>
                             <td><input type="text" class="input-field text-size-smaller"></td>
-                            <td><input type="text" class="input-field text-size-smaller"></td>
-                            <td><button type="submit" class="button submit text-size-smaller">+</button> </td>
+                            <td>
+                                <button type="submit" class="button submit text-size-smaller">+</button>
+                            </td>
                         </tr>
                     </table>
                 </div>
