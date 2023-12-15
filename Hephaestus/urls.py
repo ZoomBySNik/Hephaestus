@@ -22,6 +22,7 @@ from domain import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home_view, name='home'),
+    path('references/', views.references_view, name='references'),
     path('login/', v.LoginView.as_view(next_page='home'), name='login'),
     path('logout/', v.LogoutView.as_view(next_page='login'), name='logout'),
 ]

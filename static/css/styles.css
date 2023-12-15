@@ -6,6 +6,9 @@
     color: #B4B4B4;
     text-decoration: none;
 }
+*:focus{
+    all:unset;
+}
 
 .body {
     background: #282828;
@@ -193,6 +196,7 @@
 
 .input-field:focus {
     all: unset;
+    font-size: inherit;
     border-style: none;
     border-radius: 0.5em;
     padding: 0.2em 0.3em;
@@ -259,7 +263,6 @@ th:last-child {
 td {
     padding: 0.5em 1em;
     background: #4b4b4b;
-    font-size: smaller;
     width: 1px;
     white-space: nowrap;
 }
@@ -312,4 +315,7 @@ tr:hover td {
 
 .flex-vertical.gap-3em {
     gap: 3em;
+}
+.text-size-smaller, .text-size-smaller:hover, .text-size-smaller:focus{
+    font-size: smaller;
 }
