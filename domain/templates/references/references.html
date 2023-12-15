@@ -6,7 +6,8 @@
         <div class="content-block flex-vertical gap-1em">
             <select name="reference-select" class="button" onchange="window.location.href = (this.value)">
                 {% for reference, value in references_dict.items %}
-                    <option value="{% url 'references' reference %}" {% if value.1 == display_name %}selected{% endif %}>
+                    <option value="{% url 'references' reference %}"
+                            {% if value.1 == display_name %}selected{% endif %}>
                         {{ value.1 }}
                     </option>
                 {% endfor %}
@@ -27,22 +28,32 @@
                                 <td>{{ forloop.counter }}</td>
                                 {% for field in fields_names %}
                                     {% with field_value=item|get_value:field.name %}
-                                        <td><input type="text" value="{{ field_value }}" class="input-field-in-table">
+                                        <td><input type="text"
+                                                   id = "{{ field.name }}_{{ item.id }}"
+                                                   value="{{ field_value }}"
+                                                   class="input-field-in-table"
+                                                   onchange="document.getElementById('Button_{{ item.id }}').style.visibility = 'visible';"
+                                                   maxlength="{{ field.max_length }}"
+                                        >
                                         </td>
                                     {% endwith %}
                                 {% endfor %}
                                 <td>
-                                    <button class="button submit text-size-smaller">Сохранить</button>
+                                    <button id = "Button_{{ item.id }}" class="button submit text-size-smaller" style="visibility:hidden">
+                                        Сохранить
+                                    </button>
                                 </td>
                             </tr>
                         {% endfor %}
                         <tr>
-                            <td></td>
+                            <td class="row-1em">new</td>
                             {% for field in fields_names %}
-                                <td><input type="text" class="input-field"></td>
+                                <td><input id="{{ field.name }}_new" type="text" class="input-field-in-table" maxlength="{{ field.max_length }}"
+                                onchange="document.getElementById('Button_new').style.visibility = 'visible';">
+                                </td>
                             {% endfor %}
                             <td>
-                                <button type="submit" class="button submit text-size-smaller">+</button>
+                                <button id ="Button_new" class="button submit text-size-smaller" style="visibility:hidden">+</button>
                             </td>
                         </tr>
                     </table>

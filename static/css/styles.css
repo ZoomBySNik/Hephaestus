@@ -243,6 +243,7 @@ button.reject:hover{
     display: table;
     flex: 1;
     border-radius: 1.5em;
+    table-layout: auto;
     background: #414141;
 }
 
@@ -263,8 +264,8 @@ th:last-child {
 td {
     padding: 0.5em 1em;
     background: #4b4b4b;
-    width: 1px;
     white-space: nowrap;
+    word-wrap: break-word;
 }
 
 tr:last-child td:first-child {
