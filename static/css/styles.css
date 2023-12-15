@@ -320,3 +320,16 @@ tr:hover td {
 .text-size-smaller, .text-size-smaller:hover, .text-size-smaller:focus{
     font-size: smaller;
 }
+.input-field-in-table{
+    background: none;
+    padding: 0;
+    border: none;
+    width: 100%;
+}
+.input-field-in-table:disabled{
+    all: unset;
+    background: none;
+    padding: 0;
+    border: none;
+    width: 100%;
+}
