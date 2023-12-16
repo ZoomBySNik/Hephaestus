@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'domain.middleware.AllowOnlySpecificPagesMiddleware',
-    'domain.middleware.ErrorHandlingMiddleware',
+
 ]
 
 ROOT_URLCONF = 'Hephaestus.urls'
