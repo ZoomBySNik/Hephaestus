@@ -30,16 +30,20 @@ def references_view(request, reference='OrganizationalLegalForm'):
         fields_names = [field for field in selected_model._meta.get_fields() if not field.is_relation and field.name != 'id']
         if request.method == 'POST':
             item_id = request.POST.get('item_id')
-            print(request.POST.get)
-            if item_id:
+            if 'delete_item' in request.POST:
                 item = selected_model.objects.get(id=item_id)
+                item.delete()
             else:
-                item = selected_model()
-            for field in fields_names:
-                field_name = field.name
-                new_value = request.POST.get(f'{field_name}')
-                setattr(item, field_name, new_value)
-            item.save()
+                print(request.POST.get)
+                if item_id:
+                    item = selected_model.objects.get(id=item_id)
+                else:
+                    item = selected_model()
+                for field in fields_names:
+                    field_name = field.name
+                    new_value = request.POST.get(f'{field_name}')
+                    setattr(item, field_name, new_value)
+                item.save()
         response = {
             'model': display_model,
             'display_name': display_name,

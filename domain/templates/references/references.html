@@ -42,8 +42,13 @@
                                             </td>
                                         {% endwith %}
                                     {% endfor %}
-                                    <td>
-                                        <button id="Button_{{ item.id }}" type="submit" class="button submit text-size-smaller"
+                                    <td class="flex-horizontal gap-1em">
+                                        <button id="Button_{{ item.id }}_delete" type="submit" name="delete_item"
+                                                class="button reject text-size-smaller">
+                                            Удалить
+                                        </button>
+                                        <button id="Button_{{ item.id }}" type="submit"
+                                                class="button submit text-size-smaller"
                                                 style="visibility:hidden">
                                             Сохранить
                                         </button>
@@ -53,17 +58,22 @@
                         {% endfor %}
                         <tr>
                             <td class="row-1em">new</td>
-                            {% for field in fields_names %}
-                                <td><input id="{{ field.name }}_new" type="text" class="input-field-in-table"
-                                           maxlength="{{ field.max_length }}"
-                                           onchange="document.getElementById('Button_new').style.visibility = 'visible';">
+                            <form method="POST" action="{% url 'references' reference %}">
+                                {% csrf_token %}
+                                {% for field in fields_names %}
+                                    <td><input id="{{ field.name }}_new" type="text" class="input-field-in-table"
+                                               name="{{ field.name }}"
+                                               maxlength="{{ field.max_length }}"
+                                               onchange="document.getElementById('Button_new').style.visibility = 'visible';"
+                                               {% if forloop.first %}autofocus{% endif %}>
+                                    </td>
+                                {% endfor %}
+                                <td>
+                                    <button id="Button_new" type="submit" class="button submit text-size-smaller"
+                                            style="visibility:hidden">+
+                                    </button>
                                 </td>
-                            {% endfor %}
-                            <td>
-                                <button id="Button_new" class="button submit text-size-smaller"
-                                        style="visibility:hidden">+
-                                </button>
-                            </td>
+                            </form>
                         </tr>
                     </table>
                 </div>

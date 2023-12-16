@@ -259,6 +259,7 @@ th:first-child {
 
 th:last-child {
     border-top-right-radius: 1.5em;
+    max-width: 10%;
 }
 
 td {
