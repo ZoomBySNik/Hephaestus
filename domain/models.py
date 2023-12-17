@@ -24,7 +24,7 @@ class Person(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Имя')
     patronymic = models.CharField(max_length=255, blank=False, null=False, verbose_name='Отчество')
     email = models.EmailField(blank=False, max_length=254, verbose_name='Почта')
-    phone = PhoneNumberField(region="RU", blank=False, null=False, verbose_name='Номер телефона')
+    phone = models.CharField(max_length=18, blank=False, null=False, verbose_name='Номер телефона')
     profile_photo = models.ImageField(blank=True, null=True, verbose_name='Фото профиля', upload_to='person_photos')
 
     def __str__(self):
@@ -88,7 +88,7 @@ class Employer(Person):
     position = models.CharField(max_length=90, blank=True, null=True, verbose_name='Должность')
 
     def __str__(self):
-        return '%s %s %s' % (self.surname, self.name, self.organization.name)
+        return '%s %s' % (self.surname, self.name)
 
     class Meta:
         verbose_name = 'Работодатель'

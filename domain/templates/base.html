@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <title>Title</title>
 </head>
@@ -13,4 +14,25 @@
     {% endblock %}
 </section>
 </body>
+<script>
+  $(document).ready(function() {
+    // Вешаем обработчик на изменение поля ввода номера телефона
+    $('#id_phone').on('input', function() {
+      // Получаем введенное значение
+      var phoneNumber = $(this).val();
+
+      // Очищаем от всего, кроме цифр
+      phoneNumber = phoneNumber.replace(/\D/g, '');
+
+      // Добавляем разделители для лучшей читаемости
+      if (phoneNumber.length > 0) {
+        phoneNumber = '+7 (' + phoneNumber.slice(1, 4) + ') ' +
+                       phoneNumber.slice(4, 7) + '-' + phoneNumber.slice(7, 9) + '-' + phoneNumber.slice(9, 11);
+      }
+
+      // Перезаписываем значение в поле ввода
+      $(this).val(phoneNumber);
+    });
+  });
+</script>
 </html>
