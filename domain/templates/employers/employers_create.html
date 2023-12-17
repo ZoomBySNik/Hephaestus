@@ -3,9 +3,43 @@
 {% block content %}
     <section class="split-section flex-vertical gap-2em">
         <div class="content-block flex-vertical gap-1em">
+            <h1 class="title">Создание профиля клиента</h1>
             <div class="content-box flex-vertical gap-1em">
-                <div class="content flex-vertical gap-1em">
-                    <h1 class="title">Создание заявки</h1>
+                <div class="top-splitter-two flex-horizontal">
+                    <div class="splitted-part left active">Новая запись</div>
+                    <div class="splitted-part right">Выбрать существующего</div>
+                </div>
+                <div class="content flex-vertical gap-2em"style="padding: 4em 8em;">
+                    <div class="input-line flex-horizontal gap-3em">
+                        <label class="text-size-larger">Фамилия</label>
+                        <input class="input-field text-size-larger" style="width: 80%" type="text">
+                    </div>
+                    <div class="input-line flex-horizontal gap-3em">
+                        <label class="text-size-larger">Имя</label>
+                        <input class="input-field text-size-larger" style="width: 80%" type="text">
+                    </div>
+                    <div class="input-line flex-horizontal gap-3em">
+                        <label class="text-size-larger">Отчество</label>
+                        <input class="input-field text-size-larger" style="width: 80%" type="text">
+                    </div>
+                    <div class="input-line flex-horizontal gap-3em">
+                        <label class="text-size-larger">Почта</label>
+                        <input class="input-field text-size-larger" style="width: 80%" type="email">
+                    </div>
+                    <div class="input-line flex-horizontal gap-3em">
+                        <label class="text-size-larger">Телефон</label>
+                        <input class="input-field text-size-larger" style="width: 80%" type="text">
+                    </div>
+                    <div class="input-line flex-horizontal gap-3em">
+                        <label class="text-size-larger">Аватар</label>
+                        <input class="input-field text-size-larger"
+                               style="width: 80%" type="file"
+                               accept="image/png, image/jpeg"
+                               onchange="el = document.getElementById('img-preview');
+                                         el.src = window.URL.createObjectURL(this.files[0]);
+                                         el.style.visibility = 'visible';">
+                    </div>
+                    <img src="#" id="img-preview" style="visibility: hidden">
                 </div>
             </div>
         </div>

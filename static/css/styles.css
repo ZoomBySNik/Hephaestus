@@ -335,3 +335,6 @@ tr:hover td {
     border: none;
     width: 100%;
 }
+.text-size-larger, .text-size-larger:hover, .text-size-larger:focus{
+    font-size: larger;
+}
