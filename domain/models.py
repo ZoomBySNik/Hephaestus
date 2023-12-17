@@ -84,8 +84,8 @@ class Organization(models.Model):
 
 class Employer(Person):
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE,
-                                     null=False, blank=False, verbose_name='Организация')
-    position = models.CharField(max_length=90, blank=False, null=False, verbose_name='Должность')
+                                     blank=True, null=True, verbose_name='Организация')
+    position = models.CharField(max_length=90, blank=True, null=True, verbose_name='Должность')
 
     def __str__(self):
         return '%s %s %s' % (self.surname, self.name, self.organization.name)
