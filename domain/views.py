@@ -57,3 +57,7 @@ def references_view(request, reference='OrganizationalLegalForm'):
         error_message = f"Справочник {reference} не найден"
         error_page_url = reverse('error_page', kwargs={'error_message': error_message})
         return redirect(error_page_url)
+
+
+def employers_create_view(request, *args, **kwargs):
+    return render(request, 'employers/employers_create.html')
