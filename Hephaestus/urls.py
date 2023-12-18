@@ -24,6 +24,7 @@ urlpatterns = [
     path('', home_view, name='home'),
 
     path('employers/create/', employers_create_view, name='employers_create'),
+    path('employers/create/<str:employer_id>/organization/', organization_create_view, name='organization_create'),
 
     path('references/', references_view, name='references'),
     path('references/<str:reference>/', references_view, name='references'),

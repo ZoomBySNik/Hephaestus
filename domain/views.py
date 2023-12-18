@@ -66,10 +66,36 @@ def employers_create_view(request):
     if request.method == 'POST':
         form = EmployerForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            employer = form.save()
+            return redirect('organization_create', employer_id=employer.id)
     else:
         form = EmployerForm()
 
     context = {'form': form}
     return render(request, 'employers/employers_create.html', context)
+
+
+def organization_create_view(request, employer_id):
+    if request.method == 'POST':
+        form = OrganizationForm(request.POST)
+        if form.is_valid():
+            address = Address.objects.create(
+                locality=form.cleaned_data['locality'],
+                street=form.cleaned_data['street'],
+                number_of_building=form.cleaned_data['number_of_building'],
+                apartment_number=form.cleaned_data['apartment_number'],
+            )
+            organization = form.save(commit=False)
+            organization.address = address
+            organization.save()
+
+            employer = Employer.objects.get(id=employer_id)
+            employer.organization = organization
+            employer.save()
+
+            return redirect('home')
+    else:
+        form = OrganizationForm()
+
+    context = {'form': form}
+    return render(request, 'employers/organization_create.html', context)

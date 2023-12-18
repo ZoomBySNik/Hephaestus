@@ -1,6 +1,5 @@
 from django import forms
 from domain.models import *
-from phonenumber_field.formfields import PhoneNumberField
 
 
 class EmployerForm(forms.ModelForm):
@@ -14,3 +13,18 @@ class EmployerForm(forms.ModelForm):
     class Meta:
         model = Employer
         fields = ('surname', 'name', 'patronymic', 'phone', 'email', 'profile_photo')
+
+
+class OrganizationForm(forms.ModelForm):
+    locality = forms.CharField(max_length=255, label='Населенный пункт',
+                               error_messages={"required": "Введите населённый пункт"})
+    street = forms.CharField(max_length=255, label='Улица',
+                             error_messages={"required": "Введите улицу"})
+    number_of_building = forms.CharField(max_length=31, label='Номер строения',
+                                         error_messages={"required": "Введите номер строения"})
+    apartment_number = forms.CharField(max_length=31, label='Номер помещения',
+                                       error_messages={"required": "Введите номер помещения"})
+    class Meta:
+        model = Organization
+        exclude = ['address']
+        fields = '__all__'
