@@ -100,6 +100,7 @@ def organization_create_view(request, employer_id):
 
             employer = Employer.objects.get(id=employer_id)
             employer.organization = organization
+            employer.position = form.cleaned_data['position']
             employer.save()
 
             return redirect('home')
