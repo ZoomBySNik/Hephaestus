@@ -6,10 +6,10 @@
             <h1 class="title">Создание организации</h1>
             <div class="content-box flex-vertical gap-1em">
                 <div class="top-splitter-two flex-horizontal">
-                    <div class="splitted-part left active">Новая запись</div>
-                    <div class="splitted-part right">Выбрать существующей</div>
+                    <div class="splitted-part left active" onclick="toggleSplitter(this)">Новая запись</div>
+                    <div class="splitted-part right" onclick="toggleSplitter(this)">Выбрать существующую</div>
                 </div>
-                <div class="content flex-vertical gap-2em"style="padding: 4em 8em;">
+                <div class="content flex-vertical gap-2em active-content" style="padding: 4em 8em;">
                     <form method="POST" class="input-form flex-vertical gap-2em">
                         {% csrf_token %}
                         {{ form.as_p }}
@@ -19,6 +19,7 @@
                         <button type="submit" class="button submit" style="width: fit-content;">Создать</button>
                     </form>
                 </div>
+                <div class="content flex-vertical gap-2em inactive-content" style="padding: 4em 8em;"></div>
             </div>
         </div>
     </section>

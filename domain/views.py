@@ -70,8 +70,17 @@ def employers_create_view(request):
             return redirect('organization_create', employer_id=employer.id)
     else:
         form = EmployerForm()
-
-    context = {'form': form}
+    employers = Employer.objects.all()
+    for item in employers:
+        if item.organization:
+            print(item.organization)
+            item.redirect = 'references'
+        else:
+            item.redirect = 'organization_create'
+    context = {
+        'form': form,
+        'employers': employers,
+    }
     return render(request, 'employers/employers_create.html', context)
 
 
