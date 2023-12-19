@@ -4,10 +4,10 @@
         <h1 class="title">Заявки</h1>
         <div class="content-box flex-vertical gap-1em">
             <div class="top-splitter-two flex-horizontal">
-                <div class="splitted-part left active">Новые</div>
-                <div class="splitted-part right">Горящие</div>
+                <div class="splitted-part left active" onclick="toggleSplitter(this)">Новые</div>
+                <div class="splitted-part right" onclick="toggleSplitter(this)">Горящие</div>
             </div>
-            <div class="content flex-vertical gap-1em">
+            <div class="content flex-vertical gap-1em active-content">
                 <table class="table">
                     <tr>
                         <th>Время создания</th>
@@ -41,6 +41,7 @@
                     </tr>
                 </table>
             </div>
+            <div class="content flex-vertical gap-1em inactive-content"></div>
         </div>
     </div>
 {% endblock content %}
