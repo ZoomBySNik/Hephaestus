@@ -44,7 +44,7 @@
                 </div>
                 <div class="content flex-vertical gap-05em inactive-content" style="padding: 4em 8em;">
                     {% for employer in employers %}
-                        <a href="{% url employer.redirect employer.id %}">
+                        <a href="{% url 'organization_create' employer.id %}">
                             <div class="flex-horizontal persons-div gap-3em">
                                 {% if employer.profile_photo %}
                                     <img src="{{ MEDIA_URL }}{{ employer.profile_photo.url }}"

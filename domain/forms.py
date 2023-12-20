@@ -34,3 +34,7 @@ class OrganizationForm(forms.ModelForm):
 
     field_group_address = [locality, street, number_of_building, apartment_number]
     field_group_position = ['position']
+
+
+class PositionForm(forms.Form):
+    position = forms.CharField(max_length=90, label='Должность')

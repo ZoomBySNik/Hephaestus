@@ -70,12 +70,7 @@ def employers_create_view(request):
             return redirect('organization_create', employer_id=employer.id)
     else:
         form = EmployerForm()
-    employers = Employer.objects.all().order_by('surname')
-    for item in employers:
-        if item.organization:
-            item.redirect = 'references'
-        else:
-            item.redirect = 'organization_create'
+    employers = Employer.objects.order_by('surname')
     context = {
         'form': form,
         'employers': employers,
@@ -83,28 +78,52 @@ def employers_create_view(request):
     return render(request, 'employers/employers_create.html', context)
 
 
-def organization_create_view(request, employer_id):
-    if request.method == 'POST':
-        form = OrganizationForm(request.POST)
-        if form.is_valid():
-            address = Address.objects.create(
-                locality=form.cleaned_data['locality'],
-                street=form.cleaned_data['street'],
-                number_of_building=form.cleaned_data['number_of_building'],
-                apartment_number=form.cleaned_data['apartment_number'],
-            )
-            organization = form.save(commit=False)
-            organization.address = address
-            organization.save()
-
-            employer = Employer.objects.get(id=employer_id)
-            employer.organization = organization
-            employer.position = form.cleaned_data['position']
-            employer.save()
-
-            return redirect('home')
+def organization_create_view(request, employer_id, organization_id=None):
+    organizations_list = Organization.objects.order_by('name')
+    employer = Employer.objects.get(id=employer_id)
+    if organization_id:
+        employer.organization = Organization.objects.get(id=organization_id)
+        employer.save()
+        return redirect('organization_create', employer.id)
+    if employer.organization and employer.position:
+        return redirect('references')
+    elif (not employer.position) and employer.organization:
+        form_type = 'position'
+        if request.method == 'POST':
+            form = PositionForm(request.POST)
+            if form.is_valid():
+                employer.position = form.cleaned_data['position']
+                employer.save()
+                return redirect('references')
+        else:
+            form = PositionForm()
     else:
-        form = OrganizationForm()
+        form_type = 'organization'
+        if request.method == 'POST':
+            form = OrganizationForm(request.POST)
+            if form.is_valid():
+                address = Address.objects.create(
+                    locality=form.cleaned_data['locality'],
+                    street=form.cleaned_data['street'],
+                    number_of_building=form.cleaned_data['number_of_building'],
+                    apartment_number=form.cleaned_data['apartment_number'],
+                )
+                organization = form.save(commit=False)
+                organization.address = address
+                organization.save()
 
-    context = {'form': form}
+                employer.organization = organization
+                employer.position = form.cleaned_data['position']
+                employer.save()
+
+                return redirect('home')
+        else:
+            form = OrganizationForm()
+
+    context = {
+        'form_type': form_type,
+        'form': form,
+        'employer': employer,
+        'organizations': organizations_list
+    }
     return render(request, 'employers/organization_create.html', context)
