@@ -64,16 +64,15 @@ def references_view(request, reference='OrganizationalLegalForm'):
 
 def employers_create_view(request):
     if request.method == 'POST':
-        form = EmployerForm(request.POST)
+        form = EmployerForm(request.POST, request.FILES)
         if form.is_valid():
             employer = form.save()
             return redirect('organization_create', employer_id=employer.id)
     else:
         form = EmployerForm()
-    employers = Employer.objects.all()
+    employers = Employer.objects.all().order_by('surname')
     for item in employers:
         if item.organization:
-            print(item.organization)
             item.redirect = 'references'
         else:
             item.redirect = 'organization_create'

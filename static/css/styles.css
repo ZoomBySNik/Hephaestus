@@ -366,6 +366,10 @@ tr:hover td {
     align-items: center;
 }
 
+.flex-horizontal.gap-05em {
+    gap: 0.5em;
+}
+
 .flex-horizontal.gap-1em {
     gap: 1em;
 }
@@ -381,6 +385,10 @@ tr:hover td {
 .flex-vertical {
     display: flex;
     flex-direction: column;
+}
+
+.flex-vertical.gap-05em {
+    gap: 0.5em;
 }
 
 .flex-vertical.gap-1em {
@@ -424,4 +432,15 @@ tr:hover td {
 }
 .padding-top-1em{
     padding-top: 1em;
+}
+.persons-div{
+    background: #4f4f4f;
+    border-radius: 1em;
+    padding: 1em;
+}
+.person-img-preview{
+    border-radius: 100%;
+    aspect-ratio: 1 / 1;
+    width: 5em;
+    background: #3a3a3a;
 }

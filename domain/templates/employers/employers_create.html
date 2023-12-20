@@ -10,20 +10,21 @@
                     <div class="splitted-part right" onclick="toggleSplitter(this)">Выбрать существующего</div>
                 </div>
                 <div class="content flex-vertical gap-2em active-content" style="padding: 4em 8em;">
-                    <form method="POST" class="input-form flex-vertical gap-2em">
+                    <form method="POST" class="input-form flex-vertical gap-2em" enctype="multipart/form-data">
                         {% csrf_token %}
                         <h1 class="title text-size-larger">Основная информация</h1>
                         <p class="flex-horizontal gap-2em">
                             <label for="{{ form.surname.id_for_label }}">{{ form.surname.label }}:</label>
                             {{ form.surname }}
-                            <label for="{{ form.name.id_for_label }}" style="margin-left: 1em">{{ form.name.label }}:</label>
+                            <label for="{{ form.name.id_for_label }}"
+                                   style="margin-left: 1em">{{ form.name.label }}:</label>
                             {{ form.name }}
                             <label for="{{ form.patronymic.id_for_label }}">{{ form.patronymic.label }}:</label>
                             {{ form.patronymic }}
                         </p>
                         <h1 class="title padding-top-1em text-size-larger">Контакты</h1>
                         <p>
-                            <label for="{{ form.phone.id_for_label }}" >{{ form.phone.label }}:</label>
+                            <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}:</label>
                             {{ form.phone }}
                         </p>
                         <p>
@@ -41,10 +42,35 @@
                         <button type="submit" class="button submit" style="width: fit-content;">Создать</button>
                     </form>
                 </div>
-                <div class="content flex-vertical gap-2em inactive-content" style="padding: 4em 8em;">
+                <div class="content flex-vertical gap-05em inactive-content" style="padding: 4em 8em;">
                     {% for employer in employers %}
                         <a href="{% url employer.redirect employer.id %}">
-                            <p>{{ employer.surname }} {{ employer.name }} {{ employer.patronymic }} {{ employer.phone }}</p>
+                            <div class="flex-horizontal persons-div gap-3em">
+                                {% if employer.profile_photo %}
+                                    <img src="{{ MEDIA_URL }}{{ employer.profile_photo.url }}"
+                                         class="person-img-preview">
+                                {% else %}
+                                    <div class="person-img-preview"></div>
+                                {% endif %}
+                                <div class="flex-vertical gap-05em">
+                                    <p>{{ employer.surname }}</p>
+                                    <p>{{ employer.name }}</p>
+                                    <p>{{ employer.patronymic }}</p>
+                                </div>
+                                <div class="flex-vertical gap-05em">
+                                    <p>{{ employer.phone }}</p>
+                                    <p>{{ employer.email }}</p>
+                                </div>
+                                {% if employer.organization %}
+                                    <div class="flex-vertical gap-05em">
+                                        {% if employer.position %}
+                                            <p>{{ employer.position }}</p>
+                                        {% endif %}
+                                        <p>{{ employer.organization.organizational_legal_form }}
+                                            "{{ employer.organization.name }}"</p>
+                                    </div>
+                                {% endif %}
+                            </div>
                         </a>
                     {% endfor %}
                 </div>
