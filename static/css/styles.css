@@ -416,6 +416,12 @@ tr:hover td {
 .inactive-content{
     display: none;
 }
+.width-180{
+    width: 180%!important;
+}
 .active-content{
     display: inherit;
+}
+.padding-top-1em{
+    padding-top: 1em;
 }
