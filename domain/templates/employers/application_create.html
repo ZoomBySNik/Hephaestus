@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            <h1 class="title">Создание заявки на подбор</h1>
+            <div class="content-box flex-vertical gap-1em" style="padding: 4em 8em;">
+                {{ employer.name }}
+            </div>
+        </div>
+    </section>
+{% endblock %}

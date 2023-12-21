@@ -86,7 +86,7 @@ def organization_create_view(request, employer_id, organization_id=None):
         employer.save()
         return redirect('organization_create', employer.id)
     if employer.organization and employer.position:
-        return redirect('references')
+        return redirect('application_create', employer_id)
     elif (not employer.position) and employer.organization:
         form_type = 'position'
         if request.method == 'POST':
@@ -94,7 +94,7 @@ def organization_create_view(request, employer_id, organization_id=None):
             if form.is_valid():
                 employer.position = form.cleaned_data['position']
                 employer.save()
-                return redirect('references')
+                return redirect('application_create', employer_id)
         else:
             form = PositionForm()
     else:
@@ -116,10 +116,9 @@ def organization_create_view(request, employer_id, organization_id=None):
                 employer.position = form.cleaned_data['position']
                 employer.save()
 
-                return redirect('home')
+                return redirect('application_create', employer_id)
         else:
             form = OrganizationForm()
-
     context = {
         'form_type': form_type,
         'form': form,
@@ -127,3 +126,11 @@ def organization_create_view(request, employer_id, organization_id=None):
         'organizations': organizations_list
     }
     return render(request, 'employers/organization_create.html', context)
+
+
+def application_create_view(request, employer_id):
+    employer = Employer.objects.get(id=employer_id)
+    context = {
+        'employer': employer
+    }
+    return render(request, 'employers/application_create.html', context)
