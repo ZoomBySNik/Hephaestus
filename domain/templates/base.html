@@ -15,6 +15,8 @@
 </section>
 </body>
 <script>
+    let timeout;
+
     $(document).ready(function () {
         // Вешаем обработчик на изменение поля ввода номера телефона
         $('#id_phone').on('input', function () {
@@ -34,6 +36,7 @@
             $(this).val(phoneNumber);
         });
     });
+
     function toggleSplitter(element) {
         const parent = element.parentElement.parentElement;
         const leftPart = parent.querySelector('.left');
@@ -55,6 +58,48 @@
         lowerDivInactive.classList.remove('inactive-content');
         lowerDivInactive.classList.add('active-content');
         // Дополнительные действия, если нужны
+    }
+
+    function filterResults(input) {
+        // Очищаем предыдущий таймаут
+        clearTimeout(timeout);
+
+        // Получаем значение из поля ввода
+        var inputValue = input.value.toLowerCase();
+
+        // Получаем родительский элемент, внутри которого будем искать результаты
+        var container = input.parentNode.parentNode;
+        var delay = 500;
+
+        // Устанавливаем новый таймаут
+        timeout = setTimeout(function () {
+            var results = container.querySelectorAll('[id^="search_results"]');
+
+            // Переменная для отслеживания, были ли найдены результаты
+            var resultsFound = false;
+
+            // Проходимся по каждому результату
+            results.forEach(function (result) {
+                // Получаем текст из элемента результата
+                var textContent = Array.from(result.querySelectorAll('p')).map(function (p) {
+                    return p.textContent.toLowerCase();
+                }).join(' ');
+
+                // Проверяем, совпадает ли значение из поля ввода с именем организации
+                if (textContent.includes(inputValue)) {
+                    // Если совпадает, показываем результат
+                    result.style.display = 'block';
+                    resultsFound = true;
+                } else {
+                    // Если не совпадает, скрываем результат
+                    result.style.display = 'none';
+                }
+            });
+
+            // Показываем или скрываем сообщение "Ничего не найдено"
+            var noResultsMessage = container.querySelector('[id="noResultsMessage"]');
+            noResultsMessage.style.display = resultsFound ? 'none' : 'block';
+        }, delay);
     }
 </script>
 </html>

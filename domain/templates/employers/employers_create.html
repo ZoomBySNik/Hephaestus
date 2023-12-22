@@ -43,8 +43,12 @@
                     </form>
                 </div>
                 <div class="content flex-vertical gap-05em inactive-content" style="padding: 4em 8em;">
+                    <div class="flex-horizontal gap-1em">
+                        <label>Поиск</label>
+                        <input type="text" oninput="filterResults(this)" class="input-field">
+                    </div>
                     {% for employer in employers %}
-                        <a href="{% url 'organization_create' employer.id %}">
+                        <a href="{% url 'organization_create' employer.id %}" id="search_results">
                             <div class="flex-horizontal persons-div gap-3em">
                                 {% if employer.profile_photo %}
                                     <img src="{{ MEDIA_URL }}{{ employer.profile_photo.url }}"
@@ -73,6 +77,7 @@
                             </div>
                         </a>
                     {% endfor %}
+                    <p id="noResultsMessage" class="error-message" style="display: none;">Ничего не найдено</p>
                 </div>
             </div>
         </div>

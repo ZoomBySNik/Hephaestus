@@ -5,7 +5,14 @@
         <div class="content-block flex-vertical gap-1em">
             <h1 class="title">Создание заявки на подбор</h1>
             <div class="content-box flex-vertical gap-1em" style="padding: 4em 8em;">
-                {{ employer.name }}
+                <form method="POST" class="input-form flex-vertical gap-2em">
+                    {% csrf_token %}
+                    <div>
+
+                    </div>
+                    {{ form.as_p }}
+                    <button type="submit" class="button submit">Создать</button>
+                </form>
             </div>
         </div>
     </section>

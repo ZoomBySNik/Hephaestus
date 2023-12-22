@@ -61,14 +61,20 @@
                         </form>
                     </div>
                     <div class="content flex-vertical gap-2em inactive-content" style="padding: 4em 8em;">
+                        <div class="flex-horizontal gap-1em">
+                            <label>Поиск</label>
+                            <input type="text" oninput="filterResults(this)" class="input-field">
+                        </div>
+
                         {% for organization in organizations %}
-                            <a href="{% url 'organization_create' employer_id=employer.id organization_id=organization.id %}">
+                            <a href="{% url 'organization_create' employer_id=employer.id organization_id=organization.id %}" id="search_results">
                             <div class="flex-horizontal persons-div gap-3em">
                                 <p>{{ organization.organizational_legal_form }} "{{ organization.name }}"
                                 </p>
                             </div>
                         </a>
                         {% endfor %}
+                        <p id="noResultsMessage" class="error-message" style="display: none;">Ничего не найдено</p>
                     </div>
                 </div>
             {% elif form_type == 'position' %}

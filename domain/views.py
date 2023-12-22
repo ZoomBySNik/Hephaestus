@@ -130,7 +130,9 @@ def organization_create_view(request, employer_id, organization_id=None):
 
 def application_create_view(request, employer_id):
     employer = Employer.objects.get(id=employer_id)
+    form = ApplicationForm
     context = {
-        'employer': employer
+        'employer': employer,
+        'form': form
     }
     return render(request, 'employers/application_create.html', context)
