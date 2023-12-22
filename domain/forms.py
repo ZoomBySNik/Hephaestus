@@ -1,3 +1,5 @@
+from datetime import timedelta
+from datetime import datetime as dt
 from django import forms
 from domain.models import *
 
@@ -42,21 +44,25 @@ class PositionForm(forms.Form):
 
 
 class ApplicationForm(forms.ModelForm):
+    min_desired_date = (dt.now() + timedelta(days=10)).strftime('%Y-%m-%d')
+    min_final_date = (dt.now() + timedelta(days=14)).strftime('%Y-%m-%d')
     position = forms.CharField(max_length=255, label='Должность')
     specialization = forms.ModelChoiceField(queryset=Specialization.objects.all(), label='Специализация')
     education_level = forms.ModelChoiceField(queryset=EducationLevel.objects.all(), required=False,
                                              label='Уровень образования')
     salary = forms.CharField(max_length=255, label='Зарплата')
+    desired_date = forms.DateField(label='Желательный срок исполнения', widget=forms.DateInput(attrs={'type': 'date', 'min': min_desired_date}),)
+    final_date = forms.DateField(label='Последний срок исполнения', widget=forms.DateInput(attrs={'type': 'date', 'min': min_final_date}),)
     skills = forms.ModelMultipleChoiceField(queryset=Skill.objects.all(), widget=forms.CheckboxSelectMultiple,
                                             required=False, label='Навыки')
     software_and_hardware_tools = forms.ModelMultipleChoiceField(queryset=SoftwareAndHardwareTool.objects.all(),
                                                                  required=False,
                                                                  widget=forms.CheckboxSelectMultiple,
                                                                  label='Требуемые программно-технические средства')
-    experience = forms.IntegerField(label='Опыт (лет)')
+    experience = forms.IntegerField(label='Опыт(лет)')
     work_schedule = forms.ModelChoiceField(queryset=WorkSchedule.objects.all(), label='График работы')
 
     class Meta:
         model = Application
-        fields = ['position', 'salary', 'specialization', 'education_level', 'skills', 'software_and_hardware_tools',
+        fields = ['position', 'salary', 'desired_date', 'final_date', 'specialization', 'education_level', 'skills', 'software_and_hardware_tools',
                   'experience', 'work_schedule']

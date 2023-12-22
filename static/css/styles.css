@@ -58,6 +58,7 @@
     padding: 0.4em 1em;
     gap: 0.2em;
     box-shadow: 0 0 0.5em 0.1em rgba(0, 0, 0, 0.35);
+    width: fit-content;
 }
 
 .icon {
@@ -197,6 +198,7 @@
 .input-field:focus {
     all: unset;
     font-size: inherit;
+    align-items: center;
     border-style: none;
     border-radius: 0.5em;
     padding: 0.2em 0.3em;
@@ -241,6 +243,7 @@
 .input-form p input:focus {
     all: unset;
     width: 70%;
+    align-items: center;
     font-size: inherit;
     border-style: none;
     border-radius: 0.5em;
