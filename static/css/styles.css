@@ -447,3 +447,24 @@ tr:hover td {
     width: 5em;
     background: #3a3a3a;
 }
+.checkbox-div div{
+    background: #4f4f4f;
+    border-radius: 1em;
+    padding: 1em;
+}
+.checkbox-div div{
+    background: #4f4f4f;
+    border-radius: 0.4em;
+    padding: 0.2em 0.4em;
+}
+.checkbox-div div.selected{
+    background: #279d52;
+    box-shadow: 0 0 0.6em 0.2em rgba(39, 157, 82, 0.8);
+}
+.checkbox-div div label{
+    display: flex;
+    flex-direction: row;
+}
+.checkbox-div div label input{
+    visibility: hidden;
+}

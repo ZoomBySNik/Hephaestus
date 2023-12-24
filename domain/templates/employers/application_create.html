@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% load static %}
 {% block content %}
     <section class="split-section flex-vertical gap-2em">
@@ -10,7 +11,8 @@
                     <h1 class="title text-size-larger">Основная информация</h1>
                     <h1>
                         Заказчик: {{ employer.name }} {{ employer.patronymic }} {{ employer.surname }}, {{ employer.position|lower }}
-                        организации {{ employer.organization.organizational_legal_form }} "{{ employer.organization.name }}"</h1>
+                        организации {{ employer.organization.organizational_legal_form }}
+                        "{{ employer.organization.name }}"</h1>
                     <p class="flex-horizontal gap-2em">
                         <label for="{{ form.position.id_for_label }}">{{ form.position.label }}: </label>
                         {{ form.position }}
@@ -46,16 +48,18 @@
                     <p class="flex-horizontal gap-2em">
                         <label for="{{ form.skills.id_for_label }}">{{ form.skills.label }}: </label>
                     </p>
-                    {{ form.skills }}
+                    {{ form.skills|add_class:"flex-vertical gap-05em checkbox-div" }}
 
                     <p class="flex-horizontal gap-2em" style="padding-top: 2em">
                         <label for="{{ form.software_and_hardware_tools.id_for_label }}">{{ form.software_and_hardware_tools.label }}: </label>
                     </p>
-                    {{ form.software_and_hardware_tools }}
+                    {{ form.software_and_hardware_tools|add_class:"flex-vertical gap-05em checkbox-div" }}
 
                     <button type="submit" class="button submit">Создать заявку</button>
                 </form>
             </div>
         </div>
     </section>
+    <script>
+    </script>
 {% endblock %}
