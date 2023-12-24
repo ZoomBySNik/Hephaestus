@@ -23,6 +23,7 @@ def references_view(request, reference='OrganizationalLegalForm'):
         'Specialization': [Specialization, 'Специализации'],
         'SoftwareAndHardwareTool': [SoftwareAndHardwareTool, 'Программно-технические средства'],
         'WorkSchedule': [WorkSchedule, 'Графики работы'],
+        'EducationLevel': [EducationLevel, 'Уровень образования']
     }
 
     if reference in references_dict:
@@ -130,7 +131,20 @@ def organization_create_view(request, employer_id, organization_id=None):
 
 def application_create_view(request, employer_id):
     employer = Employer.objects.get(id=employer_id)
-    form = ApplicationForm
+    employee = Employee.objects.get(id=request.user.id)
+    if request.method == 'POST':
+        form = ApplicationForm(request.POST)
+        if form.is_valid():
+            employee = Employee.objects.get(id=request.user.id)
+            application = form.save(commit=False)
+            application.employer = employer
+            application.employee = employee
+            application.save()
+            form.save_m2m()
+
+            return redirect('home')
+    else:
+        form = ApplicationForm()
     context = {
         'employer': employer,
         'form': form

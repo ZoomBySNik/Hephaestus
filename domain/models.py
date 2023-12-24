@@ -341,7 +341,7 @@ class Application(models.Model):
     ]
     employer = models.ForeignKey('Employer', blank=False, null=False,
                                  on_delete=models.CASCADE, verbose_name='Работодатель')
-    date_of_application = models.DateField(blank=False, null=False, auto_now_add=True,
+    date_of_application = models.DateTimeField(blank=False, null=False, auto_now_add=True,
                                            editable=False, verbose_name='Дата заявки')
     desired_date = models.DateField(blank=True, null=True, verbose_name='Желательный срок')
     final_date = models.DateField(blank=True, null=True, verbose_name='Крайний срок')
@@ -359,8 +359,8 @@ class Application(models.Model):
                                       on_delete=models.PROTECT, verbose_name='График работы')
     employee = models.ForeignKey('Employee', blank=False, null=False,
                                  on_delete=models.PROTECT, verbose_name='Работник')
-    date_of_completion = models.DateField(blank=False, null=False, verbose_name='Дата выполнения')
-    date_of_cancellation = models.DateField(blank=False, null=False, verbose_name='Дата отмены')
+    date_of_completion = models.DateField(blank=True, null=True, verbose_name='Дата выполнения')
+    date_of_cancellation = models.DateField(blank=True, null=True, verbose_name='Дата отмены')
     status = models.CharField(blank=False, null=False, max_length=20, choices=STATUS_CHOICES,
                               default='new', verbose_name='Статус')
 
