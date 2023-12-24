@@ -9,7 +9,13 @@ from domain.models import *
 
 
 def home_view(request, *args, **kwargs):
-    return render(request, 'home/home.html')
+    applications_by_new = Application.objects.all().order_by('-date_of_application')[:5]
+    applications_by_final_date = Application.objects.all().order_by('final_date')[:5]
+    response = {
+        'applications_by_new': applications_by_new,
+        'applications_by_final_date': applications_by_final_date
+    }
+    return render(request, 'home/home.html', response)
 
 
 def error_view(request, *args):

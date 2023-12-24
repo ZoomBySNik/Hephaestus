@@ -5,7 +5,7 @@
         <div class="content-box flex-vertical gap-1em">
             <div class="top-splitter-two flex-horizontal">
                 <div class="splitted-part left active" onclick="toggleSplitter(this)">Новые</div>
-                <div class="splitted-part right" onclick="toggleSplitter(this)">Горящие</div>
+                <div class="splitted-part right" onclick="toggleSplitter(this)">Ближайший крайний срок</div>
             </div>
             <div class="content flex-vertical gap-1em active-content">
                 <div class="flex-horizontal gap-1em">
@@ -21,30 +21,14 @@
                         <th>Должность</th>
                         <th>Подробнее</th>
                     </tr>
-                    <tr>
-                        <td>11.12.2023 11:17</td>
-                        <td>with two columns</td>
-                        <td>with two columns</td>
-                        <td>--></td>
-                    </tr>
-                    <tr>
-                        <td>11.12.2023 11:17</td>
-                        <td>with two columns</td>
-                        <td>with two columns</td>
-                        <td>--></td>
-                    </tr>
-                    <tr>
-                        <td>11.12.2023 11:17</td>
-                        <td>with two columns</td>
-                        <td>with two columns</td>
-                        <td>--></td>
-                    </tr>
-                    <tr>
-                        <td>11.12.2023 11:17</td>
-                        <td>with two columns</td>
-                        <td>with two columns</td>
-                        <td>--></td>
-                    </tr>
+                    {% for application in applications_by_new %}
+                        <tr>
+                            <td>{{ application.date_of_application }}</td>
+                            <td>{{ application.employer.name }} {{ application.employer.surname }}</td>
+                            <td>{{ application.position }}</td>
+                            <td>--></td>
+                        </tr>
+                    {% endfor %}
                 </table>
             </div>
             <div class="content flex-vertical gap-1em inactive-content">
@@ -54,6 +38,22 @@
                     </a>
                     <button class="button">Просмотр заявок</button>
                 </div>
+                <table class="table">
+                    <tr>
+                        <th>Крайний срок</th>
+                        <th>Заказчик</th>
+                        <th>Должность</th>
+                        <th>Подробнее</th>
+                    </tr>
+                    {% for application in applications_by_final_date %}
+                        <tr>
+                            <td>{{ application.final_date }}</td>
+                            <td>{{ application.employer.name }} {{ application.employer.surname }}</td>
+                            <td>{{ application.position }}</td>
+                            <td>--></td>
+                        </tr>
+                    {% endfor %}
+                </table>
             </div>
         </div>
     </div>
