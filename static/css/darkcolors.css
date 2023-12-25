@@ -1,0 +1,25 @@
+:root {
+    --button-bg: #242424;
+    --body-bg: #282828;
+    --common-bg: #303030;
+    --th-bg: #3a3a3a;
+    --table-bg: #414141;
+    --hover-bg: #464646;
+    --td-bg: #4b4b4b;
+    --div-bg: #4f4f4f;
+    --text-color: #B4B4B4;
+    --text-hover: #d0d0d0;
+    --title-color: #BAFFF3;
+    --element-shadow: rgba(0, 0, 0, 0.25);
+    --shadow-next: rgba(48, 48, 48, 0.8);
+
+    --error-color: #FF3838;
+    --submit-bg: #279d52;
+    --submit-shadow: rgba(39, 157, 82, 0.8);
+    --submit-hover: #35d781;
+    --submit-hover-shadow: rgba(53, 215, 129, 0.95);
+    --reject-bg: #9D2727;
+    --reject-shadow: rgba(150, 39, 39, 0.8);
+    --reject-hover: #D73535;
+    --reject-hover-shadow: rgba(215, 53, 53, 0.95);
+}
