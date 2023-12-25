@@ -16,7 +16,7 @@
                 <div class="expanded">
                     <div class="expanded-block flex-vertical">
                         <a href="{% url 'employers_create' %}" class="expanded-link">Создать заявку</a>
-                        <a href="#" class="expanded-link">Просмотр текущих заявок</a>
+                        <a href="{% url 'applications_view' %}" class="expanded-link">Просмотр текущих заявок</a>
                         <a href="#" class="expanded-link">Просмотр архивных заявок</a>
                         <a href="#" class="expanded-link">Отчёты по заявкам</a>
                     </div>
@@ -55,31 +55,5 @@
         </div>
     </div>
     <style>
-        .nav-bar {
-            position: sticky;
-            height: 100%;
-            margin: auto;
-            padding: 0.5em 6em;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 0 0 1.4em 1.4em;
-            background: #404040;
-            box-shadow: 0 0.2em 0.5em 0.1em rgba(0, 0, 0, 0.25);
-        }
-
-        .nav-part {
-            height: 100%;
-            padding: 0.4em 1em;
-            justify-content: flex-start;
-            flex-wrap: nowrap;
-        }
-
-        .logout-button {
-            filter: brightness(0) saturate(100%) invert(24%) sepia(29%) saturate(4645%) hue-rotate(345deg) brightness(83%) contrast(84%);
-        }
-
-        .logout-button:hover {
-            filter: drop-shadow(0 0 0.8em #FF3838) brightness(0) saturate(100%) invert(46%) sepia(91%) saturate(4760%) hue-rotate(339deg) brightness(102%) contrast(104%);;
-        }
     </style>
 {% endblock content %}
