@@ -19,7 +19,9 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
 from django.contrib.auth import views as v
-from domain.views import *
+from domain.views.employres_views import *
+from domain.views.general_views import *
+from domain.views.job_seeker_views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +34,8 @@ urlpatterns = [
 
     path('applications/', applications_view, name='applications_view'),
     path('applications/<str:ordering>', applications_view, name='applications_view'),
+
+    path('jobseeker/create/', job_seeker_create_view, name='job_seeker_create'),
 
     path('references/', references_view, name='references'),
     path('references/<str:reference>/', references_view, name='references'),
