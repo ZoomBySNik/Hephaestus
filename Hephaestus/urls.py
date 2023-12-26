@@ -30,6 +30,9 @@ urlpatterns = [
     path('employers/create/<str:employer_id>/organization/<str:organization_id>', organization_create_view, name='organization_create'),
     path('employers/create/<str:employer_id>/application/', application_create_view, name='application_create'),
 
+    path('applications/', applications_view, name='applications_view'),
+    path('applications/<str:ordering>', applications_view, name='applications_view'),
+
     path('references/', references_view, name='references'),
     path('references/<str:reference>/', references_view, name='references'),
 

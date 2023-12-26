@@ -156,3 +156,48 @@ def application_create_view(request, employer_id):
         'form': form
     }
     return render(request, 'employers/application_create.html', context)
+
+
+def get_russian_status(status):
+    status_dict = {
+        'new': 'Новая',
+        'in_progress': 'В обработке',
+        'pending_approval': 'На согласовании',
+        'completed': 'Завершена',
+        'canceled': 'Отменена',
+        'payment_received': 'Получена оплата'
+    }
+    return status_dict.get(status)
+
+
+def applications_view(request, ordering='without_archive_by_new'):
+    archive_statuses = ['completed', 'canceled', 'payment_received']
+    ordering_mas = [
+        'without_archive_by_new',
+        'without_archive_by_final_date',
+        'without_archive_by_surname_of_employer',
+
+    ]
+    ordering_mas_archive = [
+        'archive_by_new',
+        'archive_by_final_date',
+        'archive_by_surname_of_employer',
+    ]
+    if ordering in ordering_mas:
+        applications = Application.objects.exclude(status__in=archive_statuses)
+    elif ordering in ordering_mas_archive:
+        applications = Application.objects.filter(status__in=archive_statuses)
+    if ordering == ordering_mas[0] or ordering == ordering_mas_archive[0]:
+        applications = Application.objects.order_by('-date_of_application')
+    elif ordering == ordering_mas[1] or ordering == ordering_mas_archive[1]:
+        applications = Application.objects.order_by('-final_date')
+    elif ordering == ordering_mas[2] or ordering == ordering_mas_archive[2]:
+        applications = Application.objects.select_related('customer').order_by('customer__last_name')
+    else:
+        applications = Application.objects.order_by('-date_of_application')
+    for application in applications:
+        application.status_in_rus = get_russian_status(application.status)
+    context = {
+        'applications': applications,
+    }
+    return render(request, 'employers/applications_view.html', context)

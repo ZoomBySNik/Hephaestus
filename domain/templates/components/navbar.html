@@ -16,8 +16,8 @@
                 <div class="expanded">
                     <div class="expanded-block flex-vertical">
                         <a href="{% url 'employers_create' %}" class="expanded-link">Создать заявку</a>
-                        <a href="{% url 'applications_view' %}" class="expanded-link">Просмотр текущих заявок</a>
-                        <a href="#" class="expanded-link">Просмотр архивных заявок</a>
+                        <a href="{% url 'applications_view' 'without_archive_by_final_date' %}" class="expanded-link">Просмотр текущих заявок</a>
+                        <a href="{% url 'applications_view' 'archive_by_surname_of_employer' %}" class="expanded-link">Просмотр архивных заявок</a>
                         <a href="#" class="expanded-link">Отчёты по заявкам</a>
                     </div>
                 </div>
