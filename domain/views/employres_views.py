@@ -74,7 +74,6 @@ def organization_create_view(request, employer_id, organization_id=None):
 
 def application_create_view(request, employer_id):
     employer = Employer.objects.get(id=employer_id)
-    employee = Employee.objects.get(id=request.user.id)
     if request.method == 'POST':
         form = ApplicationForm(request.POST)
         if form.is_valid():
