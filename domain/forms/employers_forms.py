@@ -5,6 +5,8 @@ from domain.models import *
 
 
 class EmployerForm(forms.ModelForm):
+    position = forms.CharField(max_length=90, label='Должность',
+                               error_messages={"required": "Введите должность"})
     surname = forms.CharField(max_length=90, label='Фамилия', error_messages={"required": "Введите фамилию"})
     name = forms.CharField(max_length=90, label='Имя', error_messages={"required": "Введите имя"})
     patronymic = forms.CharField(max_length=90, label='Отчество', error_messages={"required": "Введите отчество"})
@@ -19,8 +21,6 @@ class EmployerForm(forms.ModelForm):
 
 
 class OrganizationForm(forms.ModelForm):
-    position = forms.CharField(max_length=90, label='Должность',
-                               error_messages={"required": "Введите должность"})
     locality = forms.CharField(max_length=255, label='Населенный пункт',
                                error_messages={"required": "Введите населённый пункт"})
     street = forms.CharField(max_length=255, label='Улица',
@@ -36,11 +36,6 @@ class OrganizationForm(forms.ModelForm):
         fields = '__all__'
 
     field_group_address = [locality, street, number_of_building, apartment_number]
-    field_group_position = ['position']
-
-
-class PositionForm(forms.Form):
-    position = forms.CharField(max_length=90, label='Должность')
 
 
 class ApplicationForm(forms.ModelForm):

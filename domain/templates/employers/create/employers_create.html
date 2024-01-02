@@ -3,7 +3,7 @@
 {% block content %}
     <section class="split-section flex-vertical gap-2em">
         <div class="content-block flex-vertical gap-1em">
-            <h1 class="title">Создание профиля клиента</h1>
+            <h1 class="title">Создание профиля клиента компании {{ organization.organizational_legal_form }} "{{ organization.name }}"</h1>
             <div class="content-box flex-vertical gap-1em">
                 <div class="top-splitter-two flex-horizontal">
                     <div class="splitted-part left active" onclick="toggleSplitter(this)">Новая запись</div>
@@ -21,6 +21,10 @@
                             {{ form.name }}
                             <label for="{{ form.patronymic.id_for_label }}">{{ form.patronymic.label }}:</label>
                             {{ form.patronymic }}
+                        </p>
+                        <p>
+                            <label for="{{ form.position.id_for_label }}">{{ form.position.label }}:</label>
+                            {{ form.position }}
                         </p>
                         <h1 class="title padding-top-1em text-size-larger">Контакты</h1>
                         <p>
@@ -48,7 +52,7 @@
                         <input type="text" oninput="filterResults(this)" class="input-field">
                     </div>
                     {% for employer in employers %}
-                        <a href="{% url 'organization_create' employer.id %}" id="search_results">
+                        <a href="{% url 'application_create' employer.id %}" id="search_results">
                             <div class="flex-horizontal persons-div gap-3em">
                                 {% if employer.profile_photo %}
                                     <img src="{{ MEDIA_URL }}{{ employer.profile_photo.url }}"

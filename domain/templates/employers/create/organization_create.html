@@ -4,94 +4,74 @@
 {% block content %}
     <section class="split-section flex-vertical gap-2em">
         <div class="content-block flex-vertical gap-1em">
-            {% if form_type == 'organization' %}
-                <h1 class="title">Создание организации</h1>
-                <div class="content-box flex-vertical gap-1em">
-                    <div class="top-splitter-two flex-horizontal">
-                        <div class="splitted-part left active" onclick="toggleSplitter(this)">Новая запись</div>
-                        <div class="splitted-part right" onclick="toggleSplitter(this)">Выбрать существующую</div>
+            <h1 class="title">Создание организации</h1>
+            <div class="content-box flex-vertical gap-1em">
+                <div class="top-splitter-two flex-horizontal">
+                    <div class="splitted-part left active" onclick="toggleSplitter(this)">Новая запись</div>
+                    <div class="splitted-part right" onclick="toggleSplitter(this)">Выбрать существующую</div>
+                </div>
+                <div class="content flex-vertical gap-2em active-content" style="padding: 4em 8em;">
+                    <form method="POST" class="input-form flex-vertical gap-2em">
+                        {% csrf_token %}
+                        <h1 class="title text-size-larger">Основная информация</h1>
+                        <p>
+                            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}:</label>
+                            {{ form.name }}
+                        </p>
+                        <p>
+                            <label for="{{ form.organizational_legal_form.id_for_label }}">{{ form.organizational_legal_form.label }}:</label>
+                            {{ form.organizational_legal_form }}
+                        </p>
+                        <p>
+                            <label for="{{ form.okved_kode.id_for_label }}">{{ form.okved_kode.label }}:</label>
+                            {{ form.okved_kode }}
+                        </p>
+                        <h1 class="title text-size-larger">Финансовая информация</h1>
+                        <p>
+                            <label for="{{ form.payment_account.id_for_label }}">{{ form.payment_account.label }}:</label>
+                            {{ form.payment_account }}
+                        </p>
+                        <p>
+                            <label for="{{ form.inn.id_for_label }}">{{ form.inn.label }}:</label>
+                            {{ form.inn }}
+                        </p>
+                        <h1 class="title text-size-larger">Адрес</h1>
+                        <p>
+                            <label for="{{ form.locality.id_for_label }}">{{ form.locality.label }}:</label>
+                            {{ form.locality }}
+                        </p>
+                        <p class="flex-horizontal">
+                            <label for="{{ form.street.id_for_label }}">{{ form.street.label }}:</label>
+                            {{ form.street|add_class:"width-180" }}
+                            <label for="{{ form.number_of_building.id_for_label }}">Дом:</label>
+                            {{ form.number_of_building }}
+                            <label for="{{ form.apartment_number.id_for_label }}">Помещение:</label>
+                            {{ form.apartment_number }}
+                        </p>
+                        {% if form.errors %}
+                            <p class="error-message">{{ form.errors }}</p>
+                        {% endif %}
+                        <button type="submit" class="button submit" style="width: fit-content;">Создать</button>
+                    </form>
+                </div>
+                <div class="content flex-vertical gap-2em inactive-content" style="padding: 4em 8em;">
+                    <div class="flex-horizontal gap-1em" style="padding: 1em 0">
+                        <label>Поиск:</label>
+                        <input type="text" oninput="filterResults(this)" class="input-field">
                     </div>
-                    <div class="content flex-vertical gap-2em active-content" style="padding: 4em 8em;">
-                        <form method="POST" class="input-form flex-vertical gap-2em">
-                            {% csrf_token %}
-                            <h1 class="title text-size-larger">Основная информация</h1>
-                            <p>
-                                <label for="{{ form.name.id_for_label }}">{{ form.name.label }}:</label>
-                                {{ form.name }}
-                            </p>
-                            <p>
-                                <label for="{{ form.organizational_legal_form.id_for_label }}">{{ form.organizational_legal_form.label }}:</label>
-                                {{ form.organizational_legal_form }}
-                            </p>
-                            <p>
-                                <label for="{{ form.okved_kode.id_for_label }}">{{ form.okved_kode.label }}:</label>
-                                {{ form.okved_kode }}
-                            </p>
-                            <h1 class="title text-size-larger">Финансовая информация</h1>
-                            <p>
-                                <label for="{{ form.payment_account.id_for_label }}">{{ form.payment_account.label }}:</label>
-                                {{ form.payment_account }}
-                            </p>
-                            <p>
-                                <label for="{{ form.inn.id_for_label }}">{{ form.inn.label }}:</label>
-                                {{ form.inn }}
-                            </p>
-                            <h1 class="title text-size-larger">Адрес</h1>
-                            <p>
-                                <label for="{{ form.locality.id_for_label }}">{{ form.locality.label }}:</label>
-                                {{ form.locality }}
-                            </p>
-                            <p class="flex-horizontal">
-                                <label for="{{ form.street.id_for_label }}">{{ form.street.label }}:</label>
-                                {{ form.street|add_class:"width-180" }}
-                                <label for="{{ form.number_of_building.id_for_label }}">Дом:</label>
-                                {{ form.number_of_building }}
-                                <label for="{{ form.apartment_number.id_for_label }}">Помещение:</label>
-                                {{ form.apartment_number }}
-                            </p>
-                            <h1 class="title text-size-larger">Должность клиента</h1>
-                            <p>
-                                <label for="{{ form.position.id_for_label }}">{{ form.position.label }}:</label>
-                                {{ form.position }}
-                            </p>
-                            {% if form.errors %}
-                                <p class="error-message">{{ form.errors }}</p>
-                            {% endif %}
-                            <button type="submit" class="button submit" style="width: fit-content;">Создать</button>
-                        </form>
-                    </div>
-                    <div class="content flex-vertical gap-2em inactive-content" style="padding: 4em 8em;">
-                        <div class="flex-horizontal gap-1em" style="padding: 1em 0">
-                            <label>Поиск:</label>
-                            <input type="text" oninput="filterResults(this)" class="input-field">
-                        </div>
 
-                        {% for organization in organizations %}
-                            <a href="{% url 'organization_create' employer_id=employer.id organization_id=organization.id %}" id="search_results">
+                    {% for organization in organizations %}
+                        <a href="{% url 'employers_create' organization_id=organization.id %}"
+                           id="search_results">
                             <div class="flex-horizontal persons-div gap-3em">
                                 <p>{{ organization.organizational_legal_form }} "{{ organization.name }}"
                                 </p>
                             </div>
                         </a>
-                        {% endfor %}
-                        <p id="noResultsMessage" class="error-message" style="display: none;">Ничего не найдено</p>
-                    </div>
+                    {% endfor %}
+                    <p id="noResultsMessage" class="error-message" style="display: none;">Ничего не найдено</p>
                 </div>
-            {% elif form_type == 'position' %}
-                <div class="to_center flex-vertical gap-3em" style="width: fit-content; align-self: center">
-                    <h1 class="title">Должность заказчика {{ employer.surname }} {{ employer.name }} в "{{ employer.organization.name }}"</h1>
-                <div class="content-box flex-vertical gap-1em">
-                    <div class="content flex-vertical gap-2em" style="padding: 3em">
-                        <form method="POST" class="input-form flex-vertical" style="gap: 2em">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <button class="button submit" type="submit" style="width: fit-content;">Сохранить</button>
-                        </form>
-                    </div>
-                </div>
-                </div>
-
-            {% endif %}
+            </div>
         </div>
     </section>
 {% endblock %}

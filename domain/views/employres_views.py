@@ -6,70 +6,50 @@ from domain.forms.employers_forms import *
 from domain.models import *
 
 
-def employers_create_view(request):
-    if request.method == 'POST':
-        form = EmployerForm(request.POST, request.FILES)
-        if form.is_valid():
-            employer = form.save()
-            return redirect('organization_create', employer_id=employer.id)
-    else:
-        form = EmployerForm()
-    employers = Employer.objects.order_by('surname')
-    context = {
-        'form': form,
-        'employers': employers,
-    }
-    return render(request, 'employers/create/employers_create.html', context)
-
-
-def organization_create_view(request, employer_id, organization_id=None):
+def organization_create_view(request, *args, **kwargs):
     organizations_list = Organization.objects.order_by('name')
-    employer = Employer.objects.get(id=employer_id)
-    if organization_id:
-        employer.organization = Organization.objects.get(id=organization_id)
-        employer.save()
-        return redirect('organization_create', employer.id)
-    if employer.organization and employer.position:
-        return redirect('application_create', employer_id)
-    elif (not employer.position) and employer.organization:
-        form_type = 'position'
-        if request.method == 'POST':
-            form = PositionForm(request.POST)
-            if form.is_valid():
-                employer.position = form.cleaned_data['position']
-                employer.save()
-                return redirect('application_create', employer_id)
-        else:
-            form = PositionForm()
+    form_type = 'organization'
+    if request.method == 'POST':
+        form = OrganizationForm(request.POST)
+        if form.is_valid():
+            address = Address.objects.create(
+                locality=form.cleaned_data['locality'],
+                street=form.cleaned_data['street'],
+                number_of_building=form.cleaned_data['number_of_building'],
+                apartment_number=form.cleaned_data['apartment_number'],
+            )
+            organization = form.save(commit=False)
+            organization.address = address
+            organization.save()
+            return redirect('employers_create', organization.id)
     else:
-        form_type = 'organization'
-        if request.method == 'POST':
-            form = OrganizationForm(request.POST)
-            if form.is_valid():
-                address = Address.objects.create(
-                    locality=form.cleaned_data['locality'],
-                    street=form.cleaned_data['street'],
-                    number_of_building=form.cleaned_data['number_of_building'],
-                    apartment_number=form.cleaned_data['apartment_number'],
-                )
-                organization = form.save(commit=False)
-                organization.address = address
-                organization.save()
-
-                employer.organization = organization
-                employer.position = form.cleaned_data['position']
-                employer.save()
-
-                return redirect('application_create', employer_id)
-        else:
-            form = OrganizationForm()
+        form = OrganizationForm()
     context = {
         'form_type': form_type,
         'form': form,
-        'employer': employer,
         'organizations': organizations_list
     }
     return render(request, 'employers/create/organization_create.html', context)
+
+
+def employers_create_view(request, organization_id):
+    organization = Organization.objects.get(id=organization_id)
+    if request.method == 'POST':
+        form = EmployerForm(request.POST, request.FILES)
+        if form.is_valid():
+            employer = form.save(commit=False)
+            employer.organization = Organization.objects.get(id=organization_id)
+            employer = form.save()
+            return redirect('application_create', employer_id=employer.id)
+    else:
+        form = EmployerForm()
+    employers = Employer.objects.order_by('surname').filter(organization_id=organization_id)
+    context = {
+        'form': form,
+        'employers': employers,
+        'organization': organization,
+    }
+    return render(request, 'employers/create/employers_create.html', context)
 
 
 def application_create_view(request, employer_id):

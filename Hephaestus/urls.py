@@ -27,13 +27,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
 
-    path('employers/create/', employers_create_view, name='employers_create'),
-    path('employers/create/<str:employer_id>/organization/', organization_create_view, name='organization_create'),
-    path('employers/create/<str:employer_id>/organization/<str:organization_id>', organization_create_view, name='organization_create'),
-    path('employers/create/<str:employer_id>/application/', application_create_view, name='application_create'),
-
     path('applications/', applications_view, name='applications_view'),
     path('applications/<str:ordering>', applications_view, name='applications_view'),
+
+    path('applications/create/organization/', organization_create_view, name='organization_create'),
+    path('applications/create/organization/<str:organization_id>/employer/', employers_create_view, name='employers_create'),
+    path('applications/create/employer/<str:employer_id>', application_create_view, name='application_create'),
 
     path('jobseeker/create/', job_seeker_create_view, name='job_seeker_create'),
 
