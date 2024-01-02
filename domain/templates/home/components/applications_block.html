@@ -12,7 +12,9 @@
                     <a href="{% url 'employers_create' %}">
                         <button class="button">Создать новую заявку</button>
                     </a>
-                    <button class="button">Просмотр заявок</button>
+                    <a href="{% url 'applications_view' 'without_archive_by_new' %}">
+                        <button class="button">Просмотр заявок</button>
+                    </a>
                 </div>
                 <table class="table">
                     <tr>
@@ -36,7 +38,9 @@
                     <a href="{% url 'employers_create' %}">
                         <button class="button">Создать новую заявку</button>
                     </a>
-                    <button class="button">Просмотр заявок</button>
+                    <a href="{% url 'applications_view' 'without_archive_by_final_date' %}">
+                        <button class="button">Просмотр заявок</button>
+                    </a>
                 </div>
                 <table class="table">
                     <tr>

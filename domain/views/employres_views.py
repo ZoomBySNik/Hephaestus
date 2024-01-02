@@ -127,7 +127,7 @@ def applications_view(request, ordering='without_archive_by_new'):
     if ordering == ordering_mas[0] or ordering == ordering_mas_archive[0]:
         applications = Application.objects.order_by('-date_of_application')
     elif ordering == ordering_mas[1] or ordering == ordering_mas_archive[1]:
-        applications = Application.objects.order_by('-final_date')
+        applications = Application.objects.order_by('final_date')
     elif ordering == ordering_mas[2] or ordering == ordering_mas_archive[2]:
         applications = Application.objects.select_related('customer').order_by('customer__last_name')
     else:

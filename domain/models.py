@@ -225,7 +225,8 @@ class WorkExperience(models.Model):
     date_of_employment = models.DateField(blank=False, null=False, verbose_name='Дата приёма')
     date_of_dismissal = models.DateField(blank=True, null=True, verbose_name='Дата увольнения')
     organization = models.CharField(max_length=255, blank=False, null=False, verbose_name='Организация')
-    position = models.CharField(max_length=255, blank=False, null=False, verbose_name='Должность')
+    position = models.ForeignKey('Position', blank=False, null=False,
+                                 on_delete=models.PROTECT, verbose_name='Должность')
 
     def __str__(self):
         return '%s %s лет %s' % \
@@ -237,6 +238,17 @@ class WorkExperience(models.Model):
     class Meta:
         verbose_name = 'Опыт работы'
         verbose_name_plural = 'Опыты работ'
+
+
+class Position(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = 'Должность'
+        verbose_name_plural = 'Должность'
 
 
 class EducationOfJobSeeker(models.Model):
@@ -282,7 +294,8 @@ class Resume(models.Model):
 
     job_seeker = models.ForeignKey('JobSeeker', blank=False, null=False,
                                    on_delete=models.CASCADE, verbose_name='Соискатель')
-    position = models.CharField(max_length=100, blank=False, null=False, verbose_name='Должность')
+    position = models.ForeignKey('Position', blank=False, null=False,
+                                 on_delete=models.PROTECT, verbose_name='Должность')
     desired_salary = models.CharField(max_length=100, blank=False, null=False, verbose_name='Желаемая зарплата')
     willing_to_relocate = models.CharField(max_length=13, choices=RELOCATE_CHOICES, null=False, blank=False,
                                            default='not_specified', verbose_name='Готовность к переезду')
@@ -342,10 +355,11 @@ class Application(models.Model):
     employer = models.ForeignKey('Employer', blank=False, null=False,
                                  on_delete=models.CASCADE, verbose_name='Работодатель')
     date_of_application = models.DateTimeField(blank=False, null=False, auto_now_add=True,
-                                           editable=False, verbose_name='Дата заявки')
+                                               editable=False, verbose_name='Дата заявки')
     desired_date = models.DateField(blank=True, null=True, verbose_name='Желательный срок')
     final_date = models.DateField(blank=True, null=True, verbose_name='Крайний срок')
-    position = models.CharField(blank=False, null=False, max_length=255, verbose_name='Должность')
+    position = models.ForeignKey('Position', blank=False, null=False,
+                                 on_delete=models.PROTECT, verbose_name='Должность')
     salary = models.CharField(blank=False, null=False, max_length=255, verbose_name='Зарплата')
     specialization = models.ForeignKey('Specialization', blank=False, null=False,
                                        on_delete=models.PROTECT, verbose_name='Специализация')

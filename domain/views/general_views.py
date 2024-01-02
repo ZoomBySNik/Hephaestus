@@ -28,7 +28,8 @@ def references_view(request, reference='OrganizationalLegalForm'):
         'Specialization': [Specialization, 'Специализации'],
         'SoftwareAndHardwareTool': [SoftwareAndHardwareTool, 'Программно-технические средства'],
         'WorkSchedule': [WorkSchedule, 'Графики работы'],
-        'EducationLevel': [EducationLevel, 'Уровень образования']
+        'EducationLevel': [EducationLevel, 'Уровень образования'],
+        'Position': [Position, 'Должность'],
     }
 
     if reference in references_dict:
