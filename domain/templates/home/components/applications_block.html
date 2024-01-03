@@ -20,6 +20,7 @@
                     <tr>
                         <th>Время создания</th>
                         <th>Заказчик</th>
+                        <th>Организация</th>
                         <th>Должность</th>
                         <th>Подробнее</th>
                     </tr>
@@ -27,6 +28,7 @@
                         <tr>
                             <td>{{ application.date_of_application }}</td>
                             <td>{{ application.employer.name }} {{ application.employer.surname }}</td>
+                            <td>{{ application.employer.organization.organizational_legal_form }} "{{ application.employer.organization.name }}"</td>
                             <td>{{ application.position }}</td>
                             <td>--></td>
                         </tr>
@@ -46,6 +48,7 @@
                     <tr>
                         <th>Крайний срок</th>
                         <th>Заказчик</th>
+                        <th>Организация</th>
                         <th>Должность</th>
                         <th>Подробнее</th>
                     </tr>
@@ -53,6 +56,7 @@
                         <tr>
                             <td>{{ application.final_date }}</td>
                             <td>{{ application.employer.name }} {{ application.employer.surname }}</td>
+                            <td>{{ application.employer.organization.organizational_legal_form }} "{{ application.employer.organization.name }}"</td>
                             <td>{{ application.position }}</td>
                             <td>--></td>
                         </tr>

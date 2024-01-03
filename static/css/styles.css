@@ -2,7 +2,7 @@
     font-size: 20px;
     padding: 0;
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: Inter, serif;
     color: var(--text-color);
     text-decoration: none;
 }
@@ -87,6 +87,11 @@
     gap: 0.2em;
     box-shadow: 0 0 0.5em 0.1em var(--element-shadow);
     width: fit-content;
+}
+
+.button:focus{
+    align-items: center;
+    text-align: center;
 }
 
 .icon {
