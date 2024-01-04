@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, date
 from datetime import datetime as dt
 from django import forms
 from django.shortcuts import redirect, render
@@ -16,10 +16,19 @@ def job_seeker_create_view(request):
             job_seeker = form.save(commit=False)
             job_seeker.address = address
             job_seeker.save()
-            return redirect('home')
+            return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
     else:
         form = JobSeekerForm()
     context = {
         'form': form,
     }
     return render(request, 'job_seekers/create/job_seekers_create.html', context)
+
+
+def job_seeker_view(request, job_seeker_id):
+    job_seeker = JobSeeker.objects.get(id=job_seeker_id)
+    job_seeker.age = (date.today() - job_seeker.birthdate) // timedelta(days=365.2425)
+    context = {
+        'job_seeker': job_seeker,
+    }
+    return render(request, 'job_seekers/view/job_seeker_view.html', context)

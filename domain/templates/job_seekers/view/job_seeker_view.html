@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            <h1 class="title">Информация о соискателе</h1>
+            <div class="content-box flex-vertical gap-1em">
+                <div class="content flex-vertical gap-2em" style="padding: 2em 4em;">
+                    <div class="flex-horizontal gap-1em">
+                        {% if job_seeker.profile_photo %}
+                            <img class="person-img" src="{{ job_seeker.profile_photo }}">
+                        {% else %}
+                            <div class="person-img"></div>
+                        {% endif %}
+                        <div class="flex-vertical gap-1em text-size-larger">
+                            <h1 class="title">
+                                {{ job_seeker.surname }} {{ job_seeker.name }} {{ job_seeker.patronymic }},
+                                <span class="title" style="font-size: inherit" id="age">
+                                    {{ job_seeker.age }}
+                                </span>
+                            </h1>
+                            <p class="text-size-larger text1">{{ job_seeker.address.locality }}</p>
+                        </div>
+                    </div>
+                    <div class="flex-vertical gap-1em">
+                        <h1 class="title">Контактная информация</h1>
+                        <div class="flex-vertical gap-05em">
+                            <p class="text1">Номер телефона: {{ job_seeker.phone }}</p>
+                            <p class="text1">Почта: {{ job_seeker.email }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var experienceElement = document.getElementById('age');
+            var years = parseInt(experienceElement.innerText);
+
+            if (years % 10 === 1 && years % 100 !== 11) {
+                experienceElement.innerText = years + ' год';
+            } else if (years % 10 >= 2 && years % 10 <= 4 && (years % 100 < 10 || years % 100 >= 20)) {
+                experienceElement.innerText = years + ' года';
+            } else {
+                experienceElement.innerText = years + ' лет';
+            }
+        });
+    </script>
+{% endblock content %}

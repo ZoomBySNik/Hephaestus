@@ -1,6 +1,3 @@
-from datetime import timedelta
-from datetime import datetime as dt
-from django import forms
 from django.shortcuts import redirect, render
 from domain.forms.employers_forms import *
 from domain.models import *

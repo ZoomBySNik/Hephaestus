@@ -498,6 +498,12 @@ tr:hover td {
     width: 5em;
     background: var(--th-bg);
 }
+.person-img {
+    border-radius: 100%;
+    aspect-ratio: 1 / 1;
+    width: 8em;
+    background: var(--th-bg);
+}
 
 .checkbox-div div {
     background: var(--div-bg);
