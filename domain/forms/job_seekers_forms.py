@@ -26,3 +26,23 @@ class SkillsForm(forms.ModelForm):
     class Meta:
         model = JobSeeker
         fields = ('skills',)
+
+
+class SpecializationForm(forms.ModelForm):
+    specializations = forms.ModelMultipleChoiceField(queryset=Specialization.objects.all(),
+                                           widget=forms.CheckboxSelectMultiple,
+                                           label='Специализции')
+
+    class Meta:
+        model = JobSeeker
+        fields = ('specializations',)
+
+
+class SoftwareAndHardwareToolForm(forms.ModelForm):
+    software_and_hardware_tools = forms.ModelMultipleChoiceField(queryset=SoftwareAndHardwareTool.objects.all(),
+                                           widget=forms.CheckboxSelectMultiple,
+                                           label='Программно-технические средства')
+
+    class Meta:
+        model = SoftwareAndHardwareToolOfJobSeeker
+        fields = ('software_and_hardware_tools',)

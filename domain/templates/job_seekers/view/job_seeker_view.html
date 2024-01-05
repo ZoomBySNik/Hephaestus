@@ -79,7 +79,7 @@
                             {% else %}
                                 <p class="error-message">Вы пока не добавили специализаций</p>
                             {% endif %}
-                            <a>
+                            <a  href="{% url 'job_seeker_specializations' job_seeker.id %}">
                                 <button class="button submit">Добавить специализацию</button>
                             </a>
                         </div>
@@ -97,7 +97,7 @@
                                                 {{ forloop.counter }}
                                             </td>
                                             <td>
-                                                {{ software_and_hardware_tool.name }}
+                                                {{ software_and_hardware_tool.software_and_hardware_tool.name }}
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -105,7 +105,7 @@
                             {% else %}
                                 <p class="error-message">Вы пока не добавили программно-технических средств</p>
                             {% endif %}
-                            <a>
+                            <a href="{% url 'job_seeker_software_and_hardware_tools' job_seeker.id %}">
                                 <button class="button submit">Добавить программно техническое средство</button>
                             </a>
                         </div>
