@@ -53,7 +53,7 @@
                             {% else %}
                                 <p class="error-message">Вы пока не добавили навыки</p>
                             {% endif %}
-                            <a>
+                            <a href="{% url 'job_seeker_skills' job_seeker.id %}">
                                 <button class="button submit">Добавить навыки</button>
                             </a>
                         </div>

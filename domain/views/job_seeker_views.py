@@ -32,3 +32,21 @@ def job_seeker_view(request, job_seeker_id):
         'job_seeker': job_seeker,
     }
     return render(request, 'job_seekers/view/job_seeker_view.html', context)
+
+
+def skills_view(request, job_seeker_id):
+    job_seeker = JobSeeker.objects.get(id=job_seeker_id)
+    if request.method == 'POST':
+        form = SkillsForm(request.POST)
+        if form.is_valid():
+            job_seeker.skill.set(form.cleaned_data['skills'])
+            job_seeker.save()
+            return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
+    else:
+        form = SkillsForm()
+
+    context = {
+        'job_seeker': job_seeker,
+        'form': form,
+    }
+    return render(request, 'job_seekers/create/skills_create.html', context)
