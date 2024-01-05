@@ -334,7 +334,6 @@
 .error-message {
     color: var(--error-color);
     text-shadow: 0 0 0.1em var(--error-color);
-    padding: 1em;
 }
 
 button.submit {
