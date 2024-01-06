@@ -39,6 +39,7 @@ urlpatterns = [
     path('jobseeker/<str:job_seeker_id>/skills', skills_view, name='job_seeker_skills'),
     path('jobseeker/<str:job_seeker_id>/specializations', specialization_view, name='job_seeker_specializations'),
     path('jobseeker/<str:job_seeker_id>/software_and_hardware_tools', software_and_hardware_tools_view, name='job_seeker_software_and_hardware_tools'),
+    path('jobseeker/<str:job_seeker_id>/education', employers_education_view, name='job_seeker_education'),
 
     path('references/', references_view, name='references'),
     path('references/<str:reference>/', references_view, name='references'),

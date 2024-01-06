@@ -256,7 +256,7 @@ class EducationOfJobSeeker(models.Model):
                                    on_delete=models.CASCADE, verbose_name='Соискатель')
     education = models.ForeignKey('Education', blank=False, null=False,
                                   on_delete=models.PROTECT, verbose_name='Образование')
-    year_choices = [(year, str(year)) for year in range(1950, datetime.datetime.now().year + 1)]
+    year_choices = [(year, str(year)) for year in range(1980, datetime.datetime.now().year + 1)]
     year_received = models.IntegerField(choices=year_choices, blank=False, null=False, verbose_name='Год получения')
 
     def __str__(self):

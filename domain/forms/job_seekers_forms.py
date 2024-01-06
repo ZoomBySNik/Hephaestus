@@ -20,8 +20,8 @@ class JobSeekerForm(forms.ModelForm):
 
 class SkillsForm(forms.ModelForm):
     skills = forms.ModelMultipleChoiceField(queryset=Skill.objects.all(),
-                                           widget=forms.CheckboxSelectMultiple,
-                                           label='Навыки')
+                                            widget=forms.CheckboxSelectMultiple,
+                                            label='Навыки')
 
     class Meta:
         model = JobSeeker
@@ -30,8 +30,8 @@ class SkillsForm(forms.ModelForm):
 
 class SpecializationForm(forms.ModelForm):
     specializations = forms.ModelMultipleChoiceField(queryset=Specialization.objects.all(),
-                                           widget=forms.CheckboxSelectMultiple,
-                                           label='Специализции')
+                                                     widget=forms.CheckboxSelectMultiple,
+                                                     label='Специализции')
 
     class Meta:
         model = JobSeeker
@@ -40,9 +40,29 @@ class SpecializationForm(forms.ModelForm):
 
 class SoftwareAndHardwareToolForm(forms.ModelForm):
     software_and_hardware_tools = forms.ModelMultipleChoiceField(queryset=SoftwareAndHardwareTool.objects.all(),
-                                           widget=forms.CheckboxSelectMultiple,
-                                           label='Программно-технические средства')
+                                                                 widget=forms.CheckboxSelectMultiple,
+                                                                 label='Программно-технические средства')
 
     class Meta:
         model = SoftwareAndHardwareToolOfJobSeeker
         fields = ('software_and_hardware_tools',)
+
+
+class EducationForm(forms.ModelForm):
+    education_organization_name = forms.CharField(max_length=255, label='Образовательная организация',
+                                                  error_messages={"required": "Введите наименование организации"})
+    education_organization_address_locality = forms.CharField(max_length=255, label='Адрес образовательной организации',
+                                                              error_messages={
+                                                                  "required": "Введите адрес образовательной организации"})
+    name = forms.CharField(max_length=255, label='Наименование специальности',
+                           error_messages={"required": "Введите наименование специальности"})
+    code = forms.CharField(max_length=9, label='Код специальности',
+                           error_messages={"required": "Введите код специальности"})
+    education_level = forms.ModelChoiceField(queryset=EducationLevel.objects.all(),
+                                             label='Уровень образования')
+
+    class Meta:
+        model = EducationOfJobSeeker
+        fields = (
+            'education_organization_name', 'education_organization_address_locality', 'name', 'code', 'education_level',
+            'year_received')

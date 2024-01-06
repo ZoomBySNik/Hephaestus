@@ -130,16 +130,16 @@
                                                 {{ forloop.counter }}
                                             </td>
                                             <td>
-                                                {{ education.name }}
+                                                {{ education.education.name }}
                                             </td>
                                             <td>
-                                                {{ education.code }}
+                                                {{ education.education.code }}
                                             </td>
                                             <td>
-                                                {{ education.education_level.name }}
+                                                {{ education.education.education_level.name }}
                                             </td>
                                             <td>
-                                                {{ education.organization.name }}
+                                                {{ education.education.organization.name }}
                                             </td>
                                             <td>
                                                 {{ education.year_received }}
@@ -150,7 +150,7 @@
                             {% else %}
                                 <p class="error-message">Вы пока не добавили образование</p>
                             {% endif %}
-                            <a>
+                            <a href="{% url 'job_seeker_education' job_seeker.id %}">
                                 <button class="button submit">Добавить образование</button>
                             </a>
                         </div>
