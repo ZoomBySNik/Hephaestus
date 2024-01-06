@@ -25,6 +25,14 @@ def job_seeker_create_view(request):
     return render(request, 'job_seekers/create/job_seekers_create.html', context)
 
 
+def job_seeker_all_view(request):
+    job_seekers = JobSeeker.objects.all()
+    context = {
+        'job_seekers': job_seekers,
+    }
+    return render(request, 'job_seekers/view/job_seekers_all_view.html', context)
+
+
 def job_seeker_view(request, job_seeker_id):
     job_seeker = JobSeeker.objects.get(id=job_seeker_id)
     job_seeker.age = (date.today() - job_seeker.birthdate) // timedelta(days=365.2425)
@@ -131,3 +139,27 @@ def employers_education_view(request, job_seeker_id):
         'form': form,
     }
     return render(request, 'job_seekers/create/education_create.html', context)
+
+
+def employers_work_experience_view(request, job_seeker_id):
+    job_seeker = JobSeeker.objects.get(id=job_seeker_id)
+    if request.method == 'POST':
+        form = WorkExperienceForm(request.POST)
+        if form.is_valid():
+            work_experience = WorkExperience.objects.create(
+                job_seeker=job_seeker,
+                organization=form.cleaned_data['organization'],
+                position=form.cleaned_data['position'],
+                date_of_employment=form.cleaned_data['date_of_employment'],
+                date_of_dismissal=form.cleaned_data['date_of_dismissal']
+            )
+            work_experience.save()
+            return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
+    else:
+        form = WorkExperienceForm()
+
+    context = {
+        'job_seeker': job_seeker,
+        'form': form,
+    }
+    return render(request, 'job_seekers/create/work_experience.html', context)

@@ -66,3 +66,16 @@ class EducationForm(forms.ModelForm):
         fields = (
             'education_organization_name', 'education_organization_address_locality', 'name', 'code', 'education_level',
             'year_received')
+
+
+class WorkExperienceForm(forms.ModelForm):
+
+    class Meta:
+        model = WorkExperience
+        fields = ('organization', 'position', 'date_of_employment', 'date_of_dismissal')
+        exclude = ['job_seeker',]
+
+        widgets = {
+            'date_of_dismissal': forms.DateInput(attrs={'type': 'date'}),
+            'date_of_employment': forms.DateInput(attrs={'type': 'date'}),
+        }

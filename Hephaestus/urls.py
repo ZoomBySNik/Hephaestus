@@ -35,11 +35,13 @@ urlpatterns = [
     path('applications/create/employer/<str:employer_id>', application_create_view, name='application_create'),
 
     path('jobseeker/create/', job_seeker_create_view, name='job_seeker_create'),
+    path('jobseeker/view/', job_seeker_all_view, name='job_seeker_list'),
     path('jobseeker/<str:job_seeker_id>', job_seeker_view, name='job_seeker_view'),
     path('jobseeker/<str:job_seeker_id>/skills', skills_view, name='job_seeker_skills'),
     path('jobseeker/<str:job_seeker_id>/specializations', specialization_view, name='job_seeker_specializations'),
     path('jobseeker/<str:job_seeker_id>/software_and_hardware_tools', software_and_hardware_tools_view, name='job_seeker_software_and_hardware_tools'),
     path('jobseeker/<str:job_seeker_id>/education', employers_education_view, name='job_seeker_education'),
+    path('jobseeker/<str:job_seeker_id>/work_experience', employers_work_experience_view, name='job_seeker_work_experience'),
 
     path('references/', references_view, name='references'),
     path('references/<str:reference>/', references_view, name='references'),

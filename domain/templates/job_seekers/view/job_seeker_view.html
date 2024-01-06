@@ -8,7 +8,7 @@
                 <div class="content flex-vertical gap-2em" style="padding: 2em 4em;">
                     <div class="flex-horizontal gap-1em">
                         {% if job_seeker.profile_photo %}
-                            <img class="person-img" src="{{ job_seeker.profile_photo }}">
+                            <img class="person-img" src="/media/{{ MEDIA_URL }}{{ job_seeker.profile_photo }}">
                         {% else %}
                             <div class="person-img"></div>
                         {% endif %}
@@ -191,7 +191,7 @@
                             {% else %}
                                 <p class="error-message">Вы пока не добавили опыт работы</p>
                             {% endif %}
-                            <a>
+                            <a href="{% url 'job_seeker_work_experience' job_seeker.id %}">
                                 <button class="button submit">Добавить опыт работы</button>
                             </a>
                         </div>
