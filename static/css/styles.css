@@ -111,7 +111,7 @@
     padding-top: 1em;
     margin-bottom: auto;
     margin-left: -1em;
-    margin-top: 9.5em;
+    margin-top: 8.5em;
 
 }
 
@@ -528,4 +528,17 @@ tr:hover td {
 
 .checkbox-div div label input {
     visibility: hidden;
+}
+.extra-part{
+    background: var(--th-bg);
+    border-radius: 2em;
+    padding: 0.4em;
+}
+.extra-part .top-splitter-two{
+    background: linear-gradient(transparent, var(--table-bg)) ;
+}
+.inner-part {
+    background: var(--table-bg);
+    border-radius: 0 0 2em 2em;
+    padding: 2em 0;
 }
