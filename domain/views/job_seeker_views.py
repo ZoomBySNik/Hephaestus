@@ -53,7 +53,7 @@ def skills_view(request, job_seeker_id):
             job_seeker.save()
             return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
     else:
-        form = SkillsForm()
+        form = SkillsForm(initial={'skills': job_seeker.skill.all()})
 
     context = {
         'job_seeker': job_seeker,
@@ -71,7 +71,7 @@ def specialization_view(request, job_seeker_id):
             job_seeker.save()
             return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
     else:
-        form = SpecializationForm()
+        form = SpecializationForm(initial={'specializations': job_seeker.specialization.all()})
 
     context = {
         'job_seeker': job_seeker,
