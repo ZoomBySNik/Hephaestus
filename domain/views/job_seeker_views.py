@@ -36,8 +36,10 @@ def job_seeker_all_view(request):
 def job_seeker_view(request, job_seeker_id):
     job_seeker = JobSeeker.objects.get(id=job_seeker_id)
     job_seeker.age = (date.today() - job_seeker.birthdate) // timedelta(days=365.2425)
+    work_experiences = job_seeker.workexperience_set.all().order_by('-date_of_employment')
     context = {
         'job_seeker': job_seeker,
+        'work_experiences': work_experiences,
     }
     return render(request, 'job_seekers/view/job_seeker_view.html', context)
 
@@ -80,21 +82,27 @@ def specialization_view(request, job_seeker_id):
 
 def software_and_hardware_tools_view(request, job_seeker_id):
     job_seeker = JobSeeker.objects.get(id=job_seeker_id)
+
     if request.method == 'POST':
         form = SoftwareAndHardwareToolForm(request.POST)
+
         if form.is_valid():
             tools = SoftwareAndHardwareToolOfJobSeeker.objects.filter(job_seeker=job_seeker)
             tools.delete()
-            for tool in form.cleaned_data['software_and_hardware_tools']:
 
-                software_and_hardware_tools_of_job_seeker = SoftwareAndHardwareToolOfJobSeeker.objects.create(
+            for tool in form.cleaned_data['software_and_hardware_tools']:
+                SoftwareAndHardwareToolOfJobSeeker.objects.create(
                     job_seeker=job_seeker,
                     software_and_hardware_tool=tool
                 )
-                software_and_hardware_tools_of_job_seeker.save()
+
             return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
     else:
-        form = SoftwareAndHardwareToolForm()
+        selected_tools = SoftwareAndHardwareToolOfJobSeeker.objects.filter(job_seeker=job_seeker)
+
+        initial_data = {
+            'software_and_hardware_tools': selected_tools.values_list('software_and_hardware_tool', flat=True)}
+        form = SoftwareAndHardwareToolForm(initial=initial_data)
 
     context = {
         'job_seeker': job_seeker,
@@ -103,7 +111,7 @@ def software_and_hardware_tools_view(request, job_seeker_id):
     return render(request, 'job_seekers/create/software_and_hardware_tools_create.html', context)
 
 
-def employers_education_view(request, job_seeker_id):
+def job_seeker_education_view(request, job_seeker_id):
     job_seeker = JobSeeker.objects.get(id=job_seeker_id)
     if request.method == 'POST':
         form = EducationForm(request.POST)
@@ -141,7 +149,7 @@ def employers_education_view(request, job_seeker_id):
     return render(request, 'job_seekers/create/education_create.html', context)
 
 
-def employers_work_experience_view(request, job_seeker_id):
+def job_seeker_work_experience_view(request, job_seeker_id):
     job_seeker = JobSeeker.objects.get(id=job_seeker_id)
     if request.method == 'POST':
         form = WorkExperienceForm(request.POST)
@@ -163,3 +171,20 @@ def employers_work_experience_view(request, job_seeker_id):
         'form': form,
     }
     return render(request, 'job_seekers/create/work_experience.html', context)
+
+
+def job_seeker_resume_create_view(request, job_seeker_id):
+    job_seeker = JobSeeker.objects.get(id=job_seeker_id)
+    if request.method == 'POST':
+        form = ResumeForm(request.POST)
+        if form.is_valid():
+            resume = form.save()
+            return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
+    else:
+        form = ResumeForm()
+
+    context = {
+        'job_seeker': job_seeker,
+        'form': form,
+    }
+    return render(request, 'job_seekers/create/resume_create.html', context)
