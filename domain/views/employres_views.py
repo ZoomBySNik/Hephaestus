@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import redirect, render
 from domain.forms.employers_forms import *
 from domain.models import *
@@ -114,3 +116,31 @@ def applications_view(request, ordering='without_archive_by_new'):
         'applications': applications,
     }
     return render(request, 'employers/view/applications_view.html', context)
+
+
+def application_detail_view(request, application_id):
+    application = Application.objects.get(id=application_id)
+    application.status_in_rus = get_russian_status(application.status)
+    if request.method == 'POST':
+        form = ChangeStateOfApplicationForm(request.POST, instance=application)
+        if form.is_valid():
+            status = form.cleaned_data['status']
+            if status == 'canceled':
+                application.date_of_cancellation = datetime.datetime.today()
+                application.status = status
+            elif status == 'completed' or status == 'payment_received':
+                application.date_of_completion = datetime.datetime.today()
+                application.status = status
+            else:
+                application.date_of_completion = None
+                application.date_of_cancellation = None
+                application.status = status
+            application.save()
+            return redirect('applications_view_detail', application_id=application.id)
+    else:
+        form = ChangeStateOfApplicationForm(instance=application)
+    context = {
+        'application': application,
+        'form': form,
+    }
+    return render(request, 'employers/view/application_view_detail.html', context)

@@ -61,3 +61,9 @@ class ApplicationForm(forms.ModelForm):
         model = Application
         fields = ['position', 'salary', 'desired_date', 'final_date', 'specialization', 'education_level', 'skills', 'software_and_hardware_tools',
                   'experience', 'work_schedule']
+
+
+class ChangeStateOfApplicationForm(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['status',]

@@ -28,6 +28,7 @@ urlpatterns = [
     path('', home_view, name='home'),
 
     path('applications/', applications_view, name='applications_view'),
+    path('applications/detail/<str:application_id>', application_detail_view, name='applications_view_detail'),
     path('applications/<str:ordering>', applications_view, name='applications_view'),
     path('applications/create/organization/', organization_create_view, name='organization_create'),
     path('applications/create/organization/<str:organization_id>/employer/', employers_create_view,
