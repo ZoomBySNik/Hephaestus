@@ -356,3 +356,21 @@ class Application(models.Model):
     class Meta:
         verbose_name = 'Заявка на подбор специалиста'
         verbose_name_plural = 'Заявки на подбор специалистов'
+
+
+class ApplicationsResponses(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'В ожидании'),
+        ('under_review', 'Рассмотрение'),
+        ('accepted', 'Принят'),
+        ('rejected', 'Отклонен'),
+        ('withdrawn', 'Отозван'),
+    ]
+    application = models.ForeignKey('Application', blank=False, null=False,
+                                    on_delete=models.CASCADE, verbose_name='Заявка на подбор')
+    job_seeker = models.ForeignKey('JobSeeker', blank=False, null=False,
+                                   on_delete=models.CASCADE, verbose_name='Соискатель')
+    date_of_response = models.DateTimeField(blank=False, null=False, auto_now_add=True,
+                                            editable=False, verbose_name='Дата отклика на заявку')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name='Статус')
+    description = models.TextField(blank=True, null=True, verbose_name='Описание')

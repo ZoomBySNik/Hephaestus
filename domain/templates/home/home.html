@@ -1,12 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <section class="two-split-section flex-horizontal gap-1em">
+    <section class="flex-vertical gap-1em">
         <div class="split-section flex-vertical gap-2em">
             {% include 'home/components/applications_block.html' %}
-        </div>
-        <div class="split-section flex-vertical gap-2em">
-            {% include 'home/components/resume_block.html' %}
         </div>
     </section>
 {% endblock %}
