@@ -171,20 +171,3 @@ def job_seeker_work_experience_view(request, job_seeker_id):
         'form': form,
     }
     return render(request, 'job_seekers/create/work_experience.html', context)
-
-
-def job_seeker_resume_create_view(request, job_seeker_id):
-    job_seeker = JobSeeker.objects.get(id=job_seeker_id)
-    if request.method == 'POST':
-        form = ResumeForm(request.POST)
-        if form.is_valid():
-            resume = form.save()
-            return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
-    else:
-        form = ResumeForm()
-
-    context = {
-        'job_seeker': job_seeker,
-        'form': form,
-    }
-    return render(request, 'job_seekers/create/resume_create.html', context)

@@ -284,34 +284,6 @@ class SoftwareAndHardwareToolOfJobSeeker(models.Model):
         verbose_name_plural = 'Уровни владения программно-техническими средствами'
 
 
-class Resume(models.Model):
-    RELOCATE_CHOICES = [
-        ('yes', 'Готов к переезду'),
-        ('no', 'Не готов к переезду'),
-        ('maybe', 'Может быть'),
-        ('not_specified', 'Не указано'),
-    ]
-
-    job_seeker = models.ForeignKey('JobSeeker', blank=False, null=False,
-                                   on_delete=models.CASCADE, verbose_name='Соискатель')
-    position = models.ForeignKey('Position', blank=False, null=False,
-                                 on_delete=models.PROTECT, verbose_name='Должность')
-    desired_salary = models.CharField(max_length=100, blank=False, null=False, verbose_name='Желаемая зарплата')
-    willing_to_relocate = models.CharField(max_length=13, choices=RELOCATE_CHOICES, null=False, blank=False,
-                                           default='not_specified', verbose_name='Готовность к переезду')
-    work_schedule = models.ForeignKey('WorkSchedule', blank=False, null=False,
-                                      on_delete=models.PROTECT, verbose_name='График работы')
-    date_of_creation = models.DateTimeField(auto_now_add=True, editable=False, verbose_name='Дата отправки')
-    closing_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата закрытия резюме')
-
-    def __str__(self):
-        return 'Резюме %s от %s' % (self.job_seeker.__str__(), self.date_of_creation.date)
-
-    class Meta:
-        verbose_name = 'Резюме'
-        verbose_name_plural = 'Резюме'
-
-
 class Publication(models.Model):
     job_seeker = models.ForeignKey('JobSeeker', blank=False, null=False,
                                    on_delete=models.CASCADE, verbose_name='Соискатель')

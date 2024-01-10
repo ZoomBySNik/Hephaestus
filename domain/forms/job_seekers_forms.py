@@ -79,10 +79,3 @@ class WorkExperienceForm(forms.ModelForm):
             'date_of_dismissal': forms.DateInput(attrs={'type': 'date'}),
             'date_of_employment': forms.DateInput(attrs={'type': 'date'}),
         }
-
-
-class ResumeForm(forms.ModelForm):
-    class Meta:
-        model = Resume
-        fields = '__all__'
-        exclude = ['job_seeker', 'date_of_creation', 'closing_date']

@@ -42,7 +42,6 @@ urlpatterns = [
     path('jobseeker/<str:job_seeker_id>/software_and_hardware_tools', software_and_hardware_tools_view, name='job_seeker_software_and_hardware_tools'),
     path('jobseeker/<str:job_seeker_id>/education', job_seeker_education_view, name='job_seeker_education'),
     path('jobseeker/<str:job_seeker_id>/work_experience', job_seeker_work_experience_view, name='job_seeker_work_experience'),
-    path('jobseeker/<str:job_seeker_id>/resume', job_seeker_resume_create_view, name='job_seeker_resume'),
 
     path('references/', references_view, name='references'),
     path('references/<str:reference>/', references_view, name='references'),
