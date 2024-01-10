@@ -1,5 +1,5 @@
 import datetime
-
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from domain.forms.employers_forms import *
 from domain.models import *
@@ -91,27 +91,32 @@ def applications_view(request, ordering='without_archive_by_new'):
         'without_archive_by_new',
         'without_archive_by_final_date',
         'without_archive_by_surname_of_employer',
-
     ]
     ordering_mas_archive = [
         'archive_by_new',
         'archive_by_final_date',
         'archive_by_surname_of_employer',
     ]
+
     if ordering in ordering_mas:
-        applications = Application.objects.exclude(status__in=archive_statuses)
+        applications = Application.objects.exclude(Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))
     elif ordering in ordering_mas_archive:
-        applications = Application.objects.filter(status__in=archive_statuses)
-    if ordering == ordering_mas[0] or ordering == ordering_mas_archive[0]:
-        applications = Application.objects.order_by('-date_of_application')
-    elif ordering == ordering_mas[1] or ordering == ordering_mas_archive[1]:
-        applications = Application.objects.order_by('final_date')
-    elif ordering == ordering_mas[2] or ordering == ordering_mas_archive[2]:
-        applications = Application.objects.select_related('customer').order_by('customer__last_name')
+        applications = Application.objects.filter(Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))
     else:
-        applications = Application.objects.order_by('-date_of_application')
+        applications = Application.objects.all()
+
+    if ordering == ordering_mas[0] or ordering == ordering_mas_archive[0]:
+        applications = applications.order_by('-date_of_application')
+    elif ordering == ordering_mas[1] or ordering == ordering_mas_archive[1]:
+        applications = applications.order_by('final_date')
+    elif ordering == ordering_mas[2] or ordering == ordering_mas_archive[2]:
+        applications = applications.select_related('customer').order_by('customer__last_name')
+    else:
+        applications = applications.order_by('-date_of_application')
+
     for application in applications:
         application.status_in_rus = get_russian_status(application.status)
+
     context = {
         'applications': applications,
     }
