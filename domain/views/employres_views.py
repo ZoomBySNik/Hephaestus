@@ -123,6 +123,17 @@ def applications_view(request, ordering='without_archive_by_new'):
     return render(request, 'employers/view/applications_view.html', context)
 
 
+def get_russian_status_in_responses(status):
+    status_dict = {
+        'pending': 'В ожидании',
+        'under_review': 'Рассмотрение',
+        'accepted': 'Принят',
+        'rejected': 'Отклонен',
+        'withdrawn': 'Отозван',
+    }
+    return status_dict.get(status)
+
+
 def application_detail_view(request, application_id):
     application = Application.objects.get(id=application_id)
     application.status_in_rus = get_russian_status(application.status)
@@ -144,8 +155,37 @@ def application_detail_view(request, application_id):
             return redirect('applications_view_detail', application_id=application.id)
     else:
         form = ChangeStateOfApplicationForm(instance=application)
+    application_responses = ApplicationsResponses.objects.filter(application_id=application_id)
+
+    for response in application_responses:
+        response.status_in_rus = get_russian_status_in_responses(response.status)
     context = {
         'application': application,
+        'application_responses': application_responses,
         'form': form,
     }
     return render(request, 'employers/view/application_view_detail.html', context)
+
+
+def job_seeker_filter_for_application(request, application_id):
+    application = Application.objects.get(id=application_id)
+    application_responses = ApplicationsResponses.objects.filter(application_id=application_id)
+
+    added_job_seeker_ids = application_responses.values_list('job_seeker__id', flat=True)
+    job_seekers = JobSeeker.objects.exclude(id__in=added_job_seeker_ids)
+    context = {
+        'application': application,
+        'application_responses': application_responses,
+        'job_seekers': job_seekers
+    }
+    return render(request, 'employers/view/job_seekers_filter.html', context)
+
+
+def add_job_seeker_for_application(request, application_id, job_seeker_id):
+    application_response = ApplicationsResponses.objects.create(
+        application_id=application_id,
+        job_seeker_id=job_seeker_id,
+        status='pending'
+    )
+    application_response.save()
+    return redirect(request.META.get('HTTP_REFERER', None))
