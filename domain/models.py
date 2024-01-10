@@ -374,3 +374,11 @@ class ApplicationsResponses(models.Model):
                                             editable=False, verbose_name='Дата отклика на заявку')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name='Статус')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
+    evaluation = models.FloatField(blank=False, null=False, verbose_name='Предварительная оценка соответствия соискателя')
+
+    def __str__(self):
+        return 'Отклик на заявку "%s" от %s' % (self.application.__str__, self.job_seeker.__str__)
+
+    class Meta:
+        verbose_name = 'Отклик на заявку'
+        verbose_name_plural = 'Отклики на заявки'
