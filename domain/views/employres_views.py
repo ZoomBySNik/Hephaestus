@@ -37,6 +37,7 @@ def employers_create_view(request, organization_id):
         form = EmployerForm(request.POST, request.FILES)
         if form.is_valid():
             employer = form.save(commit=False)
+            employer.position = form.cleaned_data['position']
             employer.organization = Organization.objects.get(id=organization_id)
             employer = form.save()
             return redirect('application_create', employer_id=employer.id)

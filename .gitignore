@@ -1,2 +1,4 @@
 /staticfiles/
 /venv/
+/media/
+/db.sqlite3

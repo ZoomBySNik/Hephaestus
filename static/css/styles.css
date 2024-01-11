@@ -493,12 +493,14 @@ tr:hover td {
 
 .person-img-preview {
     border-radius: 100%;
+    object-fit: cover;
     aspect-ratio: 1 / 1;
     width: 5em;
     background: var(--th-bg);
 }
 .person-img {
     border-radius: 100%;
+    object-fit: cover;
     aspect-ratio: 1 / 1;
     width: 8em;
     background: var(--th-bg);
