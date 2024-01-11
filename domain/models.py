@@ -1,5 +1,6 @@
 import datetime
 
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
@@ -135,6 +136,9 @@ class EducationalOrganization(models.Model):
 
 class EducationLevel(models.Model):
     name = models.CharField(max_length=90, blank=False, null=False, verbose_name='Наименование')
+    code = models.IntegerField(validators=[
+            MinValueValidator(0), MaxValueValidator(10)], blank=False, null=False,
+                               verbose_name='Код уровня профессионального образования')
 
     def __str__(self):
         return '%s' % self.name
@@ -374,7 +378,8 @@ class ApplicationsResponses(models.Model):
                                             editable=False, verbose_name='Дата отклика на заявку')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name='Статус')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
-    evaluation = models.FloatField(blank=False, null=False, verbose_name='Предварительная оценка соответствия соискателя')
+    evaluation = models.FloatField(blank=False, null=False, verbose_name='Предварительная оценка соответствия '
+                                                                         'соискателя')
 
     def __str__(self):
         return 'Отклик на заявку "%s" от %s' % (self.application.__str__, self.job_seeker.__str__)

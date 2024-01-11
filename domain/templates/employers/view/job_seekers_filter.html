@@ -6,43 +6,48 @@
         <div class="content-block flex-vertical gap-1em">
             <div class="content-box flex-vertical gap-1em">
                 <div class="content flex-vertical gap-1em">
-                    <div class="flex-horizontal gap-1em" style="padding: 1em 0">
-                        <label>Поиск:</label>
-                        <input type="text" oninput="filterResults(this)" class="input-field">
-                    </div>
-                    {% for job_seeker in job_seekers %}
-                        <div id="search_results">
-                            <div class="flex-horizontal persons-div gap-3em">
-                                {% if job_seeker.profile_photo %}
-                                    <img src="{{ MEDIA_URL }}{{ job_seeker.profile_photo.url }}"
-                                         class="person-img-preview">
-                                {% else %}
-                                    <div class="person-img-preview"></div>
-                                {% endif %}
-                                <div class="flex-vertical gap-05em">
-                                    <p>{{ job_seeker.surname }}</p>
-                                    <p>{{ job_seeker.name }}</p>
-                                    <p>{{ job_seeker.patronymic }}</p>
-                                </div>
-                                <div class="flex-vertical gap-05em">
-                                    <p>{{ job_seeker.phone }}</p>
-                                    <p>{{ job_seeker.email }}</p>
-                                </div>
-                                <div class="flex-vertical gap-05em">
-                                    <p class="text1">Процент соответствия вакансии: 100%</p>
-                                    <div class="flex-horizontal gap-05em">
-                                        <a href="{% url 'job_seeker_view' job_seeker.id %}" target="_blank">
-                                            <button class="button">Подробнее</button>
-                                        </a>
-                                        <a href="{% url 'add_job_seeker_for_application' application_id=application.id job_seeker_id=job_seeker.id %}">
-                                            <button class="button submit">Добавить соискателя на рассмотрение</button>
-                                        </a>
+                    {% if job_seekers %}
+                        <div class="flex-horizontal gap-1em" style="padding: 1em 0">
+                            <label>Поиск:</label>
+                            <input type="text" oninput="filterResults(this)" class="input-field">
+                        </div>
+                        {% for job_seeker in job_seekers %}
+                            <div id="search_results">
+                                <div class="flex-horizontal persons-div gap-3em">
+                                    {% if job_seeker.profile_photo %}
+                                        <img src="{{ MEDIA_URL }}{{ job_seeker.profile_photo.url }}"
+                                             class="person-img-preview">
+                                    {% else %}
+                                        <div class="person-img-preview"></div>
+                                    {% endif %}
+                                    <div class="flex-vertical gap-05em">
+                                        <p>{{ job_seeker.surname }}</p>
+                                        <p>{{ job_seeker.name }}</p>
+                                        <p>{{ job_seeker.patronymic }}</p>
+                                    </div>
+                                    <div class="flex-vertical gap-05em">
+                                        <p>{{ job_seeker.phone }}</p>
+                                        <p>{{ job_seeker.email }}</p>
+                                    </div>
+                                    <div class="flex-vertical gap-05em">
+                                        <p class="text1">Процент соответствия вакансии: {{ job_seeker.matching_result }}%</p>
+                                        <div class="flex-horizontal gap-05em">
+                                            <a href="{% url 'job_seeker_view' job_seeker.id %}" target="_blank">
+                                                <button class="button">Подробнее</button>
+                                            </a>
+                                            <a href="{% url 'add_job_seeker_for_application' application_id=application.id job_seeker_id=job_seeker.id %}">
+                                                <button class="button submit">Добавить соискателя на рассмотрение
+                                                </button>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                    <p id="noResultsMessage" class="error-message" style="display: none;">Ничего не найдено</p>
+                        {% endfor %}
+                        <p id="noResultsMessage" class="error-message" style="display: none;">Ничего не найдено</p>
+                    {% else %}
+                        <p class="error-message">Ничего не найдено</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
