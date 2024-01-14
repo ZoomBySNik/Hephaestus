@@ -21,6 +21,14 @@
                             </h1>
                             <p class="text-size-larger text1">{{ job_seeker.address.locality }}</p>
                         </div>
+                        <div class="flex-vertical gap-1em text-size-larger" style="flex: 1; align-items: end">
+                            <a href="{% url 'job_seeker_update' job_seeker_id=job_seeker.id %}">
+                                <button class="button">Изменить профиль</button>
+                            </a>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
                     </div>
                     <div class="flex-vertical gap-1em">
                         <h1 class="title">Контактная информация</h1>

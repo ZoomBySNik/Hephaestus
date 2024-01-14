@@ -148,6 +148,7 @@
     margin: 0;
     border-radius: 2em;
     background: var(--table-bg);
+    box-shadow: 0 0.2em 0.5em 0.1em var(--element-shadow);
 }
 
 .content-block {

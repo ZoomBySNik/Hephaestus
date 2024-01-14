@@ -11,12 +11,18 @@ def organization_create_view(request, *args, **kwargs):
     if request.method == 'POST':
         form = OrganizationForm(request.POST)
         if form.is_valid():
-            address = Address.objects.create(
-                locality=form.cleaned_data['locality'],
-                street=form.cleaned_data['street'],
-                number_of_building=form.cleaned_data['number_of_building'],
-                apartment_number=form.cleaned_data['apartment_number'],
-            )
+            address_data = {
+                'locality': form.cleaned_data['locality'],
+                'street': form.cleaned_data['street'],
+                'number_of_building': form.cleaned_data['number_of_building'],
+                'apartment_number': form.cleaned_data['apartment_number'],
+            }
+            addresses = Address.objects.filter(**address_data)
+
+            if addresses.exists():
+                address = addresses.first()
+            else:
+                address = Address.objects.create(**address_data)
             organization = form.save(commit=False)
             organization.address = address
             organization.save()
@@ -237,7 +243,7 @@ def job_seeker_filter_for_application(request, application_id):
         job_seeker.matching_result = calculate_matching_between_job_seeker_and_application(job_seeker, application)
 
     job_seekers = sorted(job_seekers, key=lambda x: x.matching_result, reverse=True)
-    #job_seekers = [job_seeker for job_seeker in job_seekers if job_seeker.matching_result >= 40]
+    # job_seekers = [job_seeker for job_seeker in job_seekers if job_seeker.matching_result >= 40]
 
     context = {
         'application': application,

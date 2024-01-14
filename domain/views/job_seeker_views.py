@@ -1,24 +1,40 @@
 from datetime import timedelta, date
 from datetime import datetime as dt
 from django import forms
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from domain.forms.job_seekers_forms import *
 from domain.models import *
 
 
-def job_seeker_create_view(request):
+def job_seeker_create_view(request, job_seeker_id=None):
+    job_seeker = get_object_or_404(JobSeeker, id=job_seeker_id) if job_seeker_id else None
+    if job_seeker and job_seeker.birthdate:
+        job_seeker.birthdate = job_seeker.birthdate.strftime('%Y-%m-%d')
     if request.method == 'POST':
-        form = JobSeekerForm(request.POST, request.FILES)
+        form = JobSeekerForm(request.POST, request.FILES, instance=job_seeker)
         if form.is_valid():
-            address = Address.objects.create(
-                locality=form.cleaned_data['locality'],
-            )
+            # Перед сохранением формы, создадим адрес, если его еще нет
+            address_data = {
+                'locality': form.cleaned_data['locality'],
+                # Добавьте другие поля адреса по необходимости
+            }
+            addresses = Address.objects.filter(**address_data)
+
+            if addresses.exists():
+                address = addresses.first()
+            else:
+                address = Address.objects.create(**address_data)
+
             job_seeker = form.save(commit=False)
             job_seeker.address = address
             job_seeker.save()
+
             return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
     else:
-        form = JobSeekerForm()
+        # Если job_seeker_id передан, заполним форму существующими данными
+        form = JobSeekerForm(instance=job_seeker) if job_seeker else JobSeekerForm()
+        if job_seeker_id:
+            form.initial['locality'] = job_seeker.address.locality
     context = {
         'form': form,
     }
@@ -116,15 +132,22 @@ def job_seeker_education_view(request, job_seeker_id):
     if request.method == 'POST':
         form = EducationForm(request.POST)
         if form.is_valid():
-            address = Address.objects.create(
-                locality=form.cleaned_data['education_organization_address_locality']
-            )
-            address.save()
+            address_data = {
+                'locality': form.cleaned_data['education_organization_address_locality']
+            }
+            addresses = Address.objects.filter(**address_data)
+
+            if addresses.exists():
+                address = addresses.first()
+            else:
+                address = Address.objects.create(**address_data)
+
             education_organization = EducationalOrganization(
                 address=address,
                 name=form.cleaned_data['education_organization_name']
             )
             education_organization.save()
+
             education = Education.objects.create(
                 organization=education_organization,
                 name=form.cleaned_data['name'],
@@ -132,6 +155,7 @@ def job_seeker_education_view(request, job_seeker_id):
                 education_level=form.cleaned_data['education_level']
             )
             education.save()
+
             education_job_seeker = EducationOfJobSeeker.objects.create(
                 job_seeker=job_seeker,
                 education=education,

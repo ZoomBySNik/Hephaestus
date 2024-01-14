@@ -14,7 +14,6 @@ class JobSeekerForm(forms.ModelForm):
         exclude = ['address', 'specialization', 'skill', 'about']
         widgets = {
             'birthdate': forms.DateInput(attrs={'type': 'date'}),
-            'about': forms.Textarea(attrs={'rows': 4}),
         }
 
 

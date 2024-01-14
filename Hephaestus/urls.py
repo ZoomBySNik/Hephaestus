@@ -40,6 +40,7 @@ urlpatterns = [
     path('applications/create/employer/<str:employer_id>', application_create_view, name='application_create'),
 
     path('jobseeker/create/', job_seeker_create_view, name='job_seeker_create'),
+    path('jobseeker/update/<str:job_seeker_id>', job_seeker_create_view, name='job_seeker_update'),
     path('jobseeker/view/', job_seeker_all_view, name='job_seeker_list'),
     path('jobseeker/<str:job_seeker_id>', job_seeker_view, name='job_seeker_view'),
     path('jobseeker/<str:job_seeker_id>/skills', skills_view, name='job_seeker_skills'),
