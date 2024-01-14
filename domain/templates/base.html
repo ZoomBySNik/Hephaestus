@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/darkcolors.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lightcolors.css' %}">
     <title>Гефест</title>
 </head>
 <body class="body">
@@ -111,4 +111,16 @@
         }, delay);
     }
 </script>
+<style>
+    @font-face {
+        font-family: 'GagarinStarMixCyrillic';
+        src: local('GagarinStarMixCyrillic'),
+        url('{% static 'fonts/Gagarin Star Mix Cyrillic.ttf' %}') format('truetype');
+    }
+
+    .logo-title {
+        font-family: 'GagarinStarMixCyrillic', sans-serif;
+        font-size: xxx-large;
+    }
+</style>
 </html>

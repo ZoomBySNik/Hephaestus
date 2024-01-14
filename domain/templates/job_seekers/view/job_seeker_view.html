@@ -200,7 +200,11 @@
                                                         {{ work_experience.date_of_employment }}
                                                     </td>
                                                     <td>
+                                                        {% if work_experience.date_of_dismissal %}
                                                         {{ work_experience.date_of_dismissal }}
+                                                        {% else %}
+                                                        -
+                                                        {% endif %}
                                                     </td>
                                                 </tr>
                                             {% endfor %}

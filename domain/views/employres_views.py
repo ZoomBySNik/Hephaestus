@@ -243,7 +243,7 @@ def job_seeker_filter_for_application(request, application_id):
         job_seeker.matching_result = calculate_matching_between_job_seeker_and_application(job_seeker, application)
 
     job_seekers = sorted(job_seekers, key=lambda x: x.matching_result, reverse=True)
-    # job_seekers = [job_seeker for job_seeker in job_seekers if job_seeker.matching_result >= 40]
+    job_seekers = [job_seeker for job_seeker in job_seekers if job_seeker.matching_result >= 50]
 
     context = {
         'application': application,

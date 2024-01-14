@@ -63,7 +63,6 @@
     align-items: center;
     display: flex
 }
-
 .title {
     color: var(--title-color);
     font-size: 2em;
@@ -383,7 +382,6 @@ th:last-child {
 td {
     padding: 0.5em 1em;
     background: var(--td-bg);
-    white-space: nowrap;
     word-wrap: break-word;
     font-size: smaller;
 }
