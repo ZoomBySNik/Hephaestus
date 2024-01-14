@@ -224,6 +224,7 @@ def calculate_matching_between_job_seeker_and_application(job_seeker, applicatio
         software_and_hardware_tool_factor = software_and_hardware_tool_factor / count_of_software_and_hardware_tools
 
     percent = education_factor * specialization_factor * experience_factor * skill_factor * software_and_hardware_tool_factor * 100
+    percent = round(percent, 0)
     return percent
 
 
@@ -236,7 +237,7 @@ def job_seeker_filter_for_application(request, application_id):
         job_seeker.matching_result = calculate_matching_between_job_seeker_and_application(job_seeker, application)
 
     job_seekers = sorted(job_seekers, key=lambda x: x.matching_result, reverse=True)
-    job_seekers = [job_seeker for job_seeker in job_seekers if job_seeker.matching_result >= 60]
+    #job_seekers = [job_seeker for job_seeker in job_seekers if job_seeker.matching_result >= 40]
 
     context = {
         'application': application,

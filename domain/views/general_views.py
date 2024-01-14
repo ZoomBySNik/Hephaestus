@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from domain.models import *
@@ -7,8 +8,10 @@ from domain.models import *
 
 
 def home_view(request, *args, **kwargs):
-    applications_by_new = Application.objects.all().order_by('-date_of_application')[:5]
-    applications_by_final_date = Application.objects.all().order_by('final_date')[:5]
+    applications_by_new = Application.objects.all().order_by('-date_of_application').exclude(
+        Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
+    applications_by_final_date = Application.objects.all().order_by('final_date').exclude(
+        Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
     response = {
         'applications_by_new': applications_by_new,
         'applications_by_final_date': applications_by_final_date
