@@ -50,9 +50,15 @@ class SoftwareAndHardwareToolForm(forms.ModelForm):
 class EducationForm(forms.ModelForm):
     education_organization_name = forms.CharField(max_length=255, label='Образовательная организация',
                                                   error_messages={"required": "Введите наименование организации"})
-    education_organization_address_locality = forms.CharField(max_length=255, label='Адрес образовательной организации',
+    education_organization_address_locality = forms.CharField(max_length=255, label="Населённый пункт",
                                                               error_messages={
-                                                                  "required": "Введите адрес образовательной организации"})
+                                                                  "required": "Введите населённый пункт"})
+    education_organization_address_street = forms.CharField(max_length=255, label='Улица',
+                                                            error_messages={
+                                                                "required": "Введите улицу"})
+    education_organization_address_number_of_building = forms.CharField(max_length=255, label='Номер строения',
+                                                                        error_messages={
+                                                                            "required": "Введите номер строения"})
     name = forms.CharField(max_length=255, label='Наименование специальности',
                            error_messages={"required": "Введите наименование специальности"})
     code = forms.CharField(max_length=9, label='Код специальности',
@@ -63,16 +69,17 @@ class EducationForm(forms.ModelForm):
     class Meta:
         model = EducationOfJobSeeker
         fields = (
-            'education_organization_name', 'education_organization_address_locality', 'name', 'code', 'education_level',
+            'education_organization_name', 'education_organization_address_locality',
+            'education_organization_address_street', 'education_organization_address_number_of_building', 'name',
+            'code', 'education_level',
             'year_received')
 
 
 class WorkExperienceForm(forms.ModelForm):
-
     class Meta:
         model = WorkExperience
         fields = ('organization', 'position', 'date_of_employment', 'date_of_dismissal')
-        exclude = ['job_seeker',]
+        exclude = ['job_seeker', ]
 
         widgets = {
             'date_of_dismissal': forms.DateInput(attrs={'type': 'date'}),

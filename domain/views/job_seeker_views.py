@@ -133,7 +133,9 @@ def job_seeker_education_view(request, job_seeker_id):
         form = EducationForm(request.POST)
         if form.is_valid():
             address_data = {
-                'locality': form.cleaned_data['education_organization_address_locality']
+                'locality': form.cleaned_data['education_organization_address_locality'],
+                'street': form.cleaned_data['education_organization_address_street'],
+                'number_of_building': form.cleaned_data['education_organization_address_street'],
             }
             addresses = Address.objects.filter(**address_data)
 

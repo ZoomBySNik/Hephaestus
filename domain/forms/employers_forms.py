@@ -45,7 +45,7 @@ class ApplicationForm(forms.ModelForm):
     specialization = forms.ModelChoiceField(queryset=Specialization.objects.all(), label='Специализация')
     education_level = forms.ModelChoiceField(queryset=EducationLevel.objects.all(), required=False,
                                              label='Уровень образования')
-    salary = forms.CharField(max_length=255, label='Зарплата')
+    salary = forms.CharField(max_length=255, label='Зарплата (руб.)')
     desired_date = forms.DateField(label='Желательный срок исполнения', widget=forms.DateInput(attrs={'type': 'date', 'min': min_desired_date}),)
     final_date = forms.DateField(label='Последний срок исполнения', widget=forms.DateInput(attrs={'type': 'date', 'min': min_final_date}),)
     skills = forms.ModelMultipleChoiceField(queryset=Skill.objects.all(), widget=forms.CheckboxSelectMultiple,
