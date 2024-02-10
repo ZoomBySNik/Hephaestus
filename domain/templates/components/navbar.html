@@ -33,15 +33,9 @@
                 </div>
             </button>
             <button class="button">
-                Справочники
-                <img src="{% static 'icons/arrow-down.svg' %}" class="icon">
-                <div class="expanded">
-                    <div class="expanded-block flex-vertical">
-                        <a href="{% url 'references' %}" class="expanded-link">Просмотр справочников</a>
-                        <a href="{% url 'references' 'SoftwareAndHardwareTool' %}" class="expanded-link">Справочник "Программно-техническое средство"</a>
-                        <a href="{% url 'references' 'Skill' %}" class="expanded-link">Справочник "Навык"</a>
-                    </div>
-                </div>
+                <a href="{% url 'references' %}" class="expanded-link">
+                    Справочники
+                </a>
             </button>
         </div>
         <div class="nav-part flex-horizontal gap-1em">
