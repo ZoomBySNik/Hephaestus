@@ -28,9 +28,14 @@
                         <tr>
                             <td>{{ application.date_of_application }}</td>
                             <td>{{ application.employer.name }} {{ application.employer.surname }}</td>
-                            <td>{{ application.employer.organization.organizational_legal_form }} "{{ application.employer.organization.name }}"</td>
+                            <td>{{ application.employer.organization.organizational_legal_form }}
+                                "{{ application.employer.organization.name }}"
+                            </td>
                             <td>{{ application.position }}</td>
-                            <td><a href="{% url 'applications_view_detail' application.id %}" style="width: 100%; height: 100%; display: inline-block">--></a></td>
+                            <td><a href="{% url 'applications_view_detail' application.id %}"
+                                   style="width: 100%; height: 100%; display: inline-block">
+                                <button class="button"><img src="{% static 'icons/arrow_forward.svg' %}" class="icon"></button>
+                            </a></td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -56,9 +61,16 @@
                         <tr>
                             <td>{{ application.final_date }}</td>
                             <td>{{ application.employer.name }} {{ application.employer.surname }}</td>
-                            <td>{{ application.employer.organization.organizational_legal_form }} "{{ application.employer.organization.name }}"</td>
+                            <td>{{ application.employer.organization.organizational_legal_form }}
+                                "{{ application.employer.organization.name }}"
+                            </td>
                             <td>{{ application.position }}</td>
-                            <td><a href="{% url 'applications_view_detail' application.id %}" style="width: 100%; height: 100%; display: inline-block">--></a></td>
+                            <td><a href="{% url 'applications_view_detail' application.id %}"
+                                   style="width: 100%; height: 100%; display: inline-block">
+                                <button class="button"><img
+                                        src="{% static 'icons/arrow_forward.svg' %}" class="icon">
+                                </button>
+                            </a></td>
                         </tr>
                     {% endfor %}
                 </table>

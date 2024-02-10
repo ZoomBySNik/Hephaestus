@@ -33,7 +33,6 @@
     align-items: center;
     border-radius: 0 0 1.4em 1.4em;
     background: var(--table-bg);
-    box-shadow: 0 0.2em 0.5em 0.1em var(--element-shadow);
 }
 
 .nav-part {
@@ -81,7 +80,7 @@
     align-items: center;
     border-style: none;
     border-radius: 0.4em;
-    background: var(--button-bg);
+    background: var(--td-bg);
     padding: 0.4em 1em;
     gap: 0.2em;
     box-shadow: 0 0 0.5em 0.1em var(--element-shadow);
@@ -93,12 +92,8 @@
     text-align: center;
 }
 
-.icon {
-    filter: brightness(0) saturate(100%) invert(79%) sepia(16%) saturate(8%) hue-rotate(316deg) brightness(90%) contrast(87%);
-}
-
 .button:hover {
-    background: var(--common-bg);
+    background: var(--table-bg);
     box-shadow: 0 0 0.6em 0.2em var(--shadow-next);
     color: var(--text-hover);
     text-shadow: 0 0 0.07em var(--text-hover);
@@ -116,7 +111,7 @@
 
 .expanded-block {
     align-items: flex-start;
-    background: var(--common-bg);
+    background: var(--table-bg);
     padding: 0.8em 1em;
     border-radius: 0.4em;
     gap: 0.4em;
@@ -147,7 +142,6 @@
     margin: 0;
     border-radius: 2em;
     background: var(--table-bg);
-    box-shadow: 0 0.2em 0.5em 0.1em var(--element-shadow);
 }
 
 .content-block {
@@ -166,7 +160,7 @@
     flex: 1;
     padding: 1em;
     text-align: center;
-    background: var(--th-bg);
+    background: var(--td-bg);
 }
 
 .splitted-part:hover {
@@ -220,12 +214,12 @@
     border-style: none;
     border-radius: 0.5em;
     padding: 0.2em 0.3em;
-    background: var(--common-bg);
+    background: var(--table-bg);
     box-shadow: 0 0 0.5em 0.15em var(--element-shadow);
 }
 
 .input-field:hover {
-    background: var(--th-bg);
+    background: var(--td-bg);
 }
 
 .input-field:focus {
@@ -235,7 +229,7 @@
     border-style: none;
     border-radius: 0.5em;
     padding: 0.2em 0.3em;
-    background: var(--th-bg);
+    background: var(--td-bg);
     box-shadow: 0 0 0.5em 0.3em var(--element-shadow);
 }
 
@@ -267,12 +261,12 @@
     border-style: none;
     border-radius: 0.5em;
     padding: 0.2em 0.3em;
-    background: var(--common-bg);
+    background: var(--table-bg);
     box-shadow: 0 0 0.5em 0.15em var(--element-shadow);
 }
 
 .input-form p input:hover {
-    background: var(--th-bg);
+    background: var(--td-bg);
 }
 
 .input-form p input:focus {
@@ -283,7 +277,7 @@
     border-style: none;
     border-radius: 0.5em;
     padding: 0.2em 0.3em;
-    background: var(--th-bg);
+    background: var(--td-bg);
     box-shadow: 0 0 0.5em 0.3em var(--element-shadow);
 }
 
@@ -294,7 +288,7 @@
     align-items: center;
     border-style: none;
     border-radius: 0.4em;
-    background: var(--common-bg);
+    background: var(--table-bg);
     padding: 0.2em 1em;
     gap: 0.2em;
     box-shadow: 0 0 0.5em 0.1em var(--element-shadow);
@@ -302,7 +296,7 @@
 
 .input-form p select:hover {
     width: 71%;
-    background: var(--th-bg);
+    background: var(--td-bg);
     box-shadow: 0 0 0.6em 0.2em var(--shadow-next);
     color: var(--text-hover);
     text-shadow: 0 0 0.07em var(--text-hover);
@@ -315,7 +309,7 @@
     align-items: center;
     border-style: none;
     border-radius: 0.4em;
-    background: var(--common-bg);
+    background: var(--table-bg);
     padding: 0.2em 1em;
     gap: 0.2em;
     box-shadow: 0 0 0.5em 0.1em var(--element-shadow);
@@ -365,7 +359,7 @@ button.reject:hover {
 }
 
 th {
-    background: var(--th-bg);
+    background: var(--td-bg);
     padding: 0.5em 1em;
     font-size: smaller;
 }
@@ -495,14 +489,14 @@ tr:hover td {
     object-fit: cover;
     aspect-ratio: 1 / 1;
     width: 5em;
-    background: var(--th-bg);
+    background: var(--td-bg);
 }
 .person-img {
     border-radius: 100%;
     object-fit: cover;
     aspect-ratio: 1 / 1;
     width: 8em;
-    background: var(--th-bg);
+    background: var(--td-bg);
 }
 
 .checkbox-div div {
@@ -531,7 +525,7 @@ tr:hover td {
     visibility: hidden;
 }
 .extra-part{
-    background: var(--th-bg);
+    background: var(--td-bg);
     border-radius: 2em;
     padding: 0.4em;
 }

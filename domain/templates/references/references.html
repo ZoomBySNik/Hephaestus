@@ -45,19 +45,19 @@
                                     <td class="flex-horizontal gap-1em">
                                         <button id="Button_{{ item.id }}_delete" type="submit" name="delete_item"
                                                 class="button reject text-size-smaller">
-                                            Удалить
+                                            <img src="{% static 'icons/delete.svg' %}" class="icon">
                                         </button>
                                         <button id="Button_{{ item.id }}" type="submit"
                                                 class="button submit text-size-smaller"
                                                 style="visibility:hidden">
-                                            Сохранить
+                                            <img src="{% static 'icons/edit.svg' %}" class="icon">
                                         </button>
                                     </td>
                                 </form>
                             </tr>
                         {% endfor %}
                         <tr>
-                            <td class="row-1em">new</td>
+                            <td class="row-1em"></td>
                             <form method="POST" action="{% url 'references' reference %}">
                                 {% csrf_token %}
                                 {% for field in fields_names %}
@@ -70,7 +70,8 @@
                                 {% endfor %}
                                 <td>
                                     <button id="Button_new" type="submit" class="button submit text-size-smaller"
-                                            style="visibility:hidden">Добавить
+                                            style="visibility:hidden">
+                                        <img src="{% static 'icons/save.svg' %}" class="icon">
                                     </button>
                                 </td>
                             </form>
