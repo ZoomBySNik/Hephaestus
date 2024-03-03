@@ -63,15 +63,15 @@
     display: flex
 }
 .title {
-    color: var(--title-color);
+    color: var(--text-color);
     font-size: 2em;
     font-weight: 400;
     word-wrap: break-word;
-    text-shadow: 0 0 0.065em var(--title-color);
+    text-shadow: 0 0 0.065em var(--text-color);
 }
 
 .title:hover {
-    text-shadow: 0 0 0.1em var(--title-color);
+    text-shadow: 0 0 0.1em var(--text-color);
 }
 
 .button {
@@ -240,7 +240,7 @@
 .input-field:-webkit-autofill,
 .input-field:-webkit-autofill:hover,
 .input-field:-webkit-autofill:focus {
-    box-shadow: 0 0 0.5em 0.3em var(--title-color);
+    box-shadow: 0 0 0.5em 0.3em var(--text-color);
 }
 
 .input-form {
@@ -322,7 +322,7 @@
 .input-form p input:-webkit-autofill,
 .input-form p input:-webkit-autofill:hover,
 .input-form p input:-webkit-autofill:focus {
-    box-shadow: 0 0 0.5em 0.3em var(--title-color);
+    box-shadow: 0 0 0.5em 0.3em var(--text-color);
 }
 
 .error-message {
