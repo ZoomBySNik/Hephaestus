@@ -233,14 +233,8 @@
     box-shadow: 0 0 0.5em 0.3em var(--element-shadow);
 }
 
-.input-field:required:invalid {
+.input-field:required:invalid{
     box-shadow: 0 0 0.5em 0.3em var(--reject-bg);
-}
-
-.input-field:-webkit-autofill,
-.input-field:-webkit-autofill:hover,
-.input-field:-webkit-autofill:focus {
-    box-shadow: 0 0 0.5em 0.3em var(--text-color);
 }
 
 .input-form {
@@ -317,12 +311,6 @@
 
 .input-form:not(:valid) p input:required:invalid:focus {
     box-shadow: 0 0 0.5em 0.3em var(--reject-bg);
-}
-
-.input-form p input:-webkit-autofill,
-.input-form p input:-webkit-autofill:hover,
-.input-form p input:-webkit-autofill:focus {
-    box-shadow: 0 0 0.5em 0.3em var(--text-color);
 }
 
 .error-message {
