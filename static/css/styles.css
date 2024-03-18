@@ -13,10 +13,12 @@
 
 .body {
     background: var(--body-bg);
+    background-size: 200% 200%;
     display: block;
     flex-direction: column;
     align-items: center;
     height: 100%;
+    min-height: 200%;
     width: 100%;
 }
 
@@ -518,7 +520,7 @@ tr:hover td {
     padding: 0.4em;
 }
 .extra-part .top-splitter-two{
-    background: linear-gradient(transparent, var(--table-bg)) ;
+    background: linear-gradient(transparent 51%, var(--table-bg) 52%) ;
 }
 .inner-part {
     background: var(--table-bg);

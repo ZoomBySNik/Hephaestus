@@ -20,22 +20,6 @@ class CustomUser(AbstractUser):
         verbose_name_plural = 'Пользователи'
 
 
-class Person(models.Model):
-    surname = models.CharField(max_length=255, blank=False, null=False, verbose_name='Фамилия')
-    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Имя')
-    patronymic = models.CharField(max_length=255, blank=False, null=False, verbose_name='Отчество')
-    email = models.EmailField(blank=False, max_length=254, verbose_name='Почта')
-    phone = models.CharField(max_length=18, blank=False, null=False, verbose_name='Номер телефона')
-    profile_photo = models.ImageField(blank=True, null=True, verbose_name='Фото профиля', upload_to='person_photos')
-
-    def __str__(self):
-        return '%s %s %s' % (self.surname, self.name, self.patronymic)
-
-    class Meta:
-        verbose_name = 'Индивид'
-        verbose_name_plural = 'Индивиды'
-
-
 class OrganizationalLegalForm(models.Model):
     name = models.CharField(max_length=90, blank=False, null=False, verbose_name='Наименование')
     short_name = models.CharField(max_length=10, blank=False, null=False, verbose_name='Краткое наименование')
@@ -83,7 +67,7 @@ class Organization(models.Model):
         verbose_name_plural = 'Организации'
 
 
-class Employer(Person):
+class Employer(CustomUser):
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE,
                                      blank=True, null=True, verbose_name='Организация')
     position = models.CharField(max_length=90, blank=True, null=True, verbose_name='Должность')
@@ -208,7 +192,7 @@ class WorkSchedule(models.Model):
         verbose_name_plural = 'Графики работы'
 
 
-class JobSeeker(Person):
+class JobSeeker(CustomUser):
     birthdate = models.DateField(blank=False, null=False, verbose_name='Дата рождения')
     address = models.ForeignKey('Address', blank=False, null=False, on_delete=models.PROTECT, verbose_name='Адрес')
     skill = models.ManyToManyField('Skill', blank=True, verbose_name='Навыки')
