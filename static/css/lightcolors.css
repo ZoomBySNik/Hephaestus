@@ -1,11 +1,11 @@
 :root {
-    --body-bg: #F2F2F2;
-    --table-bg: #CCCCCC;
-    --hover-bg: #BFBFBF;
-    --td-bg: #B4B4B4;
-    --div-bg: #A8A8A8;
-    --text-color: #333333;
-    --text-hover: #1A1A1A;
+    --body-bg: #ebf2ff;
+    --table-bg: #c2d8fe;
+    --hover-bg: #aecbfe;
+    --td-bg: #86b2fd;
+    --div-bg: #72a5fc;
+    --text-color: #06152e;
+    --text-hover: #030a17;
     --element-shadow: rgba(0, 0, 0, 0.1);
     --shadow-next: rgba(48, 48, 48, 0.3);
 
@@ -21,5 +21,5 @@
 }
 
 .icon {
-    filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(19%) hue-rotate(36deg) brightness(93%) contrast(87%);
+    filter: brightness(0) saturate(100%) invert(5%) sepia(88%) saturate(1658%) hue-rotate(202deg) brightness(99%) contrast(98%);
 }
