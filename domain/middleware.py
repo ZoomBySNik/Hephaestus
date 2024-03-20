@@ -5,7 +5,7 @@ class AllowOnlySpecificPagesMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         # Определите страницы, к которым вы хотите разрешить доступ
-        self.allowed_pages = ['/login/']
+        self.allowed_pages = ['/login/', '/select_user_type/', '/employer-registration/', '/jobseeker-registration/']
 
     def __call__(self, request):
         response = self.get_response(request)

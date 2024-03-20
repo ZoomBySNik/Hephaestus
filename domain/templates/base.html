@@ -16,22 +16,27 @@
     {% endblock %}
 </section>
 </body>
+<script src="{% static 'scripts/phone_mask.js' %}" type="text/javascript"></script>
 <script>
     let timeout;
 
-    $(document).ready(function () {
-        $('#id_phone').on('input', function () {
-            var phoneNumber = $(this).val();
+    $('input[type="tel"]').mask('+7 (999) 999-99-99');
 
-            phoneNumber = phoneNumber.replace(/\D/g, '');
+    $.fn.setCursorPosition = function (pos) {
+        if ($(this).get(0).setSelectionRange) {
+            $(this).get(0).setSelectionRange(pos, pos);
+        } else if ($(this).get(0).createTextRange) {
+            var range = $(this).get(0).createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', pos);
+            range.moveStart('character', pos);
+            range.select();
+        }
+    };
 
-            if (phoneNumber.length > 0) {
-                phoneNumber = '+7 (' + phoneNumber.slice(1, 4) + ') ' +
-                    phoneNumber.slice(4, 7) + '-' + phoneNumber.slice(7, 9) + '-' + phoneNumber.slice(9, 11);
-            }
 
-            $(this).val(phoneNumber);
-        });
+    $('input[type="tel"]').click(function () {
+        $(this).setCursorPosition(4);  // set position number
     });
 
     function toggleSplitter(element) {
