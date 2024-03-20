@@ -1,6 +1,8 @@
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse
+
+from domain.forms.general_forms import *
 from domain.models import *
 
 
@@ -72,3 +74,31 @@ def references_view(request, reference='OrganizationalLegalForm'):
         error_message = f"Справочник {reference} не найден"
         error_page_url = reverse('error_page', kwargs={'error_message': error_message})
         return redirect(error_page_url)
+
+
+def choose_user_type(request):
+    return render(request, 'registration/select_user_type.html')
+
+
+def employer_registration(request):
+    if request.method == 'POST':
+        form = EmployerRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Дополнительные действия, если нужно
+            return redirect('success_page')
+    else:
+        form = EmployerRegistrationForm()
+    return render(request, 'registration/user_registration.html', {'form': form})
+
+
+def jobseeker_registration(request):
+    if request.method == 'POST':
+        form = JobSeekerRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Дополнительные действия, если нужно
+            return redirect('success_page')
+    else:
+        form = JobSeekerRegistrationForm()
+    return render(request, 'registration/user_registration.html', {'form': form})

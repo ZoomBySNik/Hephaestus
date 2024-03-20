@@ -49,7 +49,7 @@ def employers_create_view(request, organization_id):
             return redirect('application_create', employer_id=employer.id)
     else:
         form = EmployerForm()
-    employers = Employer.objects.order_by('surname').filter(organization_id=organization_id)
+    employers = Employer.objects.order_by('first_name').filter(organization_id=organization_id)
     context = {
         'form': form,
         'employers': employers,
@@ -97,12 +97,12 @@ def applications_view(request, ordering='without_archive_by_new'):
     ordering_mas = [
         'without_archive_by_new',
         'without_archive_by_final_date',
-        'without_archive_by_surname_of_employer',
+        'without_archive_by_first_name_of_employer',
     ]
     ordering_mas_archive = [
         'archive_by_new',
         'archive_by_final_date',
-        'archive_by_surname_of_employer',
+        'archive_by_first_name_of_employer',
     ]
 
     if ordering in ordering_mas:

@@ -14,11 +14,11 @@
                         {% csrf_token %}
                         <h1 class="title text-size-larger">Основная информация</h1>
                         <p class="flex-horizontal gap-2em">
-                            <label for="{{ form.surname.id_for_label }}">{{ form.surname.label }}:</label>
-                            {{ form.surname }}
-                            <label for="{{ form.name.id_for_label }}"
-                                   style="margin-left: 1em">{{ form.name.label }}:</label>
-                            {{ form.name }}
+                            <label for="{{ form.second_name.id_for_label }}">{{ form.second_name.label }}:</label>
+                            {{ form.second_name }}
+                            <label for="{{ form.first_name.id_for_label }}"
+                                   style="margin-left: 1em">{{ form.first_name.label }}:</label>
+                            {{ form.first_name }}
                             <label for="{{ form.patronymic.id_for_label }}">{{ form.patronymic.label }}:</label>
                             {{ form.patronymic }}
                         </p>
@@ -61,8 +61,8 @@
                                     <div class="person-img-preview"></div>
                                 {% endif %}
                                 <div class="flex-vertical gap-05em">
-                                    <p>{{ employer.surname }}</p>
-                                    <p>{{ employer.name }}</p>
+                                    <p>{{ employer.second_name }}</p>
+                                    <p>{{ employer.first_name }}</p>
                                     <p>{{ employer.patronymic }}</p>
                                 </div>
                                 <div class="flex-vertical gap-05em">

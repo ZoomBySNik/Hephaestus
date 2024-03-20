@@ -198,7 +198,7 @@
 }
 
 .login-container {
-    width: auto;
+    min-width: 68%;
     height: auto;
     border-radius: 2em;
     padding: 3.5em 3em 3em;
@@ -252,6 +252,10 @@
     gap: 2em;
 }
 
+.input-form p label{
+    text-wrap: nowrap;
+}
+
 .input-form p input {
     width: 70%;
     border-style: none;
@@ -261,6 +265,12 @@
     box-shadow: 0 0 0.5em 0.15em var(--element-shadow);
 }
 
+.input-form p span {
+    display: none;
+}
+.input-form ul {
+    display: none;
+}
 .input-form p input:hover {
     background: var(--td-bg);
 }

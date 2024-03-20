@@ -55,6 +55,9 @@ urlpatterns = [
     path('references/<str:reference>/', references_view, name='references'),
 
     path('login/', v.LoginView.as_view(next_page='home'), name='login'),
+    path('select_user_type/', choose_user_type, name='select_user_type'),
+    path('employer-registration/', employer_registration, name='employer_registration'),
+    path('jobseeker-registration/', jobseeker_registration, name='jobseeker_registration'),
     path('logout/', v.LogoutView.as_view(next_page='login'), name='logout'),
 
     path('error_page/<str:error_message>/', error_view, name='error_page'),

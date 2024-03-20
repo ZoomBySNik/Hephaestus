@@ -7,8 +7,8 @@ from domain.models import *
 class EmployerForm(forms.ModelForm):
     position = forms.CharField(max_length=90, label='Должность',
                                error_messages={"required": "Введите должность"})
-    surname = forms.CharField(max_length=90, label='Фамилия', error_messages={"required": "Введите фамилию"})
-    name = forms.CharField(max_length=90, label='Имя', error_messages={"required": "Введите имя"})
+    second_name = forms.CharField(max_length=90, label='Фамилия', error_messages={"required": "Введите фамилию"})
+    first_name = forms.CharField(max_length=90, label='Имя', error_messages={"required": "Введите имя"})
     patronymic = forms.CharField(max_length=90, label='Отчество', error_messages={"required": "Введите отчество"})
     email = forms.EmailField(label='Почта', error_messages={"required": "Введите почту"})
     phone = forms.CharField(max_length=18, label='Номер телефона',
@@ -17,7 +17,7 @@ class EmployerForm(forms.ModelForm):
 
     class Meta:
         model = Employer
-        fields = ('surname', 'name', 'patronymic', 'phone', 'email', 'profile_photo')
+        fields = ('second_name', 'first_name', 'patronymic', 'phone', 'email', 'profile_photo')
 
 
 class OrganizationForm(forms.ModelForm):

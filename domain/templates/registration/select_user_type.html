@@ -1,0 +1,30 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lightcolors.css' %}">
+    <link rel="icon" href="{% static 'icons/favicon.png' %}">
+    <title>Login</title>
+</head>
+<body class="body">
+<section class="main">
+    <div class="to_center flex-horizontal">
+        <div class="login-container flex-vertical gap-3em">
+            <h1 class="title">Выберите тип пользователя</h1>
+            <div class="flex-horizontal gap-1em">
+                <a href="{% url 'jobseeker_registration' %}">
+                <button class="button">Соискатель</button>
+                </a>
+                <a href="{% url 'employer_registration' %}">
+                    <button class="button">Работодатель</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+</body>
+</html>

@@ -10,11 +10,11 @@
                         {% csrf_token %}
                         <h1 class="title text-size-larger">Основная информация</h1>
                         <p class="flex-horizontal gap-2em">
-                            <label for="{{ form.surname.id_for_label }}">{{ form.surname.label }}:</label>
-                            {{ form.surname }}
-                            <label for="{{ form.name.id_for_label }}"
-                                   style="margin-left: 1em">{{ form.name.label }}:</label>
-                            {{ form.name }}
+                            <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}:</label>
+                            {{ form.last_name }}
+                            <label for="{{ form.first_name.id_for_label }}"
+                                   style="margin-left: 1em">{{ form.first_name.label }}:</label>
+                            {{ form.first_name }}
                             <label for="{{ form.patronymic.id_for_label }}">{{ form.patronymic.label }}:</label>
                             {{ form.patronymic }}
                         </p>
@@ -28,8 +28,8 @@
                         </p>
                         <h1 class="title padding-top-1em text-size-larger">Контакты</h1>
                         <p>
-                            <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}:</label>
-                            {{ form.phone }}
+                            <label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}:</label>
+                            {{ form.phone_number }}
                         </p>
                         <p>
                             <label for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>

@@ -73,7 +73,7 @@ class Employer(CustomUser):
     position = models.CharField(max_length=90, blank=True, null=True, verbose_name='Должность')
 
     def __str__(self):
-        return '%s %s' % (self.surname, self.name)
+        return '%s %s' % (self.last_name, self.first_name)
 
     class Meta:
         verbose_name = 'Работодатель'
@@ -200,7 +200,7 @@ class JobSeeker(CustomUser):
     about = models.TextField(blank=True, null=True, verbose_name='Описание профиля')
 
     def __str__(self):
-        return '%s %s %s' % (self.surname, self.name, self.birthdate.isoformat())
+        return '%s %s %s' % (self.last_name, self.first_name, self.birthdate.isoformat())
 
     class Meta:
         verbose_name = 'Соискатель'
