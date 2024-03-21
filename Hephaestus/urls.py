@@ -59,6 +59,7 @@ urlpatterns = [
     path('employer-registration/', employer_registration, name='employer_registration'),
     path('jobseeker-registration/', jobseeker_registration, name='jobseeker_registration'),
     path('logout/', v.LogoutView.as_view(next_page='login'), name='logout'),
+    path('profile/', profile, name='user_profile'),
 
     path('error_page/<str:error_message>/', error_view, name='error_page'),
 ]

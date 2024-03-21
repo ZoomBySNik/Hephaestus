@@ -193,8 +193,8 @@ class WorkSchedule(models.Model):
 
 
 class JobSeeker(CustomUser):
-    birthdate = models.DateField(blank=False, null=False, verbose_name='Дата рождения')
-    address = models.ForeignKey('Address', blank=False, null=False, on_delete=models.PROTECT, verbose_name='Адрес')
+    birthdate = models.DateField(blank=True, null=True, verbose_name='Дата рождения')
+    address = models.ForeignKey('Address', blank=True, null=True, on_delete=models.PROTECT, verbose_name='Адрес')
     skill = models.ManyToManyField('Skill', blank=True, verbose_name='Навыки')
     specialization = models.ManyToManyField('Specialization', blank=True, verbose_name='Специализация')
     about = models.TextField(blank=True, null=True, verbose_name='Описание профиля')

@@ -198,7 +198,7 @@
 }
 
 .login-container {
-    min-width: 68%;
+    width: auto;
     height: auto;
     border-radius: 2em;
     padding: 3.5em 3em 3em;
@@ -207,12 +207,14 @@
 }
 
 .input-line {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    gap: 2em;
 }
 
 .input-field {
+    width: 70%;
     border-style: none;
     border-radius: 0.5em;
     padding: 0.2em 0.3em;
@@ -226,8 +228,9 @@
 
 .input-field:focus {
     all: unset;
-    font-size: inherit;
+    width: 70%;
     align-items: center;
+    font-size: inherit;
     border-style: none;
     border-radius: 0.5em;
     padding: 0.2em 0.3em;

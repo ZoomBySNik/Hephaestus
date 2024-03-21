@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -85,8 +87,14 @@ def employer_registration(request):
         form = EmployerRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # Дополнительные действия, если нужно
-            return redirect('success_page')
+            # Аутентификация пользователя после регистрации
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+            # Переход на страницу с ФИО зарегистрированного пользователя
+            return redirect('user_profile')  # Замените 'user_profile' на URL вашей страницы профиля
     else:
         form = EmployerRegistrationForm()
     return render(request, 'registration/user_registration.html', {'form': form})
@@ -97,8 +105,20 @@ def jobseeker_registration(request):
         form = JobSeekerRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # Дополнительные действия, если нужно
-            return redirect('success_page')
+            # Аутентификация пользователя после регистрации
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+            # Переход на страницу с ФИО зарегистрированного пользователя
+            return redirect('user_profile')  # Замените 'user_profile' на URL вашей страницы профиля
     else:
         form = JobSeekerRegistrationForm()
     return render(request, 'registration/user_registration.html', {'form': form})
+
+
+@login_required
+def profile(request):
+    user = request.user
+    return render(request, 'profile.html', {'user': user})
