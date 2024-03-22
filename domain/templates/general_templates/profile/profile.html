@@ -8,8 +8,8 @@
             <div class="content-box flex-vertical gap-1em">
                 <div class="content flex-vertical gap-2em" style="padding: 2em 4em;">
                     <div class="flex-horizontal gap-1em">
-                        {% if job_seeker.profile_photo %}
-                            <img class="person-img" src="/media/{{ MEDIA_URL }}{{ job_seeker.profile_photo }}">
+                        {% if user.profile_photo %}
+                            <img class="person-img" src="/media/{{ MEDIA_URL }}{{ user.profile_photo }}">
                         {% else %}
                             <div class="person-img"></div>
                         {% endif %}

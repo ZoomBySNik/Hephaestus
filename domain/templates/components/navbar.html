@@ -3,21 +3,23 @@
     <div class="nav-bar flex-horizontal gap-1em">
         <div class="nav-part flex-horizontal gap-1em">
             <a href="{% url 'home' %}">
-            <div class="flex-horizontal gap-1em">
-                <div class="logo-container">
-                    <img src="{% static 'images/logo.png' %}" class="logo"/>
+                <div class="flex-horizontal gap-1em">
+                    <div class="logo-container">
+                        <img src="{% static 'images/logo.png' %}" class="logo"/>
+                    </div>
+                    <div class="title" style="padding-right: 3em;">Гефест</div>
                 </div>
-                <div class="title" style="padding-right: 3em;">Гефест</div>
-            </div>
-                </a>
+            </a>
             <div class="button">
                 Работодатели
                 <img src="{% static 'icons/arrow-down.svg' %}" class="icon">
                 <div class="expanded">
                     <div class="expanded-block flex-vertical">
                         <a href="{% url 'organization_create' %}" class="expanded-link">Создать заявку</a>
-                        <a href="{% url 'applications_view' 'without_archive_by_final_date' %}" class="expanded-link">Просмотр текущих заявок</a>
-                        <a href="{% url 'applications_view' 'archive_by_final_date' %}" class="expanded-link">Просмотр архивных заявок</a>
+                        <a href="{% url 'applications_view' 'without_archive_by_final_date' %}" class="expanded-link">Просмотр
+                            текущих заявок</a>
+                        <a href="{% url 'applications_view' 'archive_by_final_date' %}" class="expanded-link">Просмотр
+                            архивных заявок</a>
                     </div>
                 </div>
             </div>
@@ -38,9 +40,13 @@
                 </a>
             </button>
         </div>
-        <div class="nav-part flex-horizontal gap-1em">
+        <div class="nav-part flex-horizontal gap-2em">
             <a href="{% url 'user_profile' %}">
-                <h2 class="text1">{{ user.last_name }} {{ user.first_name }} {{ user.patronymic }}</h2>
+                {% if user.profile_photo %}
+                    <img class="person-img" src="/media/{{ MEDIA_URL }}{{ user.profile_photo }}" style="width: 3em">
+                {% else %}
+                    <div class="person-img" style="width: 3em"></div>
+                {% endif %}
             </a>
             <a href="{% url 'logout' %}">
                 <img src="{% static 'icons/logout.svg' %}" class="logout-button"/>
