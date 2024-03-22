@@ -118,7 +118,50 @@ def jobseeker_registration(request):
     return render(request, 'registration/user_registration.html', {'form': form})
 
 
+def get_user_type(user_id):
+    try:
+        job_seeker = JobSeeker.objects.get(id=user_id)
+        user_type = 'job_seeker'
+    except JobSeeker.DoesNotExist:
+        try:
+            employer = Employer.objects.get(id=user_id)
+            user_type = 'employer'
+        except Employer.DoesNotExist:
+            try:
+                employee = Employee.objects.get(id=user_id)
+                user_type = 'employee'
+            except Employee.DoesNotExist:
+                return None, 'not_found'
+    return user_type
+
+
+def get_user_data(user_id):
+    user_type = get_user_type(user_id)
+    if user_type == 'job_seeker':
+        try:
+            return JobSeeker.objects.get(id=user_id)
+        except JobSeeker.DoesNotExist:
+            return None
+    elif user_type == 'employer':
+        try:
+            return Employer.objects.get(id=user_id)
+        except Employer.DoesNotExist:
+            return None
+    elif user_type == 'employee':
+        try:
+            return Employee.objects.get(id=user_id)
+        except Employee.DoesNotExist:
+            return None
+    else:
+        return None
+
+
 @login_required
 def profile(request):
     user = request.user
-    return render(request, 'general_templates/profile/profile.html', {'user': user})
+    user_type = get_user_type(user.id)
+    data = get_user_data(user.id)
+    context = {'user': user,
+               'data': data,
+               'user_type': user_type}
+    return render(request, 'general_templates/profile/profile.html', context)

@@ -1,0 +1,145 @@
+{% load static %}
+{% block content %}
+    <div class="flex-vertical extra-part">
+        <div class="top-splitter-two flex-horizontal">
+            <div class="splitted-part left active" onclick="toggleSplitter(this)">Профессиональные
+                качества
+            </div>
+            <div class="splitted-part right" onclick="toggleSplitter(this)">Публикации</div>
+        </div>
+        <div class="flex-vertical gap-1em inner-part">
+            <div class="content flex-vertical gap-3em active-content" style="padding: 2em 4em;">
+                <div class="flex-vertical gap-2em">
+                    <div class="flex-vertical gap-1em">
+                        <h1 class="title" style="font-size: xx-large">Навыки:</h1>
+                        {% if data.skill.exists %}
+                            <table class="table">
+                                <tr>
+                                    <th>№</th>
+                                    <th>Наименование</th>
+                                </tr>
+                                {% for skill in data.skill.all %}
+                                    <tr>
+                                        <td>
+                                            {{ forloop.counter }}
+                                        </td>
+                                        <td>
+                                            {{ skill.name }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <p class="error-message">Вы пока не добавили навыки</p>
+                        {% endif %}
+                        <a href="#">
+                            <button class="button submit">Изменить навыки</button>
+                        </a>
+                    </div>
+                    <div class="flex-vertical gap-1em">
+                        <h1 class="title" style="font-size: xx-large">Специализации:</h1>
+                        {% if data.specialization.exists %}
+                            <table class="table">
+                                <tr>
+                                    <th>№</th>
+                                    <th>Наименование</th>
+                                </tr>
+                                {% for specialization in data.specialization.all %}
+                                    <tr>
+                                        <td>
+                                            {{ forloop.counter }}
+                                        </td>
+                                        <td>
+                                            {{ specialization.name }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <p class="error-message">Вы пока не добавили специализаций</p>
+                        {% endif %}
+                        <a href="{% url 'job_seeker_specializations' data.id %}">
+                            <button class="button submit">Изменить специализации</button>
+                        </a>
+                    </div>
+                    <div class="flex-vertical gap-1em">
+                        <h1 class="title" style="font-size: xx-large">Программно-технические средства:</h1>
+                        {% if data.softwareandhardwaretoolofjobseeker_set.exists %}
+                            <table class="table">
+                                <tr>
+                                    <th>№</th>
+                                    <th>Наименование</th>
+                                </tr>
+                                {% for software_and_hardware_tool in data.softwareandhardwaretoolofjobseeker_set.all %}
+                                    <tr>
+                                        <td>
+                                            {{ forloop.counter }}
+                                        </td>
+                                        <td>
+                                            {{ software_and_hardware_tool.software_and_hardware_tool.name }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <p class="error-message">Вы пока не добавили программно-технических средств</p>
+                        {% endif %}
+                        <a href="{% url 'job_seeker_software_and_hardware_tools' data.id %}">
+                            <button class="button submit">Изменить программно технические средства</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="flex-vertical gap-2em">
+                    <h1 class="title">Данные об образовании</h1>
+                    <div class="flex-vertical gap-1em">
+                        <h1 class="title" style="font-size: xx-large">Образование:</h1>
+                        {% if data.educationofjobseeker_set.exists %}
+                            <table class="table">
+                                <tr>
+                                    <th>№</th>
+                                    <th>Наименование</th>
+                                    <th>Код</th>
+                                    <th>Уровень образования</th>
+                                    <th>Учебное заведение</th>
+                                    <th>Год получения образования</th>
+                                </tr>
+                                {% for education in data.educationofjobseeker_set.all %}
+                                    <tr>
+                                        <td>
+                                            {{ forloop.counter }}
+                                        </td>
+                                        <td>
+                                            {{ education.education.name }}
+                                        </td>
+                                        <td>
+                                            {{ education.education.code }}
+                                        </td>
+                                        <td>
+                                            {{ education.education.education_level.name }}
+                                        </td>
+                                        <td>
+                                            {{ education.education.organization.name }}
+                                        </td>
+                                        <td>
+                                            {{ education.year_received }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <p class="error-message">Вы пока не добавили образование</p>
+                        {% endif %}
+                        <a href="{% url 'job_seeker_education' data.id %}">
+                            <button class="button submit">Добавить образование</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="content flex-vertical gap-3em inactive-content" style="padding: 2em 4em;">
+                    <a href="#">
+                        <button class="button submit">Создать новую публикацию</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
