@@ -3,10 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/lightcolors.css' %}">
-    <link rel="icon" href="{% static 'icons/favicon.png' %}">
+    {% include 'components/links_includer.html' %}
     <title>Гефест</title>
 </head>
 <body class="body">
@@ -16,106 +13,7 @@
     {% endblock %}
 </section>
 </body>
-<script src="{% static 'scripts/phone_mask.js' %}" type="text/javascript"></script>
-<script>
-    let timeout;
-
-    $('input[type="tel"]').mask('+7 (999) 999-99-99');
-
-    $.fn.setCursorPosition = function (pos) {
-        if ($(this).get(0).setSelectionRange) {
-            $(this).get(0).setSelectionRange(pos, pos);
-        } else if ($(this).get(0).createTextRange) {
-            var range = $(this).get(0).createTextRange();
-            range.collapse(true);
-            range.moveEnd('character', pos);
-            range.moveStart('character', pos);
-            range.select();
-        }
-    };
-
-    $('input[type="tel"]').click(function () {
-        $(this).setCursorPosition(4);  // set position number
-    });
-
-    function toggleSplitter(element) {
-        const parent = element.parentElement.parentElement;
-        const leftPart = parent.querySelector('.left');
-        const rightPart = parent.querySelector('.right');
-
-        const lowerDivActive = parent.querySelector('.active-content');
-        const lowerDivInactive = parent.querySelector('.inactive-content');
-
-        if (leftPart.classList.contains('active')) {
-            rightPart.classList.add('active');
-            leftPart.classList.remove('active');
-        } else {
-            leftPart.classList.add('active');
-            rightPart.classList.remove('active');
-
-        }
-        lowerDivActive.classList.remove('active-content');
-        lowerDivActive.classList.add('inactive-content');
-        lowerDivInactive.classList.remove('inactive-content');
-        lowerDivInactive.classList.add('active-content');
-    }
-
-    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-    checkboxes.forEach(function (checkbox) {
-        checkbox.addEventListener('change', function () {
-            var parentDiv = this.parentNode.parentNode;
-            if (this.checked) {
-                parentDiv.classList.add("selected");
-            } else {
-                parentDiv.classList.remove("selected");
-            }
-
-            var checkboxesDiv = parentDiv.parentElement;
-            checkboxesDiv.insertBefore(parentDiv, checkboxesDiv.firstChild);
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(function (checkbox) {
-            if (checkbox.checked) {
-                checkbox.parentNode.parentNode.classList.add('selected');
-            }
-        });
-    });
-
-    function filterResults(input) {
-        clearTimeout(timeout);
-
-        var inputValue = input.value.toLowerCase();
-
-        var container = input.parentNode.parentNode;
-        var delay = 500;
-
-        timeout = setTimeout(function () {
-            var results = container.querySelectorAll('[id^="search_results"]');
-
-            var resultsFound = false;
-
-            results.forEach(function (result) {
-                var textContent = Array.from(result.querySelectorAll('p')).map(function (p) {
-                    return p.textContent.toLowerCase();
-                }).join(' ');
-
-                if (textContent.includes(inputValue)) {
-                    result.style.display = 'block';
-                    resultsFound = true;
-                } else {
-                    result.style.display = 'none';
-                }
-            });
-
-            var noResultsMessage = container.querySelector('[id="noResultsMessage"]');
-            noResultsMessage.style.display = resultsFound ? 'none' : 'block';
-        }, delay);
-    }
-</script>
+{% include 'components/scripts.html' %}
 <style>
     @font-face {
         font-family: 'GagarinStarMixCyrillic';

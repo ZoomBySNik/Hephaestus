@@ -1,18 +1,7 @@
-{% load static %}
+{% extends 'registration/registration_base.html' %}
 {% load widget_tweaks %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/lightcolors.css' %}">
-    <link rel="icon" href="{% static 'icons/favicon.png' %}">
-    <title>Login</title>
-</head>
-<body class="body">
-<section class="main">
-    <div class="to_center flex-horizontal">
-        <div class="login-container flex-vertical gap-1em">
+{% load static %}
+{% block content %}
             <h1 class="title">Вход</h1>
             <form method="POST" action="{% url 'login' %}">
                 {% csrf_token %}
@@ -37,7 +26,4 @@
                 </div>
             </form>
         </div>
-    </div>
-</section>
-</body>
-</html>
+{% endblock %}
