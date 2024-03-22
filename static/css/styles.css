@@ -27,7 +27,10 @@
 }
 
 .nav-bar {
+    z-index: 1000;
+    position: -webkit-sticky;
     position: sticky;
+    top: 0;
     height: 100%;
     margin: auto;
     padding: 0.5em 6em;
@@ -35,6 +38,7 @@
     align-items: center;
     border-radius: 0 0 1.4em 1.4em;
     background: var(--table-bg);
+    filter: drop-shadow(0 0 0.9em var(--element-shadow));
 }
 
 .nav-part {
@@ -49,7 +53,7 @@
 }
 
 .logout-button:hover {
-    filter: drop-shadow(0 0 0.8em #FF3838) brightness(0) saturate(100%) invert(46%) sepia(91%) saturate(4760%) hue-rotate(339deg) brightness(102%) contrast(104%);;
+    filter: drop-shadow(0 0 0.8em var(--error-color)) brightness(0) saturate(100%) invert(46%) sepia(91%) saturate(4760%) hue-rotate(339deg) brightness(102%) contrast(104%);
 }
 
 .logo {
@@ -144,6 +148,7 @@
     margin: 0;
     border-radius: 2em;
     background: var(--table-bg);
+    filter: drop-shadow(0 0 0.9em var(--element-shadow));
 }
 
 .content-block {
@@ -359,6 +364,7 @@ button.reject:hover {
     border-radius: 1.5em;
     table-layout: auto;
     background: var(--table-bg);
+    filter: drop-shadow(0 0 0.9em var(--element-shadow));
 }
 
 th {
@@ -531,9 +537,10 @@ tr:hover td {
     background: var(--td-bg);
     border-radius: 2em;
     padding: 0.4em;
+    filter: drop-shadow(0 0 0.9em var(--element-shadow));
 }
 .extra-part .top-splitter-two{
-    background: linear-gradient(transparent 51%, var(--table-bg) 52%) ;
+    background: linear-gradient(transparent 51.5%, var(--table-bg) 52%);
 }
 .inner-part {
     background: var(--table-bg);
