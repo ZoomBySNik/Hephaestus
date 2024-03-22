@@ -34,7 +34,7 @@ def organization_create_view(request, *args, **kwargs):
         'form': form,
         'organizations': organizations_list
     }
-    return render(request, 'employers/create/organization_create.html', context)
+    return render(request, 'employees_templates/employers/create/organization_create.html', context)
 
 
 def employers_create_view(request, organization_id):
@@ -55,7 +55,7 @@ def employers_create_view(request, organization_id):
         'employers': employers,
         'organization': organization,
     }
-    return render(request, 'employers/create/employers_create.html', context)
+    return render(request, 'employees_templates/employers/create/employers_create.html', context)
 
 
 def application_create_view(request, employer_id):
@@ -77,7 +77,7 @@ def application_create_view(request, employer_id):
         'employer': employer,
         'form': form
     }
-    return render(request, 'employers/create/application_create.html', context)
+    return render(request, 'employees_templates/employers/create/application_create.html', context)
 
 
 def get_russian_status(status):
@@ -129,7 +129,7 @@ def applications_view(request, ordering='without_archive_by_new'):
     context = {
         'applications': applications,
     }
-    return render(request, 'employers/view/applications_view.html', context)
+    return render(request, 'employees_templates/employers/view/applications_view.html', context)
 
 
 def get_russian_status_in_responses(status):
@@ -173,7 +173,7 @@ def application_detail_view(request, application_id):
         'application_responses': application_responses,
         'form': form,
     }
-    return render(request, 'employers/view/application_view_detail.html', context)
+    return render(request, 'employees_templates/employers/view/application_view_detail.html', context)
 
 
 def calculate_matching_between_job_seeker_and_application(job_seeker, application):
@@ -250,7 +250,7 @@ def job_seeker_filter_for_application(request, application_id):
         'application_responses': application_responses,
         'job_seekers': job_seekers
     }
-    return render(request, 'employers/view/job_seekers_filter.html', context)
+    return render(request, 'employees_templates/employers/view/job_seekers_filter.html', context)
 
 
 def add_job_seeker_for_application(request, application_id, job_seeker_id):

@@ -20,7 +20,7 @@ def home_view(request, *args, **kwargs):
         'applications_by_new': applications_by_new,
         'applications_by_final_date': applications_by_final_date
     }
-    return render(request, 'home/home.html', response)
+    return render(request, 'employees_templates/home/home.html', response)
 
 
 def error_view(request, *args):
@@ -71,7 +71,7 @@ def references_view(request, reference='OrganizationalLegalForm'):
             'reference': reference
         }
 
-        return render(request, 'references/references.html', response)
+        return render(request, 'employees_templates/references/references.html', response)
     else:
         error_message = f"Справочник {reference} не найден"
         error_page_url = reverse('error_page', kwargs={'error_message': error_message})
@@ -121,4 +121,4 @@ def jobseeker_registration(request):
 @login_required
 def profile(request):
     user = request.user
-    return render(request, 'profile.html', {'user': user})
+    return render(request, 'general_templates/profile/profile.html', {'user': user})

@@ -38,7 +38,7 @@ def job_seeker_create_view(request, job_seeker_id=None):
     context = {
         'form': form,
     }
-    return render(request, 'job_seekers/create/job_seekers_create.html', context)
+    return render(request, 'employees_templates/job_seekers/create/job_seekers_create.html', context)
 
 
 def job_seeker_all_view(request):
@@ -46,7 +46,7 @@ def job_seeker_all_view(request):
     context = {
         'job_seekers': job_seekers,
     }
-    return render(request, 'job_seekers/view/job_seekers_all_view.html', context)
+    return render(request, 'employees_templates/job_seekers/view/job_seekers_all_view.html', context)
 
 
 def job_seeker_view(request, job_seeker_id):
@@ -57,7 +57,7 @@ def job_seeker_view(request, job_seeker_id):
         'job_seeker': job_seeker,
         'work_experiences': work_experiences,
     }
-    return render(request, 'job_seekers/view/job_seeker_view.html', context)
+    return render(request, 'employees_templates/job_seekers/view/job_seeker_view.html', context)
 
 
 def skills_view(request, job_seeker_id):
@@ -75,7 +75,7 @@ def skills_view(request, job_seeker_id):
         'job_seeker': job_seeker,
         'form': form,
     }
-    return render(request, 'job_seekers/create/skills_create.html', context)
+    return render(request, 'employees_templates/job_seekers/create/skills_create.html', context)
 
 
 def specialization_view(request, job_seeker_id):
@@ -93,7 +93,7 @@ def specialization_view(request, job_seeker_id):
         'job_seeker': job_seeker,
         'form': form,
     }
-    return render(request, 'job_seekers/create/specialization_create.html', context)
+    return render(request, 'employees_templates/job_seekers/create/specialization_create.html', context)
 
 
 def software_and_hardware_tools_view(request, job_seeker_id):
@@ -124,7 +124,7 @@ def software_and_hardware_tools_view(request, job_seeker_id):
         'job_seeker': job_seeker,
         'form': form,
     }
-    return render(request, 'job_seekers/create/software_and_hardware_tools_create.html', context)
+    return render(request, 'employees_templates/job_seekers/create/software_and_hardware_tools_create.html', context)
 
 
 def job_seeker_education_view(request, job_seeker_id):
@@ -172,7 +172,7 @@ def job_seeker_education_view(request, job_seeker_id):
         'job_seeker': job_seeker,
         'form': form,
     }
-    return render(request, 'job_seekers/create/education_create.html', context)
+    return render(request, 'employees_templates/job_seekers/create/education_create.html', context)
 
 
 def job_seeker_work_experience_view(request, job_seeker_id):
@@ -196,4 +196,4 @@ def job_seeker_work_experience_view(request, job_seeker_id):
         'job_seeker': job_seeker,
         'form': form,
     }
-    return render(request, 'job_seekers/create/work_experience.html', context)
+    return render(request, 'employees_templates/job_seekers/create/work_experience.html', context)

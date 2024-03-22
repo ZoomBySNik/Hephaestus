@@ -39,7 +39,9 @@
             </button>
         </div>
         <div class="nav-part flex-horizontal gap-1em">
-            <h2 class="text1">{{ user.last_name }} {{ user.first_name }} {{ user.patronymic }}</h2>
+            <a href="{% url 'user_profile' %}">
+                <h2 class="text1">{{ user.last_name }} {{ user.first_name }} {{ user.patronymic }}</h2>
+            </a>
             <a href="{% url 'logout' %}">
                 <img src="{% static 'icons/logout.svg' %}" class="logout-button"/>
             </a>

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            <h1 class="title">Профиль</h1>
+            <div class="content-box flex-vertical gap-1em">
+                <div class="content flex-vertical gap-2em" style="padding: 2em 4em;">
+                    <div class="flex-horizontal gap-1em">
+                        {% if job_seeker.profile_photo %}
+                            <img class="person-img" src="/media/{{ MEDIA_URL }}{{ job_seeker.profile_photo }}">
+                        {% else %}
+                            <div class="person-img"></div>
+                        {% endif %}
+                        <div class="flex-vertical gap-1em text-size-larger">
+                            <h1 class="title">
+                                {{ user.last_name }} {{ user.first_name }} {{ user.patronymic }}
+                            </h1>
+                        </div>
+                        <div class="flex-vertical gap-1em text-size-larger" style="flex: 1; align-items: end">
+                            <a href="#">
+                                <button class="button">Изменить профиль</button>
+                            </a>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="flex-vertical gap-1em">
+                        <h1 class="title">Контактная информация</h1>
+                        <div class="flex-vertical gap-05em">
+                            <p class="text1">Номер телефона: {{ user.phone_number }}</p>
+                            <p class="text1">Почта: {{ user.email }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+    </script>
+{% endblock %}
