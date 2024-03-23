@@ -8,11 +8,22 @@
             <div class="content-box flex-vertical gap-1em">
                 <div class="content flex-vertical gap-2em" style="padding: 2em 4em;">
                     <div class="flex-horizontal gap-1em">
-                        {% if user.profile_photo %}
-                            <img class="person-img" src="/media/{{ MEDIA_URL }}{{ user.profile_photo }}">
-                        {% else %}
-                            <div class="person-img"></div>
-                        {% endif %}
+                        <div class="photo-update" onmouseover="showButton()" onmouseout="hideButton()">
+                            {% if user.profile_photo %}
+                                <img id="profile-photo" class="person-img"
+                                     src="/media/{{ MEDIA_URL }}{{ user.profile_photo }}">
+                            {% else %}
+                                <div id="profile-photo" class="person-img"></div>
+                            {% endif %}
+                            <div class="button-container extra-box">
+                                <form id="photoForm" method="post" enctype="multipart/form-data" class="flex-vertical gap-1em" style="">
+                                    <p class="text1">Сменить фото профиля</p>
+                                    {% csrf_token %}
+                                    {{ form.profile_photo }}
+                                    <button type="submit" style="display: none">Сохранить</button>
+                                </form>
+                            </div>
+                        </div>
                         <div class="flex-vertical gap-05em text-size-larger">
                             <h1 class="title">
                                 {{ user.last_name }} {{ user.first_name }} {{ user.patronymic }}
@@ -53,7 +64,46 @@
                     {% include 'general_templates/profile/components/job_seeker_profile.html' %}
                 {% endif %}
             </div>
+        </div>
     </section>
+    <style>
+        .photo-update {
+            position: relative;
+        }
+
+        .profile-photo-container {
+            position: relative;
+        }
+
+        .button-container {
+            position: absolute;
+            bottom: -2em;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+        }
+
+        .photo-update:hover .button-container {
+            display: block;
+        }
+    </style>
     <script>
+        function showButton() {
+            document.getElementById('change-photo-button').style.display = 'block';
+        }
+
+        function hideButton() {
+            document.getElementById('change-photo-button').style.display = 'none';
+        }
+        // Получаем поле выбора изображения
+        let photoInput = document.getElementById('id_profile_photo');
+
+        // Добавляем обработчик события изменения
+        photoInput.addEventListener('change', function () {
+            // Получаем форму
+            let form = document.getElementById('photoForm');
+            // Отправляем форму
+            form.submit();
+        });
     </script>
 {% endblock %}

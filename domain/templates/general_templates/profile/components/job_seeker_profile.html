@@ -2,13 +2,19 @@
 {% block content %}
     <div class="flex-vertical extra-part">
         <div class="top-splitter-two flex-horizontal">
-            <div class="splitted-part left active" onclick="toggleSplitter(this)">Профессиональные
+            <div class="splitted-part left active" onclick="toggleSplitter(this)">Публикации
+            </div>
+            <div class="splitted-part right" onclick="toggleSplitter(this)">Профессиональные
                 качества
             </div>
-            <div class="splitted-part right" onclick="toggleSplitter(this)">Публикации</div>
         </div>
         <div class="flex-vertical gap-1em inner-part">
             <div class="content flex-vertical gap-3em active-content" style="padding: 2em 4em;">
+                <a href="#">
+                    <button class="button submit">Создать новую публикацию</button>
+                </a>
+            </div>
+            <div class="content flex-vertical gap-3em inactive-content" style="padding: 2em 4em;">
                 <div class="flex-vertical gap-2em">
                     <div class="flex-vertical gap-1em">
                         <h1 class="title" style="font-size: xx-large">Навыки:</h1>
@@ -133,11 +139,6 @@
                             <button class="button submit">Добавить образование</button>
                         </a>
                     </div>
-                </div>
-                <div class="content flex-vertical gap-3em inactive-content" style="padding: 2em 4em;">
-                    <a href="#">
-                        <button class="button submit">Создать новую публикацию</button>
-                    </a>
                 </div>
             </div>
         </div>

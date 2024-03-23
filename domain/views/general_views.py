@@ -161,7 +161,15 @@ def profile(request):
     user = request.user
     user_type = get_user_type(user.id)
     data = get_user_data(user.id)
+    if request.method == 'POST':
+        form = PhotoSaveForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_profile')
+    else:
+        form = PhotoSaveForm()
     context = {'user': user,
                'data': data,
-               'user_type': user_type}
+               'user_type': user_type,
+               'form': form}
     return render(request, 'general_templates/profile/profile.html', context)
