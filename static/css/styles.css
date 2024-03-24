@@ -341,6 +341,10 @@
     text-shadow: 0 0 0.1em var(--error-color);
 }
 
+.error-message:hover{
+    text-shadow: 0 0 0.3em var(--error-color);
+}
+
 button.submit {
     background: var(--submit-bg);
     box-shadow: 0 0 0.6em 0.2em var(--submit-shadow);

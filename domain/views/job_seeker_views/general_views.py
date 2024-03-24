@@ -2,75 +2,21 @@ from datetime import timedelta, date
 from datetime import datetime as dt
 from django import forms
 from django.shortcuts import redirect, render, get_object_or_404
+
+from domain.decorators import *
 from domain.forms.job_seekers_forms import *
 from domain.models import *
 
 
-def job_seeker_create_view(request, job_seeker_id=None):
-    job_seeker = get_object_or_404(JobSeeker, id=job_seeker_id) if job_seeker_id else None
-    if job_seeker and job_seeker.birthdate:
-        job_seeker.birthdate = job_seeker.birthdate.strftime('%Y-%m-%d')
-    if request.method == 'POST':
-        form = JobSeekerForm(request.POST, request.FILES, instance=job_seeker)
-        if form.is_valid():
-            # Перед сохранением формы, создадим адрес, если его еще нет
-            address_data = {
-                'locality': form.cleaned_data['locality'],
-                # Добавьте другие поля адреса по необходимости
-            }
-            addresses = Address.objects.filter(**address_data)
-
-            if addresses.exists():
-                address = addresses.first()
-            else:
-                address = Address.objects.create(**address_data)
-
-            job_seeker = form.save(commit=False)
-            job_seeker.address = address
-            job_seeker.save()
-
-            return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
-    else:
-        # Если job_seeker_id передан, заполним форму существующими данными
-        form = JobSeekerForm(instance=job_seeker) if job_seeker else JobSeekerForm()
-        if job_seeker_id:
-            form.initial['locality'] = job_seeker.address.locality
-    context = {
-        'form': form,
-    }
-    return render(request, 'employees_templates/job_seekers/create/job_seekers_create.html', context)
-
-
-def job_seeker_all_view(request):
-    job_seekers = JobSeeker.objects.all()
-    context = {
-        'job_seekers': job_seekers,
-    }
-    return render(request, 'employees_templates/job_seekers/view/job_seekers_all_view.html', context)
-
-
-def job_seeker_view(request, job_seeker_id):
-    job_seeker = JobSeeker.objects.get(id=job_seeker_id)
-    if job_seeker.birthdate:
-        job_seeker.age = (date.today() - job_seeker.birthdate) // timedelta(days=365.2425)
-    else:
-        job_seeker.age = None
-    work_experiences = job_seeker.workexperience_set.all().order_by('-date_of_employment')
-    context = {
-        'job_seeker': job_seeker,
-        'work_experiences': work_experiences,
-    }
-    return render(request, 'employees_templates/job_seekers/view/job_seeker_view.html', context)
-
-
-def skills_view(request, job_seeker_id):
-    job_seeker = JobSeeker.objects.get(id=job_seeker_id)
+@job_seeker_required
+def skills_view(request):
+    job_seeker = JobSeeker.objects.get(id=request.user.id)
     if request.method == 'POST':
         form = SkillsForm(request.POST)
         if form.is_valid():
             job_seeker.skill.set(form.cleaned_data['skills'])
             job_seeker.save()
-            return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
+            return redirect('user_profile')
     else:
         form = SkillsForm(initial={'skills': job_seeker.skill.all()})
 
@@ -78,17 +24,18 @@ def skills_view(request, job_seeker_id):
         'job_seeker': job_seeker,
         'form': form,
     }
-    return render(request, 'employees_templates/job_seekers/create/skills_create.html', context)
+    return render(request, 'job_seekers_templates/profile/create/skills_create.html', context)
 
 
-def specialization_view(request, job_seeker_id):
-    job_seeker = JobSeeker.objects.get(id=job_seeker_id)
+@job_seeker_required
+def specialization_view(request):
+    job_seeker = JobSeeker.objects.get(id=request.user.id)
     if request.method == 'POST':
         form = SpecializationForm(request.POST)
         if form.is_valid():
             job_seeker.specialization.set(form.cleaned_data['specializations'])
             job_seeker.save()
-            return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
+            return redirect('user_profile')
     else:
         form = SpecializationForm(initial={'specializations': job_seeker.specialization.all()})
 
@@ -96,11 +43,12 @@ def specialization_view(request, job_seeker_id):
         'job_seeker': job_seeker,
         'form': form,
     }
-    return render(request, 'employees_templates/job_seekers/create/specialization_create.html', context)
+    return render(request, 'job_seekers_templates/profile/create/specialization_create.html', context)
 
 
-def software_and_hardware_tools_view(request, job_seeker_id):
-    job_seeker = JobSeeker.objects.get(id=job_seeker_id)
+@job_seeker_required
+def software_and_hardware_tools_view(request):
+    job_seeker = JobSeeker.objects.get(id=request.user.id)
 
     if request.method == 'POST':
         form = SoftwareAndHardwareToolForm(request.POST)
@@ -115,7 +63,7 @@ def software_and_hardware_tools_view(request, job_seeker_id):
                     software_and_hardware_tool=tool
                 )
 
-            return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
+            return redirect('user_profile')
     else:
         selected_tools = SoftwareAndHardwareToolOfJobSeeker.objects.filter(job_seeker=job_seeker)
 
@@ -127,11 +75,12 @@ def software_and_hardware_tools_view(request, job_seeker_id):
         'job_seeker': job_seeker,
         'form': form,
     }
-    return render(request, 'employees_templates/job_seekers/create/software_and_hardware_tools_create.html', context)
+    return render(request, 'job_seekers_templates/profile/create/software_and_hardware_tools_create.html', context)
 
 
-def job_seeker_education_view(request, job_seeker_id):
-    job_seeker = JobSeeker.objects.get(id=job_seeker_id)
+@job_seeker_required
+def job_seeker_education_view(request):
+    job_seeker = JobSeeker.objects.get(id=request.user.id)
     if request.method == 'POST':
         form = EducationForm(request.POST)
         if form.is_valid():
@@ -167,7 +116,7 @@ def job_seeker_education_view(request, job_seeker_id):
                 year_received=form.cleaned_data['year_received']
             )
             education_job_seeker.save()
-            return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
+            return redirect('user_profile')
     else:
         form = EducationForm()
 
@@ -175,11 +124,12 @@ def job_seeker_education_view(request, job_seeker_id):
         'job_seeker': job_seeker,
         'form': form,
     }
-    return render(request, 'employees_templates/job_seekers/create/education_create.html', context)
+    return render(request, 'job_seekers_templates/profile/create/education_create.html', context)
 
 
-def job_seeker_work_experience_view(request, job_seeker_id):
-    job_seeker = JobSeeker.objects.get(id=job_seeker_id)
+@job_seeker_required
+def job_seeker_work_experience_view(request):
+    job_seeker = JobSeeker.objects.get(id=request.user.id)
     if request.method == 'POST':
         form = WorkExperienceForm(request.POST)
         if form.is_valid():
@@ -191,7 +141,7 @@ def job_seeker_work_experience_view(request, job_seeker_id):
                 date_of_dismissal=form.cleaned_data['date_of_dismissal']
             )
             work_experience.save()
-            return redirect('job_seeker_view', job_seeker_id=job_seeker.id)
+            return redirect('user_profile')
     else:
         form = WorkExperienceForm()
 
@@ -199,4 +149,4 @@ def job_seeker_work_experience_view(request, job_seeker_id):
         'job_seeker': job_seeker,
         'form': form,
     }
-    return render(request, 'employees_templates/job_seekers/create/work_experience.html', context)
+    return render(request, 'job_seekers_templates/profile/create/work_experience.html', context)

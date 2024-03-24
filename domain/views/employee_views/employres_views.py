@@ -1,10 +1,12 @@
 import datetime
+from domain.decorators import *
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from domain.forms.employers_forms import *
 from domain.models import *
 
 
+@employee_required
 def organization_create_view(request, *args, **kwargs):
     organizations_list = Organization.objects.order_by('name')
     form_type = 'organization'
@@ -37,6 +39,7 @@ def organization_create_view(request, *args, **kwargs):
     return render(request, 'employees_templates/employers/create/organization_create.html', context)
 
 
+@employee_required
 def employers_create_view(request, organization_id):
     organization = Organization.objects.get(id=organization_id)
     if request.method == 'POST':
@@ -58,6 +61,7 @@ def employers_create_view(request, organization_id):
     return render(request, 'employees_templates/employers/create/employers_create.html', context)
 
 
+@employee_required
 def application_create_view(request, employer_id):
     employer = Employer.objects.get(id=employer_id)
     if request.method == 'POST':
@@ -92,6 +96,7 @@ def get_russian_status(status):
     return status_dict.get(status)
 
 
+@employee_required
 def applications_view(request, ordering='without_archive_by_new'):
     archive_statuses = ['completed', 'canceled', 'payment_received']
     ordering_mas = [
@@ -132,6 +137,7 @@ def applications_view(request, ordering='without_archive_by_new'):
     return render(request, 'employees_templates/employers/view/applications_view.html', context)
 
 
+@employee_required
 def get_russian_status_in_responses(status):
     status_dict = {
         'pending': 'В ожидании',
@@ -143,6 +149,7 @@ def get_russian_status_in_responses(status):
     return status_dict.get(status)
 
 
+@employee_required
 def application_detail_view(request, application_id):
     application = Application.objects.get(id=application_id)
     application.status_in_rus = get_russian_status(application.status)
@@ -234,6 +241,7 @@ def calculate_matching_between_job_seeker_and_application(job_seeker, applicatio
     return percent
 
 
+@employee_required
 def job_seeker_filter_for_application(request, application_id):
     application = Application.objects.get(id=application_id)
     application_responses = ApplicationsResponses.objects.filter(application_id=application_id)
@@ -253,6 +261,7 @@ def job_seeker_filter_for_application(request, application_id):
     return render(request, 'employees_templates/employers/view/job_seekers_filter.html', context)
 
 
+@employee_required
 def add_job_seeker_for_application(request, application_id, job_seeker_id):
     application_response = ApplicationsResponses.objects.create(
         application_id=application_id,

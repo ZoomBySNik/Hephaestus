@@ -2,11 +2,13 @@
 {% load static %}
 {% block content %}
     <div class="to_center flex-horizontal">
-        <div class="login-container flex-vertical gap-1em">
-            <h1 class="title">Ошибка: {{ error_message }}</h1>
-            <a href="{% url 'home' %}">
-                <button class="button submit">Вернуться на главную</button>
-            </a>
+        <div class="content-box flex-vertical gap-1em">
+            <div class="content-block flex-vertical gap-3em" style="padding: 2em 4em;">
+                <h1 class="title error-message">Ошибка: {{ error_message }}</h1>
+                <a href="{{ request.META.HTTP_REFERER }}">
+                    <button class="button submit">Вернуться на предыдущую страницу</button>
+                </a>
+            </div>
         </div>
     </div>
 {% endblock %}
