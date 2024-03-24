@@ -51,7 +51,10 @@ def job_seeker_all_view(request):
 
 def job_seeker_view(request, job_seeker_id):
     job_seeker = JobSeeker.objects.get(id=job_seeker_id)
-    job_seeker.age = (date.today() - job_seeker.birthdate) // timedelta(days=365.2425)
+    if job_seeker.birthdate:
+        job_seeker.age = (date.today() - job_seeker.birthdate) // timedelta(days=365.2425)
+    else:
+        job_seeker.age = None
     work_experiences = job_seeker.workexperience_set.all().order_by('-date_of_employment')
     context = {
         'job_seeker': job_seeker,

@@ -16,7 +16,7 @@
                                 <div id="profile-photo" class="person-img"></div>
                             {% endif %}
                             <div class="button-container extra-box">
-                                <form id="photoForm" method="post" enctype="multipart/form-data" class="flex-vertical gap-1em" style="">
+                                <form id="photoForm" method="post" enctype="multipart/form-data" class="flex-vertical gap-1em" style="align-items: center;">
                                     <p class="text1">Сменить фото профиля</p>
                                     {% csrf_token %}
                                     {{ form.profile_photo }}

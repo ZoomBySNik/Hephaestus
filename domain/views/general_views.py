@@ -20,7 +20,7 @@ def home_view(request, *args, **kwargs):
         'applications_by_new': applications_by_new,
         'applications_by_final_date': applications_by_final_date
     }
-    return render(request, 'employees_templates/home/home.html', response)
+    return render(request, 'general_templates/home/home.html', response)
 
 
 def error_view(request, *args):

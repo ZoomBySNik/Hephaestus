@@ -496,6 +496,10 @@ tr:hover td {
     padding: 1em;
 }
 
+.persons-div:hover{
+    filter: drop-shadow(0 0 0.5em var(--element-shadow));
+}
+
 .person-img-preview {
     border-radius: 100%;
     object-fit: cover;

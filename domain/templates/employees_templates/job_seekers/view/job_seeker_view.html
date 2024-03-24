@@ -14,20 +14,13 @@
                         {% endif %}
                         <div class="flex-vertical gap-1em text-size-larger">
                             <h1 class="title">
-                                {{ job_seeker.surname }} {{ job_seeker.name }} {{ job_seeker.patronymic }},
+                                {{ job_seeker.last_name }} {{ job_seeker.first_name }} {{ job_seeker.patronymic }}{% if job_seeker.age %},
                                 <span class="title" style="font-size: inherit" id="age">
                                     {{ job_seeker.age }}
                                 </span>
+                                {% endif %}
                             </h1>
                             <p class="text-size-larger text1">{{ job_seeker.address.locality }}</p>
-                        </div>
-                        <div class="flex-vertical gap-1em text-size-larger" style="flex: 1; align-items: end">
-                            <a href="{% url 'job_seeker_update' job_seeker_id=job_seeker.id %}">
-                                <button class="button">Изменить профиль</button>
-                            </a>
-                            <br>
-                            <br>
-                            <br>
                         </div>
                     </div>
                     <div class="flex-vertical gap-1em">

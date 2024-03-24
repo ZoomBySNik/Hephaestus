@@ -2,25 +2,32 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
-    <form method="POST" class="input-form flex-vertical gap-2em">
-        {% csrf_token %}
-        <p class="flex-horizontal gap-2em">
-            <label for="{{ form.specializations.id_for_label }}">{{ form.specializations.label }}: </label>
-        </p>
-        <div class="flex-vertical gap-05em checkbox-div">
-        {% for checkbox in form.specializations %}
-            <div {% if checkbox.checked %}class="selected"{% endif %}>
-                {{ checkbox }}
-                {% if checkbox.name in form.initial %}
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            document.getElementById("{{ checkbox.id_for_label }}").checked = true;
-                        });
-                    </script>
-                {% endif %}
+    <div class="content-block flex-vertical gap-1em">
+        <h1 class="title">Специализации</h1>
+        <div class="content-box flex-vertical gap-1em">
+            <div class="content flex-vertical gap-2em" style="padding: 4em 8em;">
+                <form method="POST" class="input-form flex-vertical gap-2em">
+                    {% csrf_token %}
+                    <p class="flex-horizontal gap-2em">
+                        <label for="{{ form.specializations.id_for_label }}">{{ form.specializations.label }}: </label>
+                    </p>
+                    <div class="flex-vertical gap-05em checkbox-div">
+                        {% for checkbox in form.specializations %}
+                            <div {% if checkbox.checked %}class="selected"{% endif %}>
+                                {{ checkbox }}
+                                {% if checkbox.name in form.initial %}
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function () {
+                                            document.getElementById("{{ checkbox.id_for_label }}").checked = true;
+                                        });
+                                    </script>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="button submit">Сохранить</button>
+                </form>
             </div>
-        {% endfor %}
         </div>
-        <button type="submit" class="button submit">Сохранить</button>
-    </form>
+    </div>
 {% endblock content %}

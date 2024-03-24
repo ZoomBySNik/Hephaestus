@@ -3,7 +3,9 @@
 {% block content %}
     <section class="flex-vertical gap-1em">
         <div class="split-section flex-vertical gap-2em">
-            {% include 'employees_templates/home/components/applications_block.html' %}
+            {% if user_type == 'employee' %}
+            {% include 'general_templates/home/components/applications_block.html' %}
+            {% endif %}
         </div>
     </section>
 {% endblock %}

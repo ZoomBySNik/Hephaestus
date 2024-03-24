@@ -10,35 +10,12 @@
                     <div class="title" style="padding-right: 3em;">Гефест</div>
                 </div>
             </a>
-            <div class="button">
-                Работодатели
-                <img src="{% static 'icons/arrow-down.svg' %}" class="icon">
-                <div class="expanded">
-                    <div class="expanded-block flex-vertical">
-                        <a href="{% url 'organization_create' %}" class="expanded-link">Создать заявку</a>
-                        <a href="{% url 'applications_view' 'without_archive_by_final_date' %}" class="expanded-link">Просмотр
-                            текущих заявок</a>
-                        <a href="{% url 'applications_view' 'archive_by_final_date' %}" class="expanded-link">Просмотр
-                            архивных заявок</a>
-                    </div>
-                </div>
-            </div>
-            <button class="button">
-                Соискатели
-                <img src="{% static 'icons/arrow-down.svg' %}" class="icon">
-                <div class="expanded">
-                    <div class="expanded-block flex-vertical">
-                        <a href="{% url 'job_seeker_list' %}" class="expanded-link">Просмотр профилей соискателей</a>
-                        <a href="{% url 'job_seeker_create' %}" class="expanded-link">Создать профиль соискателя</a>
-                        <br>
-                    </div>
-                </div>
-            </button>
-            <button class="button">
-                <a href="{% url 'references' %}" class="expanded-link">
-                    Справочники
-                </a>
-            </button>
+            {% if user_type == 'employee' %}
+                {% include 'components/navbar_components/employee_buttons.html' %}
+            {% elif user_type == 'job_seeker' %}
+                <p>1212</p>
+            {% endif %}
+
         </div>
         <div class="nav-part flex-horizontal gap-2em">
             <a href="{% url 'user_profile' %}">
