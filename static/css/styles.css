@@ -13,17 +13,19 @@
 
 .body {
     background: var(--body-bg);
+    position: relative;
     background-size: 200% 200%;
     display: block;
     flex-direction: column;
     align-items: center;
+    min-height: 100vh;
     height: 100%;
-    min-height: 200%;
     width: 100%;
 }
 
 .main {
     padding: 3em 6.8em;
+    margin: auto;
 }
 
 .nav-bar {
@@ -46,6 +48,20 @@
     padding: 0.4em 1em;
     justify-content: flex-start;
     flex-wrap: nowrap;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-top: -2em;
+    padding: 0.5em 6em;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 1.4em 1.4em 0 0;
+    background: var(--table-bg);
+    filter: drop-shadow(0 0 0.9em var(--element-shadow));
 }
 
 .logout-button {

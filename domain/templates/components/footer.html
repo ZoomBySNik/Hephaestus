@@ -1,0 +1,22 @@
+{% load static %}
+{% block content %}
+    <footer class="footer flex-horizontal gap-1em">
+        <div class="nav-part flex-horizontal gap-1em">
+            <a href="{% url 'home' %}">
+                <div class="flex-horizontal gap-1em">
+                    <div class="logo-container">
+                        <img src="{% static 'images/logo.png' %}" class="logo"/>
+                    </div>
+                    <div class="title" style="padding-right: 3em;">Гефест</div>
+                </div>
+            </a>
+
+        </div>
+        <div class="nav-part flex-horizontal gap-2em">
+            <div>
+                {% include 'components/theme_swither.html' %}
+            </div>
+
+        </div>
+    </footer>
+{% endblock content %}
