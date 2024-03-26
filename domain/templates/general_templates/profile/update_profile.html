@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            <h1 class="title">Профиль</h1>
+            <div class="content-box flex-vertical gap-1em">
+                <form method="POST" class="input-form flex-vertical gap-2em" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="content flex-vertical gap-2em" style="padding: 2em 4em;">
+                        <div class="flex-horizontal gap-1em">
+                            <div class="photo-update">
+                                {% if user.profile_photo %}
+                                    <img id="profile-photo" class="person-img"
+                                         src="/media/{{ MEDIA_URL }}{{ user.profile_photo }}">
+                                {% else %}
+                                    <div id="profile-photo" class="person-img"></div>
+                                {% endif %}
+                            </div>
+                            <div class="flex-vertical gap-05em text-size-larger">
+                                <p class="flex-horizontal gap-2em">
+                                    <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}:</label>
+                                    {{ form.last_name }}
+                                    <label for="{{ form.first_name.id_for_label }}"
+                                           style="margin-left: 1em">{{ form.first_name.label }}:</label>
+                                    {{ form.first_name }}
+                                    <label for="{{ form.patronymic.id_for_label }}">{{ form.patronymic.label }}:</label>
+                                    {{ form.patronymic }}
+                                </p>
+                                {% if user_type == 'job_seeker' %}
+                                    <p>
+                                        <label for="{{ form.birthdate.id_for_label }}">{{ form.birthdate.label }}:</label>
+                                        {{ form.birthdate }}
+                                    </p>
+                                    <p>
+                                        <label for="{{ form.locality.id_for_label }}">{{ form.locality.label }}:</label>
+                                        {{ form.locality }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                            <div class="flex-vertical gap-1em text-size-larger" style="flex: 1; align-items: end">
+                                <a href="#">
+                                    <button type="submit" class="button submit">Сохранить</button>
+                                </a>
+                                <br>
+                                <br>
+                                <br>
+                            </div>
+                        </div>
+                        {% if user_type == 'job_seeker' %}
+                            <div class="flex-vertical gap-1em">
+                                <h1 class="title">О себе</h1>
+                                <label for="{{ form.about.id_for_label }}">{{ form.about.label }}:</label>
+                                {{ form.about|add_class:'input-field' }}
+                            </div>
+                        {% endif %}
+                        <div class="flex-vertical gap-1em">
+                            <h1 class="title">Контактная информация</h1>
+                            <div class="flex-vertical gap-05em">
+                                <p>
+                                    <label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}:</label>
+                                    {{ form.phone_number }}
+                                </p>
+                                <p>
+                                    <label for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>
+                                    {{ form.email }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <style>
+    </style>
+    <script>
+    </script>
+{% endblock %}

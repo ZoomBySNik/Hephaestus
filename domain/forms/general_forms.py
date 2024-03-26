@@ -5,12 +5,14 @@ from domain.models import *
 
 
 class EmployerRegistrationForm(UserCreationForm):
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel'}))
     class Meta:
         model = Employer
         fields = ['username', 'email', 'last_name', 'first_name',  'patronymic', 'phone_number']
 
 
 class JobSeekerRegistrationForm(UserCreationForm):
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel'}))
     class Meta:
         model = JobSeeker
         fields = ['username', 'email', 'last_name', 'first_name', 'patronymic', 'phone_number']

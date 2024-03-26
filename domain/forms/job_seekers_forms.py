@@ -5,13 +5,11 @@ from domain.models import *
 
 
 class JobSeekerForm(forms.ModelForm):
-    locality = forms.CharField(max_length=255, label='Населенный пункт',
-                               error_messages={"required": "Введите населённый пункт"})
-
+    locality = forms.CharField(max_length=255, label='Населенный пункт', required=False)
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel'}))
     class Meta:
         model = JobSeeker
-        fields = '__all__'
-        exclude = ['address', 'specialization', 'skill', 'about']
+        fields = ['last_name', 'first_name', 'patronymic', 'phone_number', 'email', 'birthdate', 'locality', 'about']
         widgets = {
             'birthdate': forms.DateInput(attrs={'type': 'date'}),
         }

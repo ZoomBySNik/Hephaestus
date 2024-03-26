@@ -9,7 +9,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 class CustomUser(AbstractUser):
     patronymic = models.CharField(max_length=255, blank=False, null=False, verbose_name='Отчество')
-    phone_number = PhoneNumberField(region="RU", blank=False, null=False, verbose_name='Номер телефона')
+    phone_number = models.CharField(max_length=18, blank=False, null=False, verbose_name='Номер телефона')
     profile_photo = models.ImageField(blank=True, null=True, verbose_name='Фото профиля', upload_to='user_photos')
 
     def __str__(self):

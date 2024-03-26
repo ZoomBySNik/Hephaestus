@@ -6,6 +6,7 @@ from django.urls import reverse
 
 from domain.decorators import *
 from domain.forms.general_forms import *
+from domain.forms.job_seekers_forms import JobSeekerForm
 from domain.models import *
 
 
@@ -124,3 +125,44 @@ def profile(request):
                'user_type': user_type,
                'form': form}
     return render(request, 'general_templates/profile/profile.html', context)
+
+
+@login_required
+def profile_update(request):
+    user = request.user
+    user_type = get_user_type(user.id)
+    data = get_user_data(user.id)
+    if user_type == 'job_seeker':
+        if request.method == 'POST':
+            form = JobSeekerForm(request.POST, request.FILES, instance=data)
+            if form.is_valid():
+                if form.cleaned_data['locality']:
+                    address_data = {
+                        'locality': form.cleaned_data['locality'],
+                        'street': None,
+                        'number_of_building': None,
+                        'apartment_number': None
+                    }
+                    addresses = Address.objects.filter(**address_data)
+
+                    if addresses.exists():
+                        address = addresses.first()
+                    else:
+                        address = Address.objects.create(**address_data)
+                    job_seeker = form.save(commit=False)
+                    job_seeker.address = address
+                    job_seeker.save()
+                else:
+                    form.save()
+                return redirect('user_profile')
+            else:
+                return redirect('error_page', form.errors)
+        else:
+            form = JobSeekerForm(instance=data)
+            if data.address:
+                form.initial['locality'] = data.address.locality
+    context = {'user': user,
+               'data': data,
+               'user_type': user_type,
+               'form': form}
+    return render(request, 'general_templates/profile/update_profile.html', context)

@@ -29,14 +29,14 @@
                                 {{ user.last_name }} {{ user.first_name }} {{ user.patronymic }}
                             </h1>
                             {% if user_type == 'job_seeker' %}
-                                <p class="text1">Дата рождения: {% if data.birthdate != 'None' %}неуказана{% else %}
+                                <p class="text1">Дата рождения: {% if not data.birthdate %}неуказана{% else %}
                                     {{ data.birthdate }}{% endif %}</p>
-                                <p class="text1">Место проживания: {% if data.address != 'None' %}неуказан{% else %}
+                                <p class="text1">Место проживания: {% if not data.address %}неуказан{% else %}
                                     {{ data.address.locality }}{% endif %}</p>
                             {% endif %}
                         </div>
                         <div class="flex-vertical gap-1em text-size-larger" style="flex: 1; align-items: end">
-                            <a href="#">
+                            <a href="{% url 'profile_update' %}">
                                 <button class="button">Изменить профиль</button>
                             </a>
                             <br>

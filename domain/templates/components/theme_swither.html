@@ -41,12 +41,6 @@
             font-size: calc(40px + (80 - 40) * (100vw - 320px) / (2560 - 320));
         }
 
-        input {
-            color: var(--fg);
-            font: 1em/1.5 sans-serif;
-            transform: scale(1.2);
-        }
-
         .switch {
             margin: auto;
             position: relative;
@@ -97,6 +91,9 @@
             -webkit-tap-highlight-color: transparent;
             transition: background-color var(--trans-dur) var(--trans-timing),
             box-shadow 0.15s linear;
+            color: var(--fg);
+            font: 1em/1.5 sans-serif;
+            transform: scale(1.2);
         }
 
         .switch__input:focus-visible {
