@@ -6,7 +6,8 @@ from domain.models import *
 
 class JobSeekerForm(forms.ModelForm):
     locality = forms.CharField(max_length=255, label='Населенный пункт', required=False)
-    phone_number = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel'}))
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel'}), label='Номер телефона')
+
     class Meta:
         model = JobSeeker
         fields = ['last_name', 'first_name', 'patronymic', 'phone_number', 'email', 'birthdate', 'locality', 'about']

@@ -9,16 +9,13 @@
                 <form method="POST" class="input-form flex-vertical gap-2em" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="content flex-vertical gap-2em" style="padding: 2em 4em;">
+                        <div class="flex-vertical gap-1em text-size-larger" style="flex: 1; align-items: end">
+                            <a href="#">
+                                <button type="submit" class="button submit">Сохранить</button>
+                            </a>
+                        </div>
                         <div class="flex-horizontal gap-1em">
-                            <div class="photo-update">
-                                {% if user.profile_photo %}
-                                    <img id="profile-photo" class="person-img"
-                                         src="/media/{{ MEDIA_URL }}{{ user.profile_photo }}">
-                                {% else %}
-                                    <div id="profile-photo" class="person-img"></div>
-                                {% endif %}
-                            </div>
-                            <div class="flex-vertical gap-05em text-size-larger">
+                            <div class="flex-vertical gap-1em text-size-larger" style="width: 100%">
                                 <p class="flex-horizontal gap-2em">
                                     <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}:</label>
                                     {{ form.last_name }}
@@ -37,15 +34,15 @@
                                         <label for="{{ form.locality.id_for_label }}">{{ form.locality.label }}:</label>
                                         {{ form.locality }}
                                     </p>
+                                {% elif user_type == 'employer' %}
+                                    {% if data.organization %}
+                                        <p>
+                                            <label for="{{ form.position.id_for_label }}">{{ form.position.label }}:</label>
+                                            {{ form.position }}
+                                        </p>
+                                    {% else %}
+                                    {% endif %}
                                 {% endif %}
-                            </div>
-                            <div class="flex-vertical gap-1em text-size-larger" style="flex: 1; align-items: end">
-                                <a href="#">
-                                    <button type="submit" class="button submit">Сохранить</button>
-                                </a>
-                                <br>
-                                <br>
-                                <br>
                             </div>
                         </div>
                         {% if user_type == 'job_seeker' %}
@@ -68,6 +65,33 @@
                                 </p>
                             </div>
                         </div>
+                        {% if user_type == 'employer' %}
+                            <div class="flex-vertical gap-1em">
+                                <h1 class="title">Организация</h1>
+                                <div class="flex-vertical gap-05em">
+                                    {% if data.organization %}
+                                        <p>
+                                            Ваша текущая
+                                            организация: {{ data.organization.organizational_legal_form.name }}"{{ data.organization.name }}"
+                                        </p>
+                                        <div class="flex-horizontal gap-1em">
+                                            <a>
+                                                <button class="button" type="button">Изменить данные</button>
+                                            </a>
+                                            <a>
+                                                <button class="button reject" type="button">Отвязаять организацию
+                                                </button>
+                                            </a>
+                                        </div>
+                                    {% else %}
+                                        <a href="{% url 'organization_create' %}">
+                                            <button class="button" type="button">Привязать организацию</button>
+                                        </a>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </form>
             </div>

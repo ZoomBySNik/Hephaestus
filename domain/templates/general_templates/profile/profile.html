@@ -16,7 +16,8 @@
                                 <div id="profile-photo" class="person-img"></div>
                             {% endif %}
                             <div class="button-container extra-box">
-                                <form id="photoForm" method="post" enctype="multipart/form-data" class="flex-vertical gap-1em" style="align-items: center;">
+                                <form id="photoForm" method="post" enctype="multipart/form-data"
+                                      class="flex-vertical gap-1em" style="align-items: center;">
                                     <p class="text1">Сменить фото профиля</p>
                                     {% csrf_token %}
                                     {{ form.profile_photo }}
@@ -33,6 +34,14 @@
                                     {{ data.birthdate }}{% endif %}</p>
                                 <p class="text1">Место проживания: {% if not data.address %}неуказан{% else %}
                                     {{ data.address.locality }}{% endif %}</p>
+                            {% elif user_type == 'employer' %}
+                                <p class="text1">Организация: {% if not data.organization %}неуказана{% else %}
+                                    {{ data.organization.organizational_legal_form.short_name }} "{{ data.organization.name }}"{% endif %}</p>
+                                <p class="text1">Должность: {% if not data.position %}неуказана{% else %}
+                                    {{ data.position }}{% endif %}</p>
+                            {% else %}
+                                <br>
+                                <br>
                             {% endif %}
                         </div>
                         <div class="flex-vertical gap-1em text-size-larger" style="flex: 1; align-items: end">
@@ -95,6 +104,7 @@
         function hideButton() {
             document.getElementById('change-photo-button').style.display = 'none';
         }
+
         // Получаем поле выбора изображения
         let photoInput = document.getElementById('id_profile_photo');
 

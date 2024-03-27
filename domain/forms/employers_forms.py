@@ -5,19 +5,12 @@ from domain.models import *
 
 
 class EmployerForm(forms.ModelForm):
-    position = forms.CharField(max_length=90, label='Должность',
-                               error_messages={"required": "Введите должность"})
-    second_name = forms.CharField(max_length=90, label='Фамилия', error_messages={"required": "Введите фамилию"})
-    first_name = forms.CharField(max_length=90, label='Имя', error_messages={"required": "Введите имя"})
-    patronymic = forms.CharField(max_length=90, label='Отчество', error_messages={"required": "Введите отчество"})
-    email = forms.EmailField(label='Почта', error_messages={"required": "Введите почту"})
-    phone = forms.CharField(max_length=18, label='Номер телефона',
-                            error_messages={"required": "Введите номер телефона"})
-    profile_photo = forms.ImageField(label='Фото профиля', required=False)
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel'}), label='Номер телефона')
+    position = forms.CharField(max_length=90, required=False, label='Должность')
 
     class Meta:
         model = Employer
-        fields = ('second_name', 'first_name', 'patronymic', 'phone', 'email', 'profile_photo')
+        fields = ['last_name', 'first_name', 'patronymic', 'phone_number', 'email', 'position']
 
 
 class OrganizationForm(forms.ModelForm):
@@ -46,8 +39,10 @@ class ApplicationForm(forms.ModelForm):
     education_level = forms.ModelChoiceField(queryset=EducationLevel.objects.all(), required=False,
                                              label='Уровень образования')
     salary = forms.CharField(max_length=255, label='Зарплата (руб.)')
-    desired_date = forms.DateField(label='Желательный срок исполнения', widget=forms.DateInput(attrs={'type': 'date', 'min': min_desired_date}),)
-    final_date = forms.DateField(label='Последний срок исполнения', widget=forms.DateInput(attrs={'type': 'date', 'min': min_final_date}),)
+    desired_date = forms.DateField(label='Желательный срок исполнения',
+                                   widget=forms.DateInput(attrs={'type': 'date', 'min': min_desired_date}), )
+    final_date = forms.DateField(label='Последний срок исполнения',
+                                 widget=forms.DateInput(attrs={'type': 'date', 'min': min_final_date}), )
     skills = forms.ModelMultipleChoiceField(queryset=Skill.objects.all(), widget=forms.CheckboxSelectMultiple,
                                             required=False, label='Навыки')
     software_and_hardware_tools = forms.ModelMultipleChoiceField(queryset=SoftwareAndHardwareTool.objects.all(),
@@ -59,11 +54,12 @@ class ApplicationForm(forms.ModelForm):
 
     class Meta:
         model = Application
-        fields = ['position', 'salary', 'desired_date', 'final_date', 'specialization', 'education_level', 'skills', 'software_and_hardware_tools',
+        fields = ['position', 'salary', 'desired_date', 'final_date', 'specialization', 'education_level', 'skills',
+                  'software_and_hardware_tools',
                   'experience', 'work_schedule']
 
 
 class ChangeStateOfApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
-        fields = ['status',]
+        fields = ['status', ]

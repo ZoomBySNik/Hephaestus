@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from domain.decorators import *
+from domain.forms.employers_forms import EmployerForm
 from domain.forms.general_forms import *
 from domain.forms.job_seekers_forms import JobSeekerForm
 from domain.models import *
@@ -161,6 +162,17 @@ def profile_update(request):
             form = JobSeekerForm(instance=data)
             if data.address:
                 form.initial['locality'] = data.address.locality
+    elif user_type == 'employer':
+        if request.method == 'POST':
+            form = EmployerForm(request.POST, request.FILES, instance=data)
+            if form.is_valid():
+                form.save()
+                return redirect('user_profile')
+            else:
+                return redirect('error_page', form.errors)
+        else:
+            form = EmployerForm(instance=data)
+
     context = {'user': user,
                'data': data,
                'user_type': user_type,
