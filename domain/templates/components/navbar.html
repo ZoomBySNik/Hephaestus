@@ -11,11 +11,10 @@
                 </div>
             </a>
             {% if user_type == 'employee' %}
-                {% include 'components/navbar_components/employee_buttons.html' %}
+                {% include 'employees_templates/components/employee_navbar.html' %}
             {% elif user_type == 'job_seeker' %}
-                <p>1212</p>
+                {% include 'job_seekers_templates/components/job_seeker_navbar.html' %}
             {% endif %}
-
         </div>
         <div class="nav-part flex-horizontal gap-2em">
             <a href="{% url 'user_profile' %}">

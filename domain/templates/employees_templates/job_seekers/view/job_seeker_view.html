@@ -13,20 +13,26 @@
                             <div class="person-img"></div>
                         {% endif %}
                         <div class="flex-vertical gap-1em text-size-larger">
-                            <h1 class="title">
-                                {{ job_seeker.last_name }} {{ job_seeker.first_name }} {{ job_seeker.patronymic }}{% if job_seeker.age %},
-                                <span class="title" style="font-size: inherit" id="age">
-                                    {{ job_seeker.age }}
-                                </span>
+                            <h1 class="title">{{ job_seeker.last_name }} {{ job_seeker.first_name }}
+                                {{ job_seeker.patronymic }}{% if job_seeker.birthdate %},
+                                    <span class="title" style="font-size: inherit" id="age">
+                                        {{ job_seeker.age }}
+                                    </span>
                                 {% endif %}
                             </h1>
                             <p class="text-size-larger text1">{{ job_seeker.address.locality }}</p>
                         </div>
                     </div>
+                    {% if job_seeker.about %}
+                        <div class="flex-vertical gap-1em">
+                            <h1 class="title">О себе</h1>
+                            <p class="text1">{{ job_seeker.about }}</p>
+                        </div>
+                    {% endif %}
                     <div class="flex-vertical gap-1em">
                         <h1 class="title">Контактная информация</h1>
                         <div class="flex-vertical gap-05em">
-                            <p class="text1">Номер телефона: {{ job_seeker.phone }}</p>
+                            <p class="text1">Номер телефона: {{ job_seeker.phone_number }}</p>
                             <p class="text1">Почта: {{ job_seeker.email }}</p>
                         </div>
                     </div>
@@ -61,11 +67,8 @@
                                             {% endfor %}
                                         </table>
                                     {% else %}
-                                        <p class="error-message">Вы пока не добавили навыки</p>
+                                        <p class="error-message">Пользователь пока не добавил информацию о навыках</p>
                                     {% endif %}
-                                    <a href="{% url 'job_seeker_skills' job_seeker.id %}">
-                                        <button class="button submit">Изменить навыки</button>
-                                    </a>
                                 </div>
                                 <div class="flex-vertical gap-1em">
                                     <h1 class="title" style="font-size: xx-large">Специализации:</h1>
@@ -87,11 +90,9 @@
                                             {% endfor %}
                                         </table>
                                     {% else %}
-                                        <p class="error-message">Вы пока не добавили специализаций</p>
+                                        <p class="error-message">Пользователь пока не добавил информацию о
+                                            специализации</p>
                                     {% endif %}
-                                    <a href="{% url 'job_seeker_specializations' job_seeker.id %}">
-                                        <button class="button submit">Изменить специализации</button>
-                                    </a>
                                 </div>
                                 <div class="flex-vertical gap-1em">
                                     <h1 class="title" style="font-size: xx-large">Программно-технические средства:</h1>
@@ -113,11 +114,9 @@
                                             {% endfor %}
                                         </table>
                                     {% else %}
-                                        <p class="error-message">Вы пока не добавили программно-технических средств</p>
+                                        <p class="error-message">Пользователь пока не добавил информацию о владении
+                                            программно-техническими средствами</p>
                                     {% endif %}
-                                    <a href="{% url 'job_seeker_software_and_hardware_tools' job_seeker.id %}">
-                                        <button class="button submit">Изменить программно технические средства</button>
-                                    </a>
                                 </div>
                             </div>
                             <div class="flex-vertical gap-2em">
@@ -158,11 +157,9 @@
                                             {% endfor %}
                                         </table>
                                     {% else %}
-                                        <p class="error-message">Вы пока не добавили образование</p>
+                                        <p class="error-message">Пользователь пока не добавил информацию об
+                                            образовании</p>
                                     {% endif %}
-                                    <a href="{% url 'job_seeker_education' job_seeker.id %}">
-                                        <button class="button submit">Добавить образование</button>
-                                    </a>
                                 </div>
                             </div>
                             <div class="flex-vertical gap-2em">
@@ -194,27 +191,23 @@
                                                     </td>
                                                     <td>
                                                         {% if work_experience.date_of_dismissal %}
-                                                        {{ work_experience.date_of_dismissal }}
+                                                            {{ work_experience.date_of_dismissal }}
                                                         {% else %}
-                                                        -
+                                                            -
                                                         {% endif %}
                                                     </td>
                                                 </tr>
                                             {% endfor %}
                                         </table>
                                     {% else %}
-                                        <p class="error-message">Вы пока не добавили опыт работы</p>
+                                        <p class="error-message">Пользователь пока не добавил информацию о предыдущей
+                                            работе</p>
                                     {% endif %}
-                                    <a href="{% url 'job_seeker_work_experience' job_seeker.id %}">
-                                        <button class="button submit">Добавить опыт работы</button>
-                                    </a>
                                 </div>
                             </div>
                         </div>
                         <div class="content flex-vertical gap-3em inactive-content" style="padding: 2em 4em;">
-                            <a href="#">
-                                <button class="button submit">Создать новую публикацию</button>
-                            </a>
+                            <p class="error-message">Публикаций пока нет</p>
                         </div>
                     </div>
                 </div>
