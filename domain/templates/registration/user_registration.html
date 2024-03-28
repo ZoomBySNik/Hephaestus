@@ -2,10 +2,8 @@
 {% load widget_tweaks %}
 {% load static %}
 {% block content %}
-    <h1 class="title">Регистрация</h1>
     <form method="POST" class="input-form flex-vertical gap-2em" enctype="multipart/form-data">
         {% csrf_token %}
-        <h1 class="title text-size-larger">Основная информация</h1>
         <p class="flex-horizontal gap-2em">
             <label for="{{ form.username.id_for_label }}">{{ form.username.label }}:</label>
             {{ form.username }}

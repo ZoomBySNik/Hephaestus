@@ -72,14 +72,14 @@
                                     {% if data.organization %}
                                         <p>
                                             Ваша текущая
-                                            организация: {{ data.organization.organizational_legal_form.name }}"{{ data.organization.name }}"
+                                            организация: {{ data.organization.organizational_legal_form.short_name }} "{{ data.organization.name }}"
                                         </p>
                                         <div class="flex-horizontal gap-1em">
-                                            <a>
+                                            <a href="{% url 'organization_edit' data.organization.id %}">
                                                 <button class="button" type="button">Изменить данные</button>
                                             </a>
-                                            <a>
-                                                <button class="button reject" type="button">Отвязаять организацию
+                                            <a href="{% url 'organization_untie' %}">
+                                                <button class="button reject" type="button">Отвязать организацию
                                                 </button>
                                             </a>
                                         </div>

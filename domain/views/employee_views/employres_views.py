@@ -5,29 +5,6 @@ from django.shortcuts import redirect, render
 from domain.forms.employers_forms import *
 from domain.models import *
 
-
-@employee_required
-def employers_create_view(request, organization_id):
-    organization = Organization.objects.get(id=organization_id)
-    if request.method == 'POST':
-        form = EmployerForm(request.POST, request.FILES)
-        if form.is_valid():
-            employer = form.save(commit=False)
-            employer.position = form.cleaned_data['position']
-            employer.organization = Organization.objects.get(id=organization_id)
-            employer = form.save()
-            return redirect('application_create', employer_id=employer.id)
-    else:
-        form = EmployerForm()
-    employers = Employer.objects.order_by('first_name').filter(organization_id=organization_id)
-    context = {
-        'form': form,
-        'employers': employers,
-        'organization': organization,
-    }
-    return render(request, 'employees_templates/employers/create/employers_create.html', context)
-
-
 @employee_required
 def application_create_view(request, employer_id):
     employer = Employer.objects.get(id=employer_id)
