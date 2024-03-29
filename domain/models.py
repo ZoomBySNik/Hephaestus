@@ -331,7 +331,7 @@ class Application(models.Model):
     experience = models.IntegerField(blank=False, null=False, default=0, verbose_name='Опыт (лет)')
     work_schedule = models.ForeignKey('WorkSchedule', blank=False, null=False,
                                       on_delete=models.PROTECT, verbose_name='График работы')
-    employee = models.ForeignKey('Employee', blank=False, null=False,
+    employee = models.ForeignKey('Employee', blank=True, null=True,
                                  on_delete=models.PROTECT, verbose_name='Работник')
     date_of_completion = models.DateField(blank=True, null=True, verbose_name='Дата выполнения')
     date_of_cancellation = models.DateField(blank=True, null=True, verbose_name='Дата отмены')

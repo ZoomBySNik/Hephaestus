@@ -1,0 +1,13 @@
+{% load static %}
+{% block content %}
+    <div class="flex-vertical extra-part">
+        <div class="content-box">
+            <div class="content flex-vertical gap-3em" style="padding: 2em 4em;">
+                <h1 class="title">Заявки</h1>
+                <a href="{% url 'application_create' %}">
+                    <button class="button">Создать новую заявку</button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

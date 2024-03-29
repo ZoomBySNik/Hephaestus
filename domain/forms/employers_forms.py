@@ -34,7 +34,7 @@ class OrganizationForm(forms.ModelForm):
 class ApplicationForm(forms.ModelForm):
     min_desired_date = (dt.now() + timedelta(days=10)).strftime('%Y-%m-%d')
     min_final_date = (dt.now() + timedelta(days=14)).strftime('%Y-%m-%d')
-    position = forms.ModelChoiceField(queryset=Position.objects.all(), label='Должность')
+    position = forms.CharField(max_length=255, label='Должность')
     specialization = forms.ModelChoiceField(queryset=Specialization.objects.all(), label='Специализация')
     education_level = forms.ModelChoiceField(queryset=EducationLevel.objects.all(), required=False,
                                              label='Уровень образования')

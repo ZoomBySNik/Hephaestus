@@ -37,7 +37,6 @@ urlpatterns = [
         path('applications//detail/<str:application_id>/add/<str:job_seeker_id>', add_job_seeker_for_application,
              name='add_job_seeker_for_application'),
         path('applications/<str:ordering>', applications_view, name='applications_view'),
-        path('applications/create/employer/<str:employer_id>', application_create_view, name='application_create'),
 
         path('jobseeker/view/', job_seeker_all_view, name='job_seeker_list'),
         path('jobseeker/<str:job_seeker_id>', job_seeker_view, name='job_seeker_view'),
@@ -68,7 +67,10 @@ urlpatterns = [
                     path('untie/', organization_untie_view, name='organization_untie'),
                 ]))
             ]))
-        ]))
+        ])),
+        path('applications/', include([
+            path('create', application_create_view, name='application_create'),
+        ])),
     ])),
 
     path('login/', v.LoginView.as_view(next_page='home'), name='login'),

@@ -5,28 +5,6 @@ from django.shortcuts import redirect, render
 from domain.forms.employers_forms import *
 from domain.models import *
 
-@employee_required
-def application_create_view(request, employer_id):
-    employer = Employer.objects.get(id=employer_id)
-    if request.method == 'POST':
-        form = ApplicationForm(request.POST)
-        if form.is_valid():
-            employee = Employee.objects.get(id=request.user.id)
-            application = form.save(commit=False)
-            application.employer = employer
-            application.employee = employee
-            application.save()
-            form.save_m2m()
-
-            return redirect('home')
-    else:
-        form = ApplicationForm()
-    context = {
-        'employer': employer,
-        'form': form
-    }
-    return render(request, 'employees_templates/employers/create/application_create.html', context)
-
 
 def get_russian_status(status):
     status_dict = {

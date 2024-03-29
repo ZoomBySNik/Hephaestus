@@ -71,6 +71,8 @@
                 </div>
                 {% if user_type == 'job_seeker' %}
                     {% include 'job_seekers_templates/profile/job_seeker_profile.html' %}
+                {% elif user_type == 'employer' %}
+                    {% include 'employers_templates/profile/employer_profile.html' %}
                 {% endif %}
             </div>
         </div>

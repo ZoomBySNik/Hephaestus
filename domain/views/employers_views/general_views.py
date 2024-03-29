@@ -93,3 +93,33 @@ def organization_edit_view(request, organization_id):
         'form': form,
     }
     return render(request, 'employers_templates/organization/organization_apply.html', context)
+
+
+@employer_required
+def application_create_view(request):
+    employer = Employer.objects.get(id=request.user.id)
+    if request.method == 'POST':
+        form = ApplicationForm(request.POST)
+        if form.is_valid():
+            position_data = {
+                'name': form.cleaned_data['position'],
+            }
+            positions = Position.objects.filter(**position_data)
+            if positions.exists():
+                position = positions.first()
+            else:
+                position = Position.objects.create(**position_data)
+            application = form.save(commit=False)
+            application.position = position
+            application.employer = employer
+            application.save()
+            form.save_m2m()
+
+            return redirect('home')
+    else:
+        form = ApplicationForm()
+    context = {
+        'employer': employer,
+        'form': form
+    }
+    return render(request, 'employers_templates/applications/create/application_create.html', context)
