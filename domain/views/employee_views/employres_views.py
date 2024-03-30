@@ -79,6 +79,9 @@ def application_detail_view(request, application_id):
         form = ChangeStateOfApplicationForm(request.POST, instance=application)
         if form.is_valid():
             status = form.cleaned_data['status']
+            if status == 'in_progress':
+                application.status = status
+                application.employee = Employee.objects.get(id=request.user.id)
             if status == 'canceled':
                 application.date_of_cancellation = datetime.datetime.today()
                 application.status = status

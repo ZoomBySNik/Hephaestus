@@ -17,7 +17,7 @@ class JobSeekerForm(forms.ModelForm):
 
 
 class SkillsForm(forms.ModelForm):
-    skills = forms.ModelMultipleChoiceField(queryset=Skill.objects.all(),
+    skills = forms.ModelMultipleChoiceField(queryset=Skill.objects.all().order_by('name'),
                                             widget=forms.CheckboxSelectMultiple,
                                             label='Навыки')
 
@@ -27,7 +27,7 @@ class SkillsForm(forms.ModelForm):
 
 
 class SpecializationForm(forms.ModelForm):
-    specializations = forms.ModelMultipleChoiceField(queryset=Specialization.objects.all(),
+    specializations = forms.ModelMultipleChoiceField(queryset=Specialization.objects.all().order_by('name'),
                                                      widget=forms.CheckboxSelectMultiple,
                                                      label='Специализции')
 
@@ -37,7 +37,7 @@ class SpecializationForm(forms.ModelForm):
 
 
 class SoftwareAndHardwareToolForm(forms.ModelForm):
-    software_and_hardware_tools = forms.ModelMultipleChoiceField(queryset=SoftwareAndHardwareTool.objects.all(),
+    software_and_hardware_tools = forms.ModelMultipleChoiceField(queryset=SoftwareAndHardwareTool.objects.all().order_by('name'),
                                                                  widget=forms.CheckboxSelectMultiple,
                                                                  label='Программно-технические средства')
 

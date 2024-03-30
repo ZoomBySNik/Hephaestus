@@ -10,7 +10,7 @@
                         <h1 class="title" style="font-size: xx-large">Заявка
                             от {{ application.date_of_application.date }}</h1>
                         <p>
-                            Заявитель: {{ application.employer.surname }} {{ application.employer.name }} {{ application.employer.patronymic }} {{ application.employer.position }}, {{ application.employer.position }}
+                            Заявитель: {{ application.employer.last_name }} {{ application.employer.first_name }} {{ application.employer.patronymic }}, {{ application.employer.position }}
                             организации {{ application.employer.organization.organizational_legal_form }}
                             "{{ application.employer.organization.name }}"
                         </p>
