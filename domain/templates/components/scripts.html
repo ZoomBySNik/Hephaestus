@@ -45,51 +45,6 @@
             lowerDivInactive.classList.add('active-content');
         }
 
-
-
-        document.addEventListener('DOMContentLoaded', function () {
-            let checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-            checkboxes.forEach(function (checkbox) {
-                if (checkbox.closest('.switch__input')) {
-                    return; // Пропускаем кнопку смены темы
-                }
-                var label = checkbox.parentElement.outerText;
-                var checkboxObj = {checkbox: checkbox, label: label, requiredParent: checkbox.parentNode.parentNode};
-                if (checkbox.checked) {
-                    checked_checkboxes.push(checkboxObj)
-                } else {
-                    not_checked_checkboxes.push(checkboxObj)
-                }
-
-            });
-            updateCheckboxes(checked_checkboxes, not_checked_checkboxes, checkboxesDiv);
-        });
-
-        function updateCheckboxes(checked_checkboxes, not_checked_checkboxes, checkboxesDiv) {
-            checked_checkboxes.forEach(function (checkbox) {
-                checkbox.requiredParent.classList.add('selected');
-            });
-            not_checked_checkboxes.forEach(function (checkbox) {
-                checkbox.requiredParent.classList.remove('selected');
-            });
-            checked_checkboxes.sort((a, b) => a.label.localeCompare(b.label));
-            not_checked_checkboxes.sort((a, b) => a.label.localeCompare(b.label));
-            if (checkboxesDiv) {
-                while (checkboxesDiv.firstChild) {
-                    checkboxesDiv.removeChild(checkboxesDiv.firstChild);
-                }
-
-                // Отрисовка отсортированных списков заново
-                checked_checkboxes.forEach(function (checkbox) {
-                    checkboxesDiv.appendChild(checkbox.requiredParent);
-                });
-                not_checked_checkboxes.forEach(function (checkbox) {
-                    checkboxesDiv.appendChild(checkbox.requiredParent);
-                });
-            }
-        }
-
         function filterResults(input) {
             clearTimeout(timeout);
 
