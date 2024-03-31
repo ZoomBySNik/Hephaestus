@@ -92,7 +92,9 @@ def get_user_data(user_id):
     user_type = get_user_type(user_id)
     if user_type == 'job_seeker':
         try:
-            return JobSeeker.objects.get(id=user_id)
+            job_seeker = JobSeeker.objects.get(id=user_id)
+            job_seeker.work_experiences = job_seeker.workexperience_set.all().order_by('-date_of_employment')
+            return job_seeker
         except JobSeeker.DoesNotExist:
             return None
     elif user_type == 'employer':

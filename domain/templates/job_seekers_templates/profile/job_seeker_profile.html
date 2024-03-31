@@ -140,7 +140,52 @@
                         </a>
                     </div>
                 </div>
+                <div class="flex-vertical gap-2em">
+                    <h1 class="title">Данные об предыдущей работе</h1>
+                    <div class="flex-vertical gap-1em">
+                        <h1 class="title" style="font-size: xx-large">Опыт работы:</h1>
+                        {% if data.workexperience_set.exists %}
+                            <table class="table">
+                                <tr>
+                                    <th>№</th>
+                                    <th>Должность</th>
+                                    <th>Организация</th>
+                                    <th>Дата трудоустройства</th>
+                                    <th>Дата увольнения</th>
+                                </tr>
+                                {% for work_experience in data.work_experiences %}
+                                    <tr>
+                                        <td>
+                                            {{ forloop.counter }}
+                                        </td>
+                                        <td>
+                                            {{ work_experience.position.name }}
+                                        </td>
+                                        <td>
+                                            {{ work_experience.organization }}
+                                        </td>
+                                        <td>
+                                            {{ work_experience.date_of_employment }}
+                                        </td>
+                                        <td>
+                                            {% if work_experience.date_of_dismissal %}
+                                                {{ work_experience.date_of_dismissal }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <p class="error-message">Вы пока не добавили информацию о предыдущей
+                                работе</p>
+                        {% endif %}
+                        <a href="{% url 'job_seeker_work_experience' %}">
+                            <button class="button submit">Изменить опыт работы</button>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 {% endblock content %}

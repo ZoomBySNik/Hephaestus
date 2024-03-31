@@ -114,7 +114,6 @@ def calculate_matching_between_job_seeker_and_application(job_seeker, applicatio
     for education in educations:
         if education.education.education_level.code >= application.education_level.code:
             education_factor = 1
-
     specializations = job_seeker.specialization.all()
     specialization_factor = 0
     for specialization in specializations:
@@ -161,7 +160,7 @@ def calculate_matching_between_job_seeker_and_application(job_seeker, applicatio
                 software_and_hardware_tool_factor += 1
         software_and_hardware_tool_factor = software_and_hardware_tool_factor / count_of_software_and_hardware_tools
 
-    percent = education_factor * specialization_factor * experience_factor * skill_factor * software_and_hardware_tool_factor * 100
+    percent = education_factor * specialization_factor * experience_factor * (skill_factor + software_and_hardware_tool_factor) / 2 * 100
     percent = round(percent, 0)
     return percent
 
