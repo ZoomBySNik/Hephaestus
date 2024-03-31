@@ -1,20 +1,37 @@
-var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-let checked_checkboxes = [];
-let not_checked_checkboxes = [];
-const checkboxesDiv = document.querySelector('.checkbox-div');
-checkboxes.forEach(function (checkbox) {
-    checkbox.addEventListener('change', function () {
-        var checkboxId = this.id;
-        var requiredParent = this.parentNode.parentNode;
-        if (this.checked) {
-            console.log(this);
-            moveCheckbox(checkboxId, not_checked_checkboxes, checked_checkboxes);
+const checkboxesDivs = document.querySelectorAll('.checkbox-div');
+let global_mas_checkboxes = {};
+
+checkboxesDivs.forEach(function (checkboxesDiv) {
+    let checked_checkboxes = [];
+    let not_checked_checkboxes = [];
+    let checkboxes = checkboxesDiv.querySelectorAll('input[type="checkbox"]');
+
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            var checkboxId = this.id;
+            var wrapperId = checkboxesDiv.id;
+
+            if (this.checked) {
+                moveCheckbox(checkboxId, global_mas_checkboxes[wrapperId].NotCheckedCheckboxes, global_mas_checkboxes[wrapperId].CheckedCheckboxes);
+            } else {
+                moveCheckbox(checkboxId, global_mas_checkboxes[wrapperId].CheckedCheckboxes, global_mas_checkboxes[wrapperId].NotCheckedCheckboxes);
+            }
+
+            updateCheckboxes(global_mas_checkboxes[wrapperId].CheckedCheckboxes, global_mas_checkboxes[wrapperId].NotCheckedCheckboxes, checkboxesDiv);
+        });
+
+        var label = checkbox.parentElement.outerText;
+        var checkboxObj = {checkbox: checkbox, label: label, requiredParent: checkbox.parentNode.parentNode};
+
+        if (checkbox.checked) {
+            checked_checkboxes.push(checkboxObj);
         } else {
-            console.log(this);
-            moveCheckbox(checkboxId, checked_checkboxes, not_checked_checkboxes);
+            not_checked_checkboxes.push(checkboxObj);
         }
-        updateCheckboxes(checked_checkboxes, not_checked_checkboxes, checkboxesDiv);
     });
+
+    global_mas_checkboxes[checkboxesDiv.id] = {CheckedCheckboxes: checked_checkboxes, NotCheckedCheckboxes: not_checked_checkboxes};
+    updateCheckboxes(checked_checkboxes, not_checked_checkboxes, checkboxesDiv);
 });
 
 function moveCheckbox(checkboxId, fromArray, toArray) {
@@ -27,25 +44,6 @@ function moveCheckbox(checkboxId, fromArray, toArray) {
         toArray.push(removedCheckbox);
     }
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    let checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-    checkboxes.forEach(function (checkbox) {
-        if (checkbox.closest('.switch__input')) {
-            return; // Пропускаем кнопку смены темы
-        }
-        var label = checkbox.parentElement.outerText;
-        var checkboxObj = {checkbox: checkbox, label: label, requiredParent: checkbox.parentNode.parentNode};
-        if (checkbox.checked) {
-            checked_checkboxes.push(checkboxObj)
-        } else {
-            not_checked_checkboxes.push(checkboxObj)
-        }
-
-    });
-    updateCheckboxes(checked_checkboxes, not_checked_checkboxes, checkboxesDiv);
-});
 
 function updateCheckboxes(checked_checkboxes, not_checked_checkboxes, checkboxesDiv) {
     checked_checkboxes.forEach(function (checkbox) {

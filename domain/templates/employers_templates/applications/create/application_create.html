@@ -48,12 +48,24 @@
                     <p class="flex-horizontal gap-2em">
                         <label for="{{ form.skills.id_for_label }}">{{ form.skills.label }}: </label>
                     </p>
-                    {{ form.skills|add_class:"flex-vertical gap-05em checkbox-div" }}
+                    <div class="flex-horizontal gap-1em" style="padding: 1em 0">
+                        <label>Поиск:</label>
+                        <input type="text"
+                               oninput="filterCheckboxes(this, 'filter-results-container-1')"
+                               class="input-field">
+                    </div>
+                    {{ form.skills|add_class:"flex-vertical gap-05em checkbox-div"|attr:"id:filter-results-container-1" }}
 
                     <p class="flex-horizontal gap-2em" style="padding-top: 2em">
                         <label for="{{ form.software_and_hardware_tools.id_for_label }}">{{ form.software_and_hardware_tools.label }}: </label>
                     </p>
-                    {{ form.software_and_hardware_tools|add_class:"flex-vertical gap-05em checkbox-div" }}
+                    <div class="flex-horizontal gap-1em" style="padding: 1em 0">
+                        <label>Поиск:</label>
+                        <input type="text"
+                               oninput="filterCheckboxes(this, 'filter-results-container-2')"
+                               class="input-field">
+                    </div>
+                    {{ form.software_and_hardware_tools|add_class:"flex-vertical gap-05em checkbox-div"|attr:"id:filter-results-container-2" }}
                     <button type="submit" class="button submit">Создать заявку</button>
                 </form>
             </div>

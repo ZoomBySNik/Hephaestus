@@ -11,7 +11,14 @@
                     <p class="flex-horizontal gap-2em">
                         <label for="{{ form.skills.id_for_label }}">{{ form.skills.label }}: </label>
                     </p>
-                    <div class="flex-vertical gap-05em checkbox-div">
+                    <div class="flex-horizontal gap-1em" style="padding: 1em 0">
+                        <label>Поиск:</label>
+                        <input type="text"
+                               oninput="filterCheckboxes(this, 'filter-results-container-{{ form.skills.id_for_label }}')"
+                               class="input-field">
+                    </div>
+                    <div class="flex-vertical gap-05em checkbox-div"
+                         id="filter-results-container-{{ form.skills.id_for_label }}">
                         {% for checkbox in form.skills %}
                             <div {% if checkbox.checked %}class="selected"{% endif %}>
                                 {{ checkbox }}

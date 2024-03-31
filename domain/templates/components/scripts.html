@@ -45,6 +45,27 @@
             lowerDivInactive.classList.add('active-content');
         }
 
+        function filterCheckboxes(input, containerId) {
+            clearTimeout(timeout);
+            var filter = input.value.toUpperCase();
+            var checkboxesContainer = document.getElementById(containerId);
+            var checkboxes = checkboxesContainer.getElementsByTagName("div");
+            var delay = 500;
+            timeout = setTimeout(function () {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    var label = checkboxes[i].getElementsByTagName("label")[0];
+                    if (label) {
+                        var textValue = label.textContent || label.innerText;
+                        if (textValue.toUpperCase().indexOf(filter) > -1) {
+                            checkboxes[i].style.display = "";
+                        } else {
+                            checkboxes[i].style.display = "none";
+                        }
+                    }
+                }
+            }, delay);
+        }
+
         function filterResults(input) {
             clearTimeout(timeout);
 
