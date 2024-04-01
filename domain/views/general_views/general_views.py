@@ -3,25 +3,30 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
 from domain.decorators import *
 from domain.forms.employers_forms import EmployerForm
 from domain.forms.general_forms import *
 from domain.forms.job_seekers_forms import JobSeekerForm
 from domain.models import *
+from domain.views.employee_views.employres_views import get_russian_status
 
 
-# Create your views here.
-
-
+@login_required
 def home_view(request, *args, **kwargs):
     applications_by_new = Application.objects.all().order_by('-date_of_application').exclude(
         Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
     applications_by_final_date = Application.objects.all().order_by('final_date').exclude(
         Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
+    extra_data = {}
+    if get_user_type(request.user.id) == 'job_seeker':
+        job_seeker = get_user_data(request.user.id)
+        extra_data = {
+            'applications': Application.objects.all().exclude(applicationsresponses__job_seeker_id=job_seeker.id),
+            'job_seeker': job_seeker}
     response = {
         'applications_by_new': applications_by_new,
-        'applications_by_final_date': applications_by_final_date
+        'applications_by_final_date': applications_by_final_date,
+        'extra_data': extra_data
     }
     return render(request, 'general_templates/home/home.html', response)
 
@@ -99,7 +104,11 @@ def get_user_data(user_id):
             return None
     elif user_type == 'employer':
         try:
-            return Employer.objects.get(id=user_id)
+            employer = Employer.objects.get(id=user_id)
+            employer.applications = Application.objects.filter(employer=employer)
+            for application in employer.applications:
+                application.status_in_rus = get_russian_status(application.status)
+            return employer
         except Employer.DoesNotExist:
             return None
     elif user_type == 'employee':

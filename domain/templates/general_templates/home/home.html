@@ -5,6 +5,8 @@
         <div class="split-section flex-vertical gap-2em">
             {% if user_type == 'employee' %}
             {% include 'employees_templates/home/components/applications_block.html' %}
+            {% elif user_type == 'job_seeker' %}
+                {% include 'job_seekers_templates/home/components/applications.html' %}
             {% endif %}
         </div>
     </section>
