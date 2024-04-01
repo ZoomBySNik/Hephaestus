@@ -1,0 +1,25 @@
+:root {
+    --body-bg: #bdfcbd;
+    --table-bg: #f1c2fe;
+    --hover-bg: #ff98fe;
+    --td-bg: #daab64;
+    --div-bg: #72fcd3;
+    --text-color: #771e39;
+    --text-hover: #961c41;
+    --element-shadow: rgba(0, 0, 0, 0.1);
+    --shadow-next: rgba(48, 48, 48, 0.3);
+
+    --error-color: #FF3838;
+    --submit-bg: #61C786;
+    --submit-shadow: rgba(97, 199, 134, 0.8);
+    --submit-hover: #7BE89F;
+    --submit-hover-shadow: rgba(123, 232, 159, 0.95);
+    --reject-bg: #D45151;
+    --reject-shadow: rgba(212, 81, 81, 0.8);
+    --reject-hover: #E97E7E;
+    --reject-hover-shadow: rgba(233, 126, 126, 0.95);
+}
+
+.icon {
+    filter: brightness(0) saturate(100%) invert(11%) sepia(38%) saturate(6230%) hue-rotate(327deg) brightness(90%) contrast(85%);
+}
