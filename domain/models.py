@@ -92,7 +92,7 @@ class EmployeePosition(models.Model):
 
 
 class Employee(CustomUser):
-    date_of_employment = models.DateField(blank=False, null=False, verbose_name='Дата приёма')
+    date_of_employment = models.DateField(blank=True, null=True, verbose_name='Дата приёма', auto_now=True)
     date_of_dismissal = models.DateField(blank=True, null=True, verbose_name='Дата увольнения')
     employee_position = models.ForeignKey('EmployeePosition', on_delete=models.PROTECT,
                                           null=False, blank=False, verbose_name='Должность')

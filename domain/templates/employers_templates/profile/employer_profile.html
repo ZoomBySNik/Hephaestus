@@ -16,7 +16,7 @@
                             <input type="text" oninput="filterResults(this)" class="input-field">
                         </div>
                         {% for application in data.applications %}
-                            <a href="{% url 'applications_view_detail' application.id %}" id="search_results">
+                            <a href="#" id="search_results">
                                 <div class="flex-vertical persons-div gap-1em">
                                     <h1 class="title" style="font-size: xx-large">Заявка
                                         от {{ application.date_of_application.date }}</h1>

@@ -183,7 +183,16 @@ def profile_update(request):
                 return redirect('error_page', form.errors)
         else:
             form = EmployerForm(instance=data)
-
+    elif user_type == 'employee':
+        if request.method == 'POST':
+            form = EmployeeForm(request.POST, request.FILES, instance=data)
+            if form.is_valid():
+                form.save()
+                return redirect('user_profile')
+            else:
+                return redirect('error_page', form.errors)
+        else:
+            form = EmployeeForm(instance=data)
     context = {'user': user,
                'data': data,
                'user_type': user_type,

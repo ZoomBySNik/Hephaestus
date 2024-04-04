@@ -30,3 +30,11 @@ class PhotoSaveForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class EmployeeForm(forms.ModelForm):
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel'}), label='Номер телефона')
+    employee_position = forms.ModelChoiceField(queryset=EmployeePosition.objects.all(), label='Должность')
+    class Meta:
+        model = Employee
+        fields = ['last_name', 'first_name', 'patronymic', 'phone_number', 'email', 'employee_position']

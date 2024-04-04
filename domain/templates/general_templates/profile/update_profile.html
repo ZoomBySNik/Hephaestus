@@ -42,6 +42,11 @@
                                         </p>
                                     {% else %}
                                     {% endif %}
+                                {% elif user_type == 'employee' %}
+                                    <p>
+                                        <label for="{{ form.employee_position.id_for_label }}">{{ form.employee_position.label }}:</label>
+                                        {{ form.employee_position }}
+                                    </p>
                                 {% endif %}
                             </div>
                         </div>
@@ -72,7 +77,8 @@
                                     {% if data.organization %}
                                         <p>
                                             Ваша текущая
-                                            организация: {{ data.organization.organizational_legal_form.short_name }} "{{ data.organization.name }}"
+                                            организация: {{ data.organization.organizational_legal_form.short_name }}
+                                            "{{ data.organization.name }}"
                                         </p>
                                         <div class="flex-horizontal gap-1em">
                                             <a href="{% url 'organization_edit' data.organization.id %}">

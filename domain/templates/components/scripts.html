@@ -108,7 +108,7 @@
             $('#theme-toggle').click(function () {
                 var currentTheme = $('#theme-link').attr('href');
                 var newTheme = currentTheme.includes('darkcolors.css') ? '{% static 'css/lightcolors.css' %}' : '{% static 'css/darkcolors.css' %}';
-                if (Math.random() < 1 / 20) {
+                if (Math.random() < 1 / 10) {
                     newTheme = '{% static 'css/jokecolors.css' %}';
                 }
                 // Сохраняем выбранную тему в куки
