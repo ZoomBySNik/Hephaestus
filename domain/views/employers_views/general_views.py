@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.shortcuts import redirect, render
 from domain.forms.employers_forms import *
 from domain.models import *
+from domain.general_functions import *
 
 
 @employer_required

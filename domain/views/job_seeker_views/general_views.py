@@ -2,7 +2,7 @@ from datetime import timedelta, date
 from datetime import datetime as dt
 from django import forms
 from django.shortcuts import redirect, render, get_object_or_404
-
+from domain.general_functions import *
 from domain.decorators import *
 from domain.forms.job_seekers_forms import *
 from domain.models import *

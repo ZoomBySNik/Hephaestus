@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
+from domain.general_functions import *
 from domain.decorators import *
 from domain.forms.general_forms import *
 from domain.models import *

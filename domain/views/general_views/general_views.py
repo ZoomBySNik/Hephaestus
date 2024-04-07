@@ -8,7 +8,7 @@ from domain.forms.employers_forms import EmployerForm
 from domain.forms.general_forms import *
 from domain.forms.job_seekers_forms import JobSeekerForm
 from domain.models import *
-from domain.views.employee_views.employres_views import get_russian_status
+from domain.general_functions import *
 
 
 @login_required
@@ -20,8 +20,17 @@ def home_view(request, *args, **kwargs):
     extra_data = {}
     if get_user_type(request.user.id) == 'job_seeker':
         job_seeker = get_user_data(request.user.id)
+        applications = Application.objects.filter(
+            ~Q(applicationsresponses__job_seeker_id=job_seeker.id) &
+            ~(Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))
+        )
+        filtered_applications = []
+        for application in applications:
+            application.matching_result = calculate_matching_between_job_seeker_and_application(job_seeker, application)
+            if application.matching_result >= 50:
+                filtered_applications.append(application)
         extra_data = {
-            'applications': Application.objects.all().exclude(applicationsresponses__job_seeker_id=job_seeker.id),
+            'applications': filtered_applications,
             'job_seeker': job_seeker}
     response = {
         'applications_by_new': applications_by_new,
@@ -74,50 +83,6 @@ def jobseeker_registration(request):
     else:
         form = JobSeekerRegistrationForm()
     return render(request, 'registration/user_registration.html', {'form': form})
-
-
-def get_user_type(user_id):
-    try:
-        job_seeker = JobSeeker.objects.get(id=user_id)
-        user_type = 'job_seeker'
-    except JobSeeker.DoesNotExist:
-        try:
-            employer = Employer.objects.get(id=user_id)
-            user_type = 'employer'
-        except Employer.DoesNotExist:
-            try:
-                employee = Employee.objects.get(id=user_id)
-                user_type = 'employee'
-            except Employee.DoesNotExist:
-                return None, 'not_found'
-    return user_type
-
-
-def get_user_data(user_id):
-    user_type = get_user_type(user_id)
-    if user_type == 'job_seeker':
-        try:
-            job_seeker = JobSeeker.objects.get(id=user_id)
-            job_seeker.work_experiences = job_seeker.workexperience_set.all().order_by('-date_of_employment')
-            return job_seeker
-        except JobSeeker.DoesNotExist:
-            return None
-    elif user_type == 'employer':
-        try:
-            employer = Employer.objects.get(id=user_id)
-            employer.applications = Application.objects.filter(employer=employer)
-            for application in employer.applications:
-                application.status_in_rus = get_russian_status(application.status)
-            return employer
-        except Employer.DoesNotExist:
-            return None
-    elif user_type == 'employee':
-        try:
-            return Employee.objects.get(id=user_id)
-        except Employee.DoesNotExist:
-            return None
-    else:
-        return None
 
 
 @login_required
