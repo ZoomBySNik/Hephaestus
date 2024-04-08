@@ -199,7 +199,7 @@ class JobSeeker(CustomUser):
     address = models.ForeignKey('Address', blank=True, null=True, on_delete=models.PROTECT, verbose_name='Адрес')
     skill = models.ManyToManyField('Skill', blank=True, verbose_name='Навыки')
     specialization = models.ManyToManyField('Specialization', blank=True, verbose_name='Специализация')
-    about = models.TextField(blank=True, null=True, verbose_name='Описание профиля')
+    about = models.TextField(blank=True, null=True, verbose_name='Описание организации')
 
     def __str__(self):
         return '%s %s %s' % (self.last_name, self.first_name, self.birthdate.isoformat())
