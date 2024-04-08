@@ -58,6 +58,8 @@ class Organization(models.Model):
     inn = models.CharField(max_length=12, blank=False, null=False, verbose_name='ИНН')
     address = models.ForeignKey('Address', on_delete=models.PROTECT,
                                 null=False, blank=False, verbose_name='Адрес')
+    about = models.TextField(blank=True, null=True, verbose_name='Описание профиля')
+    organization_logo = models.ImageField(blank=True, null=True, verbose_name='Логотип организации', upload_to='organization_logos')
 
     def __str__(self):
         return '%s' % self.name
