@@ -3,29 +3,37 @@
     <section class="split-section flex-vertical gap-2em">
         <div class="content-block flex-vertical gap-1em">
             <h1 class="title">Доступные вакансии</h1>
-            {% for application in extra_data.applications %}
-                <div class="content-box flex-vertical gap-1em">
-                    <div class="content flex-horizontal gap-1em"
-                         style="justify-content: space-between; padding: 2em 4em">
-                        <div class="flex-vertical gap-1em">
-                            <h1 class="title" style="font-size: xx-large">Вакансия на должность
-                                {{ application.position }}</h1>
-                            <p>В организацию <span class="title" style="font-size: unset">{{ application.employer.organization.organizational_legal_form }}
+            {% if extra_data.applications %}
+                {% for application in extra_data.applications %}
+                    <div class="content-box flex-vertical gap-1em">
+                        <div class="content flex-horizontal gap-1em"
+                             style="justify-content: space-between; padding: 2em 4em">
+                            <div class="flex-vertical gap-1em">
+                                <h1 class="title" style="font-size: xx-large">Вакансия на должность
+                                    {{ application.position }}</h1>
+                                <p>В организацию <span class="title"
+                                                       style="font-size: unset">{{ application.employer.organization.organizational_legal_form }}
                                 "{{ application.employer.organization.name }}"</span></p>
-                            <p>С зарплатой в <span class="title" style="font-size: unset">{{ application.salary }}</span> рублей</p>
+                                <p>С зарплатой в <span class="title"
+                                                       style="font-size: unset">{{ application.salary }}</span> рублей
+                                </p>
 
-                        </div>
-                        <div class="flex-vertical gap-1em" style="justify-content: flex-start; height: 100%">
-                            <a href="#">
-                                <button class="button">Подробнее</button>
-                            </a>
-                            <br>
-                            <br>
+                            </div>
+                            <div class="flex-vertical gap-1em" style="justify-content: flex-start; height: 100%">
+                                <a href="#">
+                                    <button class="button">Подробнее</button>
+                                </a>
+                                <br>
+                                <br>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
-            <h1 class="title error-message">Похоже, что это все доступные вам вакансии</h1>
+                {% endfor %}
+                <h1 class="title error-message">Похоже, что это все доступные вам вакансии</h1>
+            {% else %}
+                <h1 class="title error-message">Доступных вакансий пока нет</h1>
+            {% endif %}
+
         </div>
     </section>
 {% endblock content %}

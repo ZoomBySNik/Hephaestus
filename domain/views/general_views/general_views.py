@@ -22,7 +22,8 @@ def home_view(request, *args, **kwargs):
         job_seeker = get_user_data(request.user.id)
         applications = Application.objects.filter(
             ~Q(applicationsresponses__job_seeker_id=job_seeker.id) &
-            ~(Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))
+            ~(Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False)) &
+            ~Q(status='new')
         )
         filtered_applications = []
         for application in applications:
@@ -110,6 +111,7 @@ def profile_update(request):
     user_type = get_user_type(user.id)
     data = get_user_data(user.id)
     if user_type == 'job_seeker':
+
         if request.method == 'POST':
             form = JobSeekerForm(request.POST, request.FILES, instance=data)
             if form.is_valid():

@@ -12,7 +12,7 @@ def organization_create_view(request, *args, **kwargs):
     organizations_list = Organization.objects.order_by('name')
     form_type = 'organization'
     if request.method == 'POST':
-        form = OrganizationForm(request.POST)
+        form = OrganizationForm(request.POST, request.FILES,)
         if form.is_valid():
             address_data = {
                 'locality': form.cleaned_data['locality'],
@@ -65,7 +65,7 @@ def organization_edit_view(request, organization_id):
     form_type = 'organization'
     organization = Organization.objects.get(id=organization_id)
     if request.method == 'POST':
-        form = OrganizationForm(request.POST)
+        form = OrganizationForm(request.POST, request.FILES, instance=organization)
         if form.is_valid():
             address_data = {
                 'locality': form.cleaned_data['locality'],
@@ -93,7 +93,7 @@ def organization_edit_view(request, organization_id):
         'form_type': form_type,
         'form': form,
     }
-    return render(request, 'employers_templates/organization/organization_apply.html', context)
+    return render(request, 'employers_templates/organization/organization_edit.html', context)
 
 
 @employer_required
