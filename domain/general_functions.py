@@ -122,6 +122,5 @@ def get_russian_status(status):
         'pending_approval': 'На согласовании',
         'completed': 'Завершена',
         'canceled': 'Отменена',
-        'payment_received': 'Получена оплата'
     }
     return status_dict.get(status)

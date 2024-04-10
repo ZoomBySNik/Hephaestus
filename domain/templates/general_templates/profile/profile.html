@@ -35,8 +35,11 @@
                                 <p class="text1">Место проживания: {% if not data.address %}неуказан{% else %}
                                     {{ data.address.locality }}{% endif %}</p>
                             {% elif user_type == 'employer' %}
-                                <p class="text1">Организация: {% if not data.organization %}неуказана{% else %}
-                                    {{ data.organization.organizational_legal_form.short_name }} "{{ data.organization.name }}"{% endif %}</p>
+                                <a href="{% url 'organization_view' data.organization.id %}">
+                                    <p class="text1">Организация: {% if not data.organization %}неуказана{% else %}
+                                        <span class="title" style="font-size: unset">{{ data.organization.organizational_legal_form.short_name }} "{{ data.organization.name }}"</span>{% endif %}
+                                    </p>
+                                </a>
                                 <p class="text1">Должность: {% if not data.position %}неуказана{% else %}
                                     {{ data.position }}{% endif %}</p>
                             {% else %}
@@ -79,10 +82,6 @@
     </section>
     <style>
         .photo-update {
-            position: relative;
-        }
-
-        .profile-photo-container {
             position: relative;
         }
 

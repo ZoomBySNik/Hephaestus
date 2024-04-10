@@ -7,7 +7,7 @@
             <h1 class="title">Редактирование организации</h1>
             <div class="content-box flex-vertical gap-1em">
                 <div class="content flex-vertical gap-2em" style="padding: 4em 8em;">
-                    <form method="POST" class="input-form flex-vertical gap-2em">
+                    <form method="POST" class="input-form flex-vertical gap-2em" enctype="multipart/form-data">
                         {% csrf_token %}
                         <h1 class="title text-size-larger">Основная информация</h1>
                         <p>

@@ -11,7 +11,7 @@
                     <div class="splitted-part right" onclick="toggleSplitter(this)">Выбрать существующую</div>
                 </div>
                 <div class="content flex-vertical gap-2em active-content" style="padding: 4em 8em;">
-                    <form method="POST" class="input-form flex-vertical gap-2em">
+                    <form method="POST" class="input-form flex-vertical gap-2em" enctype="multipart/form-data">
                         {% csrf_token %}
                         <h1 class="title text-size-larger">Основная информация</h1>
                         <p>
@@ -59,7 +59,8 @@
                         {% if form.errors %}
                             <p class="error-message">{{ form.errors }}</p>
                         {% endif %}
-                        <button type="submit" class="button submit" style="width: fit-content;">Создать и привязать</button>
+                        <button type="submit" class="button submit" style="width: fit-content;">Создать и привязать
+                        </button>
                     </form>
                 </div>
                 <div class="content flex-vertical gap-2em inactive-content" style="padding: 4em 8em;">
@@ -72,8 +73,20 @@
                         <a href="{% url 'organization_apply' organization.id %}"
                            id="search_results">
                             <div class="flex-horizontal persons-div gap-3em">
-                                <p>{{ organization.organizational_legal_form }} "{{ organization.name }}"
-                                </p>
+                                <div>
+                                    {% if organization.organization_logo %}
+                                        <img class="person-img"
+                                             src="/media/{{ MEDIA_URL }}{{ organization.organization_logo }}">
+                                    {% else %}
+                                        <div class="person-img"></div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="flex-vertical gap-1em">
+                                    <p>{{ organization.organizational_legal_form }} "{{ organization.name }}"
+                                    </p>
+                                    <p>{{ organization.about|truncatechars:360 }}</p>
+                                </div>
                             </div>
                         </a>
                     {% endfor %}

@@ -83,6 +83,8 @@ urlpatterns = [
     path('profile/', profile, name='user_profile'),
     path('profile/edit/', profile_update, name='profile_update'),
 
+    path('organization/<str:organization_id>', organization_view, name='organization_view'),
+
     path('error_page/<str:error_message>/', error_view, name='error_page'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

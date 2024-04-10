@@ -312,7 +312,6 @@ class Application(models.Model):
         ('pending_approval', 'На согласовании'),
         ('completed', 'Завершена'),
         ('canceled', 'Отменена'),
-        ('payment_received', 'Получена оплата')
     ]
     employer = models.ForeignKey('Employer', blank=False, null=False,
                                  on_delete=models.CASCADE, verbose_name='Работодатель')

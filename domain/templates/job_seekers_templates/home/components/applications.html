@@ -12,8 +12,8 @@
                                 <h1 class="title" style="font-size: xx-large">Вакансия на должность
                                     {{ application.position }}</h1>
                                 <p>В организацию <span class="title"
-                                                       style="font-size: unset">{{ application.employer.organization.organizational_legal_form }}
-                                "{{ application.employer.organization.name }}"</span></p>
+                                                       style="font-size: unset"><a href="{% url 'organization_view' application.employer.organization.id %}">{{ application.employer.organization.organizational_legal_form }}
+                                "{{ application.employer.organization.name }}"</a></span></p>
                                 <p>С зарплатой в <span class="title"
                                                        style="font-size: unset">{{ application.salary }}</span> рублей
                                 </p>

@@ -1,3 +1,5 @@
+from operator import attrgetter
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -30,6 +32,7 @@ def home_view(request, *args, **kwargs):
             application.matching_result = calculate_matching_between_job_seeker_and_application(job_seeker, application)
             if application.matching_result >= 50:
                 filtered_applications.append(application)
+        filtered_applications = sorted(filtered_applications, key=attrgetter('matching_result'), reverse=True)
         extra_data = {
             'applications': filtered_applications,
             'job_seeker': job_seeker}
@@ -165,3 +168,29 @@ def profile_update(request):
                'user_type': user_type,
                'form': form}
     return render(request, 'general_templates/profile/update_profile.html', context)
+
+
+@login_required
+def organization_view(request, organization_id):
+    user_data = get_user_data(request.user.id)
+    user_type = get_user_type(request.user.id)
+    organization = Organization.objects.get(id=organization_id)
+    is_member = False
+    if user_type == 'employer':
+        if user_data.organization_id == organization.id:
+            is_member = True
+    else:
+        if user_type == 'employee':
+            is_member = True
+    is_job_seeker = False
+    if user_type == 'job_seeker':
+        is_job_seeker = True
+    context = {
+        'organization': organization,
+        'is_member': is_member,
+        'is_job_seeker': is_job_seeker,
+    }
+    if is_job_seeker or is_member:
+        applications = Application.objects.filter(employer__organization=organization).order_by('-date_of_application')
+        context['applications'] = applications
+    return render(request, 'general_templates/organization/organization.html', context)
