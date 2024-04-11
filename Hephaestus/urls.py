@@ -57,6 +57,8 @@ urlpatterns = [
         ])),
         path('application/', include([
             path('view/<str:application_id>', job_seeker_application_view, name='job_seeker_application_view'),
+            path('response/<str:application_id>', job_seeker_application_response_create, name='job_seeker_application_response_create'),
+            path('response/<str:application_id>/withdraw', job_seeker_application_response_withdraw, name='job_seeker_application_response_withdraw'),
         ]))
     ])),
 

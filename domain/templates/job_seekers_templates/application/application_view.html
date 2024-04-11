@@ -10,13 +10,16 @@
                         <h1 class="title" style="font-size: xx-large">Заявка
                             от {{ application.date_of_application.date }}</h1>
                         <p>
-                            Организация заказчик: {{ application.employer.organization.organizational_legal_form }}
-                            "{{ application.employer.organization.name }}"
+                            Организация заказчик: <span class="title"
+                                                        style="font-size: unset"><a
+                                href="{% url 'organization_view' application.employer.organization.id %}">{{ application.employer.organization.organizational_legal_form }}
+                            "{{ application.employer.organization.name }}"</a></span>
                         </p>
                         <p>
                             Адрес организации: <span class="title"
-                                                     style="font-size: unset">{{ application.employer.organization.address.locality }}</span>, улица {{ application.employer.organization.address.street }},
-                                строение {{ application.employer.organization.address.number_of_building }}
+                                                     style="font-size: unset">{{ application.employer.organization.address.locality }}</span>,
+                            улица {{ application.employer.organization.address.street }},
+                            строение {{ application.employer.organization.address.number_of_building }}
                         </p>
                         <p>На должность <span class="title"
                                               style="font-size: unset">{{ application.position }}</span> с
@@ -55,7 +58,15 @@
                         </p>
                     </div>
                     <div class="flex-horizontal gap-2em">
-                        <a><button class="button submit">Откликнуться</button></a>
+                        {% if not response_was_created %}
+                            <a href="{% url 'job_seeker_application_response_create' application.id %}">
+                                <button class="button submit">Откликнуться</button>
+                            </a>
+                        {% elif can_be_withdrawn %}
+                             <a href="{% url 'job_seeker_application_response_withdraw' application.id %}">
+                                <button class="button reject">Отозвать отклик</button>
+                            </a>
+                        {% endif %}
                     </div>
                     <script>
                         document.addEventListener('DOMContentLoaded', function () {

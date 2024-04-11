@@ -155,7 +155,52 @@ def job_seeker_work_experience_view(request):
 @job_seeker_required
 def job_seeker_application_view(request, application_id):
     application = Application.objects.get(id=application_id)
+    response_was_created = False
+    can_be_withdrawn = False
+    existing_response = ApplicationsResponses.objects.filter(application=application,
+                                                             job_seeker=JobSeeker.objects.get(
+                                                                 id=request.user.id)).exclude(status='withdrawn')
+    if existing_response.exists():
+        response_was_created = True
+        if existing_response.first().status == 'pending':
+            can_be_withdrawn = True
     context = {
         'application': application,
+        'response_was_created': response_was_created,
+        'can_be_withdrawn': can_be_withdrawn
     }
     return render(request, 'job_seekers_templates/application/application_view.html', context)
+
+
+@job_seeker_required
+def job_seeker_application_response_create(request, application_id):
+    application = Application.objects.get(id=application_id)
+    job_seeker = JobSeeker.objects.get(id=request.user.id)
+
+    existing_response = ApplicationsResponses.objects.filter(application=application, job_seeker=job_seeker).first()
+    if existing_response:
+        if existing_response.status == 'withdrawn':
+            existing_response.status = 'pending'
+            existing_response.save()
+        return redirect('job_seeker_application_view', application_id=application_id)
+    application_response = ApplicationsResponses.objects.create(
+        application=application,
+        job_seeker=job_seeker,
+        evaluation=calculate_matching_between_job_seeker_and_application(job_seeker, application),
+    )
+    application_response.save()
+    return redirect('job_seeker_application_view', application_id=application_id)
+
+
+@job_seeker_required
+def job_seeker_application_response_withdraw(request, application_id):
+    application = Application.objects.get(id=application_id)
+    job_seeker = JobSeeker.objects.get(id=request.user.id)
+
+    existing_response = ApplicationsResponses.objects.filter(application=application, job_seeker=job_seeker).first()
+    if existing_response:
+        if existing_response.status == 'pending':
+            existing_response.status = 'withdrawn'
+            existing_response.save()
+        return redirect('job_seeker_application_view', application_id=application_id)
+    return redirect('job_seeker_application_view', application_id=application_id)
