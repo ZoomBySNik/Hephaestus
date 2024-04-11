@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            <div class="content-box flex-vertical gap-1em">
+                <div class="content flex-vertical gap-2em">
+                    <div class="flex-vertical gap-1em">
+                        <h1 class="title" style="font-size: xx-large">Заявка
+                            от {{ application.date_of_application.date }}</h1>
+                        <p>
+                            Организация заказчик: {{ application.employer.organization.organizational_legal_form }}
+                            "{{ application.employer.organization.name }}"
+                        </p>
+                        <p>
+                            Адрес организации: <span class="title"
+                                                     style="font-size: unset">{{ application.employer.organization.address.locality }}</span>, улица {{ application.employer.organization.address.street }},
+                                строение {{ application.employer.organization.address.number_of_building }}
+                        </p>
+                        <p>На должность <span class="title"
+                                              style="font-size: unset">{{ application.position }}</span> с
+                            графиком работы: <span class="title"
+                                                   style="font-size: unset">{{ application.work_schedule.name.lower }}</span>
+                            и зарплатой <span class="title"
+                                              style="font-size: unset">{{ application.salary }}</span> рублей</p>
+                    </div>
+                    <div class="flex-vertical gap-1em">
+                        <h1 class="title" style="font-size: x-large">
+                            Требования
+                        </h1>
+                        <p>
+                            Специализация: <span class="title"
+                                                 style="font-size: unset">{{ application.specialization }}</span>
+                        </p>
+                        <p>
+                            Опыт работы: <span class="title" style="font-size: unset"
+                                               id="experience{{ application.id }}">{{ application.experience }}</span>
+                        </p>
+                        <p>
+                            Образование: <span class="title"
+                                               style="font-size: unset">{{ application.education_level }}</span>
+                        </p>
+                        <p>Навыки:
+                            {% for skill in application.skills.all %}
+                                <span class="title" style="font-size: unset">{{ skill }}</span>
+                                {% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </p>
+                        <p>Программно-технические средства:
+                            {% for software_and_hardware_tool in application.software_and_hardware_tools.all %}
+                                <span class="title" style="font-size: unset">{{ software_and_hardware_tool }}</span>
+                                {% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="flex-horizontal gap-2em">
+                        <a><button class="button submit">Откликнуться</button></a>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var experienceElement = document.getElementById('experience{{ application.id }}');
+                            var years = parseInt(experienceElement.innerText);
+
+                            if (years % 10 === 1 && years % 100 !== 11) {
+                                experienceElement.innerText = years + ' год';
+                            } else if (years % 10 >= 2 && years % 10 <= 4 && (years % 100 < 10 || years % 100 >= 20)) {
+                                experienceElement.innerText = years + ' года';
+                            } else {
+                                experienceElement.innerText = years + ' лет';
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

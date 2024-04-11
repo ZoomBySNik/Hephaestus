@@ -150,3 +150,12 @@ def job_seeker_work_experience_view(request):
         'form': form,
     }
     return render(request, 'job_seekers_templates/profile/create/work_experience.html', context)
+
+
+@job_seeker_required
+def job_seeker_application_view(request, application_id):
+    application = Application.objects.get(id=application_id)
+    context = {
+        'application': application,
+    }
+    return render(request, 'job_seekers_templates/application/application_view.html', context)

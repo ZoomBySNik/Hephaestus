@@ -193,4 +193,4 @@ def organization_view(request, organization_id):
     if is_job_seeker or is_member:
         applications = Application.objects.filter(employer__organization=organization).order_by('-date_of_application')
         context['applications'] = applications
-    return render(request, 'general_templates/organization/organization.html', context)
+    return render(request, 'general_templates/organization/organization_view.html', context)

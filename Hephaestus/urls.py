@@ -55,6 +55,9 @@ urlpatterns = [
             path('work_experience/', job_seeker_work_experience_view,
                  name='job_seeker_work_experience'),
         ])),
+        path('application/', include([
+            path('view/<str:application_id>', job_seeker_application_view, name='job_seeker_application_view'),
+        ]))
     ])),
 
     path('emr/', include([

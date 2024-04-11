@@ -12,7 +12,8 @@
                                 <h1 class="title" style="font-size: xx-large">Вакансия на должность
                                     {{ application.position }}</h1>
                                 <p>В организацию <span class="title"
-                                                       style="font-size: unset"><a href="{% url 'organization_view' application.employer.organization.id %}">{{ application.employer.organization.organizational_legal_form }}
+                                                       style="font-size: unset"><a
+                                        href="{% url 'organization_view' application.employer.organization.id %}">{{ application.employer.organization.organizational_legal_form }}
                                 "{{ application.employer.organization.name }}"</a></span></p>
                                 <p>С зарплатой в <span class="title"
                                                        style="font-size: unset">{{ application.salary }}</span> рублей
@@ -20,7 +21,7 @@
 
                             </div>
                             <div class="flex-vertical gap-1em" style="justify-content: flex-start; height: 100%">
-                                <a href="#">
+                                <a href="{% url 'job_seeker_application_view' application.id %}">
                                     <button class="button">Подробнее</button>
                                 </a>
                                 <br>
