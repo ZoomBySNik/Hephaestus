@@ -204,3 +204,37 @@ def job_seeker_application_response_withdraw(request, application_id):
             existing_response.save()
         return redirect('job_seeker_application_view', application_id=application_id)
     return redirect('job_seeker_application_view', application_id=application_id)
+
+
+@job_seeker_required
+def job_seeker_application_responses_all_view(request):
+    job_seeker = JobSeeker.objects.get(id=request.user.id)
+    responses = ApplicationsResponses.objects.filter(job_seeker=job_seeker).exclude(
+        status__in=['accepted', 'rejected', 'withdrawn']
+    ).order_by('-application__date_of_application')
+    for response in responses:
+        response.status_in_rus = get_russian_status_in_responses(response.status)
+        response.application.status_in_rus = get_russian_status(response.application.status)
+    archive = False
+    context = {
+        'responses': responses,
+        'archive': archive
+    }
+    return render(request, 'job_seekers_templates/responses/responses_all_view.html', context)
+
+
+@job_seeker_required
+def job_seeker_application_responses_all_archive_view(request):
+    job_seeker = JobSeeker.objects.get(id=request.user.id)
+    responses = ApplicationsResponses.objects.filter(job_seeker=job_seeker).filter(
+        status__in=['accepted', 'rejected', 'withdrawn']
+    ).order_by('-application__date_of_application')
+    for response in responses:
+        response.status_in_rus = get_russian_status_in_responses(response.status)
+        response.application.status_in_rus = get_russian_status(response.application.status)
+    archive = True
+    context = {
+        'responses': responses,
+        'archive': archive
+    }
+    return render(request, 'job_seekers_templates/responses/responses_all_view.html', context)

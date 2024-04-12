@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            {% for response in responses %}
+                <div class="content-box flex-vertical gap-1em">
+                    <div class="content flex-horizontal gap-1em"
+                         style="justify-content: space-between; padding: 2em 4em">
+                        <div class="flex-vertical gap-1em">
+                            <h1 class="title" style="font-size: xx-large">Вакансия на должность
+                                {{ response.application.position }}</h1>
+                            <p>В организацию <span class="title"
+                                                   style="font-size: unset"><a
+                                    href="{% url 'organization_view' response.application.employer.organization.id %}">{{ response.application.employer.organization.organizational_legal_form }}
+                                "{{ response.application.employer.organization.name }}"</a></span></p>
+                            <p>С зарплатой в <span class="title"
+                                                   style="font-size: unset">{{ response.application.salary }}</span>
+                                рублей
+                            </p>
+
+                        </div>
+                        <div class="flex-vertical gap-1em"
+                             style="justify-content: flex-start; height: 100%">
+                            <p class="text1">Статус вашего отклика на заявку: {{ response.status_in_rus }}</p>
+                            <p class="text1">Статус заявки: {{ response.application.status_in_rus }}</p>
+                            <a href="{% url 'job_seeker_application_view' response.application.id %}">
+                                <button class="button">Подробнее</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if not archive %}
+            <p class="text1">Это все отклики на заявки</p>
+            <p class="error-message text1">Возможно ваш отклик на заявку попал в архив</p>
+            <a href="{% url 'job_seeker_application_responses_all_archive_view' %}"><button class="button">Архивные отклики на заявки</button></a>
+            {% else %}
+                <a href="{% url 'job_seeker_application_responses_all_view' %}"><button class="button">Вернуться к активным заявкам</button></a>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
