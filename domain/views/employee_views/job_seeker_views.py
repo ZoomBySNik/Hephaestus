@@ -66,3 +66,22 @@ def job_seeker_view(request, job_seeker_id):
         'work_experiences': work_experiences,
     }
     return render(request, 'employees_templates/job_seekers/view/job_seeker_view.html', context)
+
+
+@employee_required
+def reject_job_seeker_response(request, application_response_id):
+    application_response = ApplicationsResponses.objects.get(id=application_response_id)
+    if request.method == 'POST':
+        form = ApplicationResponseRejectForm(request.POST)
+        if form.is_valid():
+            application_response.description = form.cleaned_data['description']
+            application_response.status = 'rejected'
+            application_response.save()
+            return redirect(request.META.get('HTTP_REFERER', None))
+    else:
+        form = ApplicationResponseRejectForm()
+    context = {
+        'application_response': application_response,
+        'form': form
+    }
+    return render(request, 'employers_templates/responses/reject_response.html', context)

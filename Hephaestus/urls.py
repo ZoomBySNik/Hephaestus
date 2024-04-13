@@ -41,6 +41,8 @@ urlpatterns = [
         path('jobseeker/view/', job_seeker_all_view, name='job_seeker_list'),
         path('jobseeker/<str:job_seeker_id>', job_seeker_view, name='job_seeker_view'),
 
+        path('responce/reject/<str:application_response_id>', reject_job_seeker_response, name='reject_job_seeker_response'),
+
         path('references/', references_view, name='references'),
         path('references/<str:reference>/', references_view, name='references'),
     ])),

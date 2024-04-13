@@ -84,3 +84,9 @@ class WorkExperienceForm(forms.ModelForm):
             'date_of_dismissal': forms.DateInput(attrs={'type': 'date'}),
             'date_of_employment': forms.DateInput(attrs={'type': 'date'}),
         }
+
+
+class ApplicationResponseRejectForm(forms.ModelForm):
+    class Meta:
+        model = ApplicationsResponses
+        fields = ['description']
