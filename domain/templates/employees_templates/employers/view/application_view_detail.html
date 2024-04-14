@@ -113,7 +113,7 @@
                                                         </button>
                                                     </a>
                                                 {% endif %}
-                                                {% if application_response.status != 'accepted' or application_response.status != 'rejected' or application_response.status != 'withdrawn' %}
+                                                {% if application_response.status != 'accepted' and application_response.status != 'rejected' and application_response.status != 'withdrawn' %}
                                                     <a href="{% url 'reject_job_seeker_response' application_response.id %}">
                                                         <button class="button reject">Отказать</button>
                                                     </a>

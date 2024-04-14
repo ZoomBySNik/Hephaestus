@@ -372,3 +372,19 @@ class ApplicationsResponses(models.Model):
     class Meta:
         verbose_name = 'Отклик на заявку'
         verbose_name_plural = 'Отклики на заявки'
+
+
+class JobInterview(models.Model):
+    application_response = models.ForeignKey('ApplicationsResponses', blank=False, null=False,
+                                    on_delete=models.CASCADE, verbose_name='Отклик на заявку')
+    employee = models.ForeignKey('Employee', blank=False, null=False,
+                                   on_delete=models.CASCADE, verbose_name='Сотрудник')
+    date_of_interview = models.DateTimeField(blank=False, null=False, verbose_name='Время собеседования')
+    description = models.TextField(blank=True, null=True, verbose_name='Отзыв сотрудника')
+
+    def __str__(self):
+        return 'Собеседование с "%s" от %s' % (self.application_response.job_seeker.__str__, self.date_of_interview.date)
+
+    class Meta:
+        verbose_name = 'Собеседование'
+        verbose_name_plural = 'Собеседования'
