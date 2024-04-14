@@ -84,4 +84,28 @@ def reject_job_seeker_response(request, application_response_id):
         'application_response': application_response,
         'form': form
     }
-    return render(request, 'employers_templates/responses/reject_response.html', context)
+    return render(request, 'employees_templates/responses/reject_response.html', context)
+
+
+@employee_required
+def invite_job_seeker_on_interview(request, application_response_id):
+    application_response = ApplicationsResponses.objects.get(id=application_response_id)
+    if request.method == 'POST':
+        form = JobInterviewForm(request.POST)
+        if form.is_valid():
+            interview = JobInterview.objects.create(
+                application_response=application_response,
+                employee=form.cleaned_data['employee'],
+                date_of_interview=form.cleaned_data['date_of_interview'],
+            )
+            interview.save()
+            application_response.status = 'under_review'
+            application_response.save()
+            return redirect(request.META.get('HTTP_REFERER', None))
+    else:
+        form = JobInterviewForm()
+    context = {
+        'application_response': application_response,
+        'form': form
+    }
+    return render(request, 'employees_templates/interviews/invite_on_interview.html', context)

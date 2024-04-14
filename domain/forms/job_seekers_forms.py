@@ -37,9 +37,10 @@ class SpecializationForm(forms.ModelForm):
 
 
 class SoftwareAndHardwareToolForm(forms.ModelForm):
-    software_and_hardware_tools = forms.ModelMultipleChoiceField(queryset=SoftwareAndHardwareTool.objects.all().order_by('name'),
-                                                                 widget=forms.CheckboxSelectMultiple,
-                                                                 label='Программно-технические средства')
+    software_and_hardware_tools = forms.ModelMultipleChoiceField(
+        queryset=SoftwareAndHardwareTool.objects.all().order_by('name'),
+        widget=forms.CheckboxSelectMultiple,
+        label='Программно-технические средства')
 
     class Meta:
         model = SoftwareAndHardwareToolOfJobSeeker
@@ -90,3 +91,19 @@ class ApplicationResponseRejectForm(forms.ModelForm):
     class Meta:
         model = ApplicationsResponses
         fields = ['description']
+
+
+class JobInterviewForm(forms.ModelForm):
+    tomorrow = dt.now() + timedelta(days=1)
+    employee = forms.ModelChoiceField(queryset=Employee.objects.all(), label='Сотрудник')
+    date_of_interview = forms.DateTimeField(widget=forms.DateTimeInput(attrs={
+        'type': 'datetime-local', 'step': 60,
+        'min': (dt(tomorrow.year, tomorrow.month, tomorrow.day, 9, 0)),
+        'max': (dt.now() + timedelta(
+            days=7)).strftime('%Y-%m-%dT%H:%M'),
+    }),
+        label='Время собеседования')
+
+    class Meta:
+        model = JobInterview
+        fields = ['employee', 'date_of_interview']

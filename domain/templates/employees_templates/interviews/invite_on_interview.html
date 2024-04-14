@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            <h1 class="title">Приглашение на собеседование
+                соискателю {{ application_response.job_seeker.last_name }} {{ application_response.job_seeker.first_name }} {{ application_response.job_seeker.patronymic }}</h1>
+            <div class="content-box flex-vertical gap-1em">
+                <div class="content flex-vertical gap-2em">
+                    <form method="post" class="input-form flex-vertical gap-2em"
+                          style="justify-content: flex-start">
+                        {% csrf_token %}
+                        <p style="justify-content: flex-start;">
+                            <label for="{{ form.date_of_interview.id_for_label }}">Дата собеседования:</label>
+                            {{ form.date_of_interview|add_class:'input-field' }}
+                        </p>
+                        <p style="justify-content: flex-start;">
+                            <label for="{{ form.employee.id_for_label }}">Дата собеседования:</label>
+                            {{ form.employee|add_class:'input-field' }}
+                        </p>
+                        <button type="submit" class="button submit">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

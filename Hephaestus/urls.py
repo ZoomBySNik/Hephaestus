@@ -43,6 +43,8 @@ urlpatterns = [
 
         path('responce/reject/<str:application_response_id>', reject_job_seeker_response, name='reject_job_seeker_response'),
 
+        path('interview/invite/<str:application_response_id>', invite_job_seeker_on_interview, name='invite_job_seeker_on_interview'),
+
         path('references/', references_view, name='references'),
         path('references/<str:reference>/', references_view, name='references'),
     ])),
