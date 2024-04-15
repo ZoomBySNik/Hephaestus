@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            <h1 class="title">Собеседования</h1>
+            {% for interview in interviews %}
+                <div class="content-box flex-vertical gap-1em">
+                    <div class="content flex-horizontal gap-1em"
+                         style="justify-content: space-between; padding: 2em 4em">
+                        <div class="flex-vertical gap-1em">
+                            <h1 class="title" style="font-size: xx-large">Собеседование на должность
+                                {{ interview.application_response.application.position }}</h1>
+                            <p>В организацию <span class="title"
+                                                   style="font-size: unset"><a
+                                    href="{% url 'organization_view' interview.application_response.application.employer.organization.id %}">{{ interview.application_response.application.employer.organization.organizational_legal_form }}
+                                "{{ interview.application_response.application.employer.organization.name }}"</a></span></p>
+                            <p class="text1">Назначенное на <span class="title" style="font-size: unset">{{ interview.date_of_interview }}</span></p>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if not archive %}
+            <p class="text1">Это все собеседования</p>
+            <p class="error-message text1">Вы можете просмотреть уже прошедшие собеседования в архиве</p>
+            <a href="#"><button class="button">Архивные собеседования</button></a>
+            {% else %}
+                <a href="#"><button class="button">Архивные собеседования</button></a>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

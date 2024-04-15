@@ -238,3 +238,15 @@ def job_seeker_application_responses_all_archive_view(request):
         'archive': archive
     }
     return render(request, 'job_seekers_templates/responses/responses_all_view.html', context)
+
+
+@job_seeker_required
+def job_seeker_interviews_view(request):
+    job_seeker = JobSeeker.objects.get(id=request.user.id)
+    interviews = JobInterview.objects.all().exclude(date_of_interview__lt=dt.now()).order_by('-date_of_interview')
+    archive = False
+    context = {
+        'interviews': interviews,
+        'archive': archive
+    }
+    return render(request, 'job_seekers_templates/interviews/interviews.html', context)

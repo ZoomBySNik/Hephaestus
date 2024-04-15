@@ -80,10 +80,6 @@
                             <p>Дата выполнения заявки: <span class="title"
                                                              style="font-size: unset">{{ application.date_of_completion }}</span>
                             </p>
-                        {% else %}
-                            <a href="{% url 'applications_responses_create' application.id %}">
-                                <button class="button submit">Подбор соискателей</button>
-                            </a>
                         {% endif %}
                         <div class="flex-vertical gap-1em">
                             {% for application_response in application_responses %}
@@ -113,7 +109,7 @@
                                                         </button>
                                                     </a>
                                                 {% endif %}
-                                                {% if application_response.status != 'accepted' and application_response.status != 'rejected' and application_response.status != 'withdrawn' %}
+                                                {% if application_response.status != 'accepted' and application_response.status != 'rejected' and application_response.status != 'withdrawn' and application_response.status != 'under_review' %}
                                                     <a href="{% url 'reject_job_seeker_response' application_response.id %}">
                                                         <button class="button reject">Отказать</button>
                                                     </a>
