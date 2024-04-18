@@ -6,6 +6,15 @@
         <div class="content-block flex-vertical gap-1em">
             <div class="content-box flex-vertical gap-1em">
                 <div class="content flex-vertical gap-1em">
+                    {% if not archive %}
+                    <a href="{% url 'applications_view' 'archive_by_new' %}">
+                        <button class="button">Архивные заявки</button>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'applications_view' %}">
+                        <button class="button">Вернуться к основным заявкам</button>
+                    </a>
+                    {% endif %}
                     <div class="flex-horizontal gap-1em" style="padding: 1em 0">
                         <label>Поиск:</label>
                         <input type="text" oninput="filterResults(this)" class="input-field">

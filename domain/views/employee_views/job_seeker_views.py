@@ -70,6 +70,7 @@ def job_seeker_view(request, job_seeker_id):
 
 @employee_required
 def reject_job_seeker_response(request, application_response_id):
+    update_old_overdue()
     application_response = ApplicationsResponses.objects.get(id=application_response_id)
     if request.method == 'POST':
         form = ApplicationResponseRejectForm(request.POST)
@@ -89,6 +90,7 @@ def reject_job_seeker_response(request, application_response_id):
 
 @employee_required
 def invite_job_seeker_on_interview(request, application_response_id):
+    update_old_overdue()
     application_response = ApplicationsResponses.objects.get(id=application_response_id)
     if request.method == 'POST':
         form = JobInterviewForm(request.POST)
@@ -97,6 +99,7 @@ def invite_job_seeker_on_interview(request, application_response_id):
                 application_response=application_response,
                 employee=form.cleaned_data['employee'],
                 date_of_interview=form.cleaned_data['date_of_interview'],
+                description=''
             )
             interview.save()
             application_response.status = 'under_review'
@@ -109,3 +112,19 @@ def invite_job_seeker_on_interview(request, application_response_id):
         'form': form
     }
     return render(request, 'employees_templates/interviews/invite_on_interview.html', context)
+
+
+@employee_required
+def employee_interviews_view(request):
+    update_old_overdue()
+    employee = Employee.objects.get(id=request.user.id)
+    interviews = JobInterview.objects.all().filter(employee=employee).exclude(
+        status__in=['rejected', 'with_feedback', 'overdue']).order_by('-date_of_interview')
+    for interview in interviews:
+        interview.status_in_rus = get_russian_status_interview(interview.status)
+    archive = False
+    context = {
+        'interviews': interviews,
+        'archive': archive
+    }
+    return render(request, 'employees_templates/interviews/interviews.html', context)

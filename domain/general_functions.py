@@ -1,5 +1,6 @@
 import datetime
-from domain.models import JobSeeker, Employer, Employee, Application
+from django.utils import timezone
+from domain.models import JobSeeker, Employer, Employee, Application, ApplicationsResponses, JobInterview
 
 
 def calculate_matching_between_job_seeker_and_application(job_seeker, application):
@@ -110,6 +111,7 @@ def get_russian_status_in_responses(status):
         'under_review': 'Рассмотрение',
         'accepted': 'Принят',
         'rejected': 'Отклонен',
+        'overdue': 'Просрочена',
         'withdrawn': 'Отозван',
     }
     return status_dict.get(status)
@@ -121,6 +123,35 @@ def get_russian_status(status):
         'in_progress': 'В обработке',
         'pending_approval': 'На согласовании',
         'completed': 'Завершена',
+        'overdue': 'Просрочена',
         'canceled': 'Отменена',
     }
     return status_dict.get(status)
+
+
+def get_russian_status_interview(status):
+    status_dict = {
+        'pending': 'В ожидании',
+        'under_review': 'Рассмотрение',
+        'accepted': 'Принят',
+        'rejected': 'Отклонен',
+        'overdue': 'Просрочена',
+        'withdrawn': 'Отозван',
+    }
+    return status_dict.get(status)
+
+
+def update_old_overdue():
+    current_time = timezone.now()
+    old_applications = Application.objects.filter(final_date__lt=current_time, status__in=['new', 'in_progress', 'pending_approval'])
+    for application in old_applications:
+        application.status = 'overdue'
+        application.save()
+    old_responses = ApplicationsResponses.objects.filter(application__final_date__lt=current_time, status__in=['pending', 'under_review'])
+    for response in old_responses:
+        response.status = 'overdue'
+        response.save()
+    old_interviews = JobInterview.objects.filter(date_of_interview__lt=current_time, status__in=['pending'])
+    for interview in old_interviews:
+        interview.status = 'overdue'
+        interview.save()

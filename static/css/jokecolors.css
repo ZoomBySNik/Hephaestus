@@ -1,9 +1,9 @@
 :root {
-    --body-bg: #bdfcbd;
-    --table-bg: #f1c2fe;
-    --hover-bg: #ff98fe;
-    --td-bg: #daab64;
-    --div-bg: #ffc1a6;
+    --body-bg: #c7fcc7;
+    --table-bg: #f4d4fd;
+    --hover-bg: #fdb8fd;
+    --td-bg: #dab67e;
+    --div-bg: #fcd0bd;
     --text-color: #771e39;
     --text-hover: #961c41;
     --element-shadow: rgba(0, 0, 0, 0.1);

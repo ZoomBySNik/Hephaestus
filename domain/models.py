@@ -311,6 +311,7 @@ class Application(models.Model):
         ('in_progress', 'В обработке'),
         ('pending_approval', 'На согласовании'),
         ('completed', 'Завершена'),
+        ('overdue', 'Просрочена'),
         ('canceled', 'Отменена'),
     ]
     employer = models.ForeignKey('Employer', blank=False, null=False,
@@ -352,6 +353,7 @@ class ApplicationsResponses(models.Model):
         ('pending', 'В ожидании'),
         ('under_review', 'Рассмотрение'),
         ('accepted', 'Принят'),
+        ('overdue', 'Просрочена'),
         ('rejected', 'Отклонен'),
         ('withdrawn', 'Отозван'),
     ]
@@ -375,12 +377,22 @@ class ApplicationsResponses(models.Model):
 
 
 class JobInterview(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'В ожидании'),
+        ('accepted', 'Принят'),
+        ('rejected', 'Отклонен'),
+        ('overdue', 'Просрочена'),
+        ('passed', 'Прошло'),
+        ('with_feedback', 'С отзывом'),
+    ]
+
     application_response = models.ForeignKey('ApplicationsResponses', blank=False, null=False,
                                     on_delete=models.CASCADE, verbose_name='Отклик на заявку')
     employee = models.ForeignKey('Employee', blank=False, null=False,
                                    on_delete=models.CASCADE, verbose_name='Сотрудник')
     date_of_interview = models.DateTimeField(blank=False, null=False, verbose_name='Время собеседования')
     description = models.TextField(blank=True, null=True, verbose_name='Отзыв сотрудника')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name='Статус')
 
     def __str__(self):
         return 'Собеседование с "%s" от %s' % (self.application_response.job_seeker.__str__, self.date_of_interview.date)

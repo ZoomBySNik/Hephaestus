@@ -9,6 +9,7 @@ from domain.models import *
 
 @employee_required
 def applications_view(request, ordering='without_archive_by_new'):
+    update_old_overdue()
     archive_statuses = ['completed', 'canceled', 'payment_received']
     ordering_mas = [
         'without_archive_by_new',
@@ -20,13 +21,14 @@ def applications_view(request, ordering='without_archive_by_new'):
         'archive_by_final_date',
         'archive_by_first_name_of_employer',
     ]
-
+    archive = False
     if ordering in ordering_mas:
         applications = Application.objects.exclude(
             Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))
     elif ordering in ordering_mas_archive:
         applications = Application.objects.filter(
             Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))
+        archive = True
     else:
         applications = Application.objects.all()
 
@@ -44,12 +46,14 @@ def applications_view(request, ordering='without_archive_by_new'):
 
     context = {
         'applications': applications,
+        'archive': archive,
     }
     return render(request, 'employees_templates/employers/view/applications_view.html', context)
 
 
 @employee_required
 def application_detail_view(request, application_id):
+    update_old_overdue()
     application = Application.objects.get(id=application_id)
     application.status_in_rus = get_russian_status(application.status)
     if request.method == 'POST':
@@ -87,6 +91,7 @@ def application_detail_view(request, application_id):
 
 @employee_required
 def job_seeker_filter_for_application(request, application_id):
+    update_old_overdue()
     application = Application.objects.get(id=application_id)
     application_responses = ApplicationsResponses.objects.filter(application_id=application_id)
     added_job_seeker_ids = application_responses.values_list('job_seeker__id', flat=True)
@@ -107,6 +112,7 @@ def job_seeker_filter_for_application(request, application_id):
 
 @employee_required
 def add_job_seeker_for_application(request, application_id, job_seeker_id):
+    update_old_overdue()
     application_response = ApplicationsResponses.objects.create(
         application_id=application_id,
         job_seeker_id=job_seeker_id,

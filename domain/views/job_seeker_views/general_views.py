@@ -154,6 +154,7 @@ def job_seeker_work_experience_view(request):
 
 @job_seeker_required
 def job_seeker_application_view(request, application_id):
+    update_old_overdue()
     application = Application.objects.get(id=application_id)
     response_was_created = False
     can_be_withdrawn = False
@@ -174,6 +175,7 @@ def job_seeker_application_view(request, application_id):
 
 @job_seeker_required
 def job_seeker_application_response_create(request, application_id):
+    update_old_overdue()
     application = Application.objects.get(id=application_id)
     job_seeker = JobSeeker.objects.get(id=request.user.id)
 
@@ -194,6 +196,7 @@ def job_seeker_application_response_create(request, application_id):
 
 @job_seeker_required
 def job_seeker_application_response_withdraw(request, application_id):
+    update_old_overdue()
     application = Application.objects.get(id=application_id)
     job_seeker = JobSeeker.objects.get(id=request.user.id)
 
@@ -208,6 +211,7 @@ def job_seeker_application_response_withdraw(request, application_id):
 
 @job_seeker_required
 def job_seeker_application_responses_all_view(request):
+    update_old_overdue()
     job_seeker = JobSeeker.objects.get(id=request.user.id)
     responses = ApplicationsResponses.objects.filter(job_seeker=job_seeker).exclude(
         status__in=['accepted', 'rejected', 'withdrawn']
@@ -225,6 +229,7 @@ def job_seeker_application_responses_all_view(request):
 
 @job_seeker_required
 def job_seeker_application_responses_all_archive_view(request):
+    update_old_overdue()
     job_seeker = JobSeeker.objects.get(id=request.user.id)
     responses = ApplicationsResponses.objects.filter(job_seeker=job_seeker).filter(
         status__in=['accepted', 'rejected', 'withdrawn']
@@ -241,10 +246,23 @@ def job_seeker_application_responses_all_archive_view(request):
 
 
 @job_seeker_required
-def job_seeker_interviews_view(request):
+def job_seeker_interviews_view(request, archive=0):
+    update_old_overdue()
+    if archive == 0:
+        archive = False
+    elif archive == 1:
+        archive = True
+    else:
+        return redirect(request.META.get('HTTP_REFERER', None))
     job_seeker = JobSeeker.objects.get(id=request.user.id)
-    interviews = JobInterview.objects.all().exclude(date_of_interview__lt=dt.now()).order_by('-date_of_interview')
-    archive = False
+    if not archive:
+        interviews = JobInterview.objects.all().filter(application_response__job_seeker=job_seeker).exclude(
+            status__in=['rejected', 'with_feedback', 'overdue', 'passed']).order_by('-date_of_interview')
+    else:
+        interviews = JobInterview.objects.all().filter(application_response__job_seeker=job_seeker).exclude(
+            status__in=['pending', 'accepted']).order_by('-date_of_interview')
+    for interview in interviews:
+        interview.status_in_rus = get_russian_status_interview(interview.status)
     context = {
         'interviews': interviews,
         'archive': archive

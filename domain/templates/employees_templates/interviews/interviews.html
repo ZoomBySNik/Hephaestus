@@ -17,6 +17,9 @@
                                     href="{% url 'organization_view' interview.application_response.application.employer.organization.id %}">{{ interview.application_response.application.employer.organization.organizational_legal_form }}
                                 "{{ interview.application_response.application.employer.organization.name }}"</a></span>
                             </p>
+                            <p>С кандидатом
+                                <a href="{% url 'job_seeker_view' interview.application_response.job_seeker.id %}"><span>{{ interview.application_response.job_seeker.last_name }} {{ interview.application_response.job_seeker.first_name }} {{ interview.application_response.job_seeker.patronymic }}</span></a>
+                            </p>
                             <p class="text1">Назначенное на <span class="title"
                                                                   style="font-size: unset">{{ interview.date_of_interview }}</span>
                             </p>
@@ -35,12 +38,12 @@
             {% if not archive %}
                 <p class="text1">Это все собеседования</p>
                 <p class="error-message text1">Вы можете просмотреть уже прошедшие собеседования в архиве</p>
-                <a href="{% url 'job_seeker_interviews_view' 1 %}">
+                <a href="#">
                     <button class="button">Архивные собеседования</button>
                 </a>
             {% else %}
-                <a href="{% url 'job_seeker_interviews_view' %}">
-                    <button class="button">Вернуться</button>
+                <a href="#">
+                    <button class="button">Архивные собеседования</button>
                 </a>
             {% endif %}
         </div>

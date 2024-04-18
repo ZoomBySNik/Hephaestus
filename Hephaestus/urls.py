@@ -43,7 +43,10 @@ urlpatterns = [
 
         path('responce/reject/<str:application_response_id>', reject_job_seeker_response, name='reject_job_seeker_response'),
 
-        path('interview/invite/<str:application_response_id>', invite_job_seeker_on_interview, name='invite_job_seeker_on_interview'),
+        path('interview/', include([
+            path('invite/<str:application_response_id>', invite_job_seeker_on_interview, name='invite_job_seeker_on_interview'),
+            path('', employee_interviews_view, name='employee_interviews_view'),
+        ])),
 
         path('references/', references_view, name='references'),
         path('references/<str:reference>/', references_view, name='references'),
@@ -69,6 +72,7 @@ urlpatterns = [
             ])),
             path('interview/', include([
                 path('all/', job_seeker_interviews_view, name='job_seeker_interviews_view'),
+                path('all/<int:archive>/', job_seeker_interviews_view, name='job_seeker_interviews_view'),
             ])),
         ]))
     ])),

@@ -172,6 +172,7 @@ def profile_update(request):
 
 @login_required
 def organization_view(request, organization_id):
+    update_old_overdue()
     user_data = get_user_data(request.user.id)
     user_type = get_user_type(request.user.id)
     organization = Organization.objects.get(id=organization_id)
