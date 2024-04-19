@@ -115,14 +115,23 @@ def invite_job_seeker_on_interview(request, application_response_id):
 
 
 @employee_required
-def employee_interviews_view(request):
+def employee_interviews_view(request, archive=0):
     update_old_overdue()
     employee = Employee.objects.get(id=request.user.id)
-    interviews = JobInterview.objects.all().filter(employee=employee).exclude(
-        status__in=['rejected', 'with_feedback', 'overdue']).order_by('-date_of_interview')
+    if archive == 0:
+        archive = False
+        interviews = JobInterview.objects.all().filter(employee=employee).exclude(
+            status__in=['rejected', 'with_feedback', 'overdue']).order_by('-date_of_interview')
+    elif archive == 1:
+        archive = True
+        interviews = JobInterview.objects.all().filter(employee=employee).exclude(
+            status__in=['pending', 'accepted', 'passed']).order_by('-date_of_interview')
+    else:
+        return redirect(request.META.get('HTTP_REFERER', None))
+
+
     for interview in interviews:
         interview.status_in_rus = get_russian_status_interview(interview.status)
-    archive = False
     context = {
         'interviews': interviews,
         'archive': archive

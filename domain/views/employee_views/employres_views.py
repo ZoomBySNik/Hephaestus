@@ -78,9 +78,11 @@ def application_detail_view(request, application_id):
     else:
         form = ChangeStateOfApplicationForm(instance=application)
     application_responses = ApplicationsResponses.objects.filter(application_id=application_id)
-
     for response in application_responses:
         response.status_in_rus = get_russian_status_in_responses(response.status)
+        response.interviews = JobInterview.objects.filter(application_response=response)
+        for interview in response.interviews:
+            interview.status_in_rus = get_russian_status_interview(interview.status)
     context = {
         'application': application,
         'application_responses': application_responses,

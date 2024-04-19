@@ -38,12 +38,12 @@
             {% if not archive %}
                 <p class="text1">Это все собеседования</p>
                 <p class="error-message text1">Вы можете просмотреть уже прошедшие собеседования в архиве</p>
-                <a href="#">
+                <a href="{% url 'employee_interviews_view' 1 %}">
                     <button class="button">Архивные собеседования</button>
                 </a>
             {% else %}
-                <a href="#">
-                    <button class="button">Архивные собеседования</button>
+                <a href="{% url 'employee_interviews_view' %}">
+                    <button class="button">Вернуться</button>
                 </a>
             {% endif %}
         </div>

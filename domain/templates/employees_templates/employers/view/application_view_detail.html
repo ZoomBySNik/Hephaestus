@@ -12,7 +12,7 @@
                         <p>
                             Заявитель: {{ application.employer.last_name }} {{ application.employer.first_name }} {{ application.employer.patronymic }}, {{ application.employer.position }}
                             <a href="{% url 'organization_view' application.employer.organization.id %}">организации {{ application.employer.organization.organizational_legal_form }}
-                            "{{ application.employer.organization.name }}"</a>
+                                "{{ application.employer.organization.name }}"</a>
                         </p>
                         <p>На должность <span class="title"
                                               style="font-size: unset">{{ application.position }}</span> с
@@ -84,46 +84,76 @@
                         <div class="flex-vertical gap-1em">
                             {% for application_response in application_responses %}
                                 <div id="search_results">
-                                    <div class="flex-horizontal persons-div gap-3em">
-                                        {% if application_response.job_seeker.profile_photo %}
-                                            <img src="{{ MEDIA_URL }}{{ application_response.job_seeker.profile_photo.url }}"
-                                                 class="person-img-preview">
-                                        {% else %}
-                                            <div class="person-img-preview"></div>
-                                        {% endif %}
-                                        <div class="flex-vertical gap-05em">
-                                            <p>{{ application_response.job_seeker.last_name }}</p>
-                                            <p>{{ application_response.job_seeker.first_name }}</p>
-                                            <p>{{ application_response.job_seeker.patronymic }}</p>
-                                        </div>
-                                        <div class="flex-vertical gap-05em">
-                                            <p>{{ application_response.job_seeker.phone_number }}</p>
-                                            <p>{{ application_response.job_seeker.email }}</p>
-                                        </div>
-                                        <div class="flex-vertical gap-05em">
-                                            <p class="text1">Процент соответствия вакансии: 100%</p>
-                                            <div class="flex-horizontal gap-05em">
-                                                {% if application_response.status == 'pending' %}
-                                                    <a href="{% url 'invite_job_seeker_on_interview' application_response.id %}">
-                                                        <button class="button submit">Пригласить
-                                                        </button>
-                                                    </a>
-                                                {% endif %}
-                                                {% if application_response.status != 'accepted' and application_response.status != 'rejected' and application_response.status != 'withdrawn' and application_response.status != 'under_review' %}
-                                                    <a href="{% url 'reject_job_seeker_response' application_response.id %}">
-                                                        <button class="button reject">Отказать</button>
-                                                    </a>
-                                                {% endif %}
-                                                <p style="text-wrap: nowrap;">Статус отклика: {{ application_response.status_in_rus }}</p>
+                                    <div class="flex-vertical gap-1em">
+
+                                    </div>
+                                    <div class="flex-vertical persons-div gap-3em">
+                                        <div class="flex-horizontal gap-3em">
+                                            {% if application_response.job_seeker.profile_photo %}
+                                                <img src="
+
+
+
+
+                                                        {{ MEDIA_URL }}{{ application_response.job_seeker.profile_photo.url }}"
+                                                     class="person-img-preview">
+                                            {% else %}
+                                                <div class="person-img-preview"></div>
+                                            {% endif %}
+                                            <div class="flex-vertical gap-05em">
+                                                <p>{{ application_response.job_seeker.last_name }}</p>
+                                                <p>{{ application_response.job_seeker.first_name }}</p>
+                                                <p>{{ application_response.job_seeker.patronymic }}</p>
+                                            </div>
+                                            <div class="flex-vertical gap-05em">
+                                                <p>{{ application_response.job_seeker.phone_number }}</p>
+                                                <p>{{ application_response.job_seeker.email }}</p>
+                                            </div>
+                                            <div class="flex-vertical gap-05em">
+                                                <p class="text1">Процент соответствия вакансии: 100%</p>
+                                                <div class="flex-horizontal gap-05em">
+                                                    {% if application_response.status == 'pending' %}
+                                                        <a href="{% url 'invite_job_seeker_on_interview' application_response.id %}">
+                                                            <button class="button submit">Пригласить
+                                                            </button>
+                                                        </a>
+                                                    {% endif %}
+                                                    {% if application_response.status != 'accepted' and application_response.status != 'rejected' and application_response.status != 'withdrawn' and application_response.status != 'under_review' %}
+                                                        <a href="{% url 'reject_job_seeker_response' application_response.id %}">
+                                                            <button class="button reject">Отказать</button>
+                                                        </a>
+                                                    {% endif %}
+                                                    <p style="text-wrap: nowrap;">Статус
+                                                        отклика: {{ application_response.status_in_rus }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex-vertical gap-05em" style="margin-left: auto">
+                                                <a href="{% url 'job_seeker_view' application_response.job_seeker.id %}"
+                                                   target="_blank">
+                                                    <button class="button">Подробнее</button>
+                                                </a>
+                                                <br>
+                                                <br>
                                             </div>
                                         </div>
-                                        <div class="flex-vertical gap-05em" style="margin-left: auto">
-                                            <a href="{% url 'job_seeker_view' application_response.job_seeker.id %}"
-                                               target="_blank">
-                                                <button class="button">Подробнее</button>
-                                            </a>
-                                            <br>
-                                            <br>
+                                        <div class="flex-vertical gap-2em">
+                                            {% for interview in application_response.interviews %}
+                                                <div class="flex-horizontal persons-div" style="filter: drop-shadow(0 0 0.5em var(--element-shadow));">
+                                                    <div class="flex-vertical gap-1em">
+                                                        <h1 class="title text1">Собеседование от {{ interview.date_of_interview }} </h1>
+                                                        <p>Статус: {{ interview.status_in_rus }} </p>
+                                                        {% if interview.description %}
+                                                            <p>Отзыв: {{ interview.description }} </p>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="flex-vertical gap-1em" style="margin-left: auto">
+                                                        {% if forloop.last and interview.status != 'pending' and interview.status != 'accepted'  %}
+                                                            <a href="{% url 'invite_job_seeker_on_interview' application_response.id %}"><button class="button submit">Пригласить ещё</button></a>
+                                                            <br>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>
