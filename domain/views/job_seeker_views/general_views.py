@@ -268,3 +268,20 @@ def job_seeker_interviews_view(request, archive=0):
         'archive': archive
     }
     return render(request, 'job_seekers_templates/interviews/interviews.html', context)
+
+
+@job_seeker_required
+def reject_invite_on_interview(request, interview_id):
+    interview = JobInterview.objects.get(id=interview_id)
+    interview.status = 'rejected'
+    interview.save()
+    return redirect(request.META.get('HTTP_REFERER', None))
+
+
+@job_seeker_required
+def accept_invite_on_interview(request, interview_id):
+    interview = JobInterview.objects.get(id=interview_id)
+    interview.status = 'accepted'
+    interview.save()
+    return redirect(request.META.get('HTTP_REFERER', None))
+

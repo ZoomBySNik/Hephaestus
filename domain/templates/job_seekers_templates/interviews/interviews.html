@@ -7,28 +7,45 @@
             <h1 class="title">Собеседования</h1>
             {% for interview in interviews %}
                 <div class="content-box flex-vertical gap-1em">
-                    <div class="content flex-horizontal gap-1em"
-                         style="justify-content: space-between; padding: 2em 4em">
-                        <div class="flex-vertical gap-1em">
-                            <h1 class="title" style="font-size: xx-large">Собеседование на должность
-                                {{ interview.application_response.application.position }}</h1>
-                            <p>В организацию <span class="title"
-                                                   style="font-size: unset"><a
-                                    href="{% url 'organization_view' interview.application_response.application.employer.organization.id %}">{{ interview.application_response.application.employer.organization.organizational_legal_form }}
+                    <div class="content flex-vertical gap-1em"
+                         style="padding: 2em 4em">
+                        <div class="flex-horizontal" style="justify-content: space-between;">
+                            <div class="flex-vertical gap-1em">
+                                <h1 class="title" style="font-size: xx-large">Собеседование на должность
+                                    {{ interview.application_response.application.position }}</h1>
+                                <p>В организацию <span class="title"
+                                                       style="font-size: unset"><a
+                                        href="{% url 'organization_view' interview.application_response.application.employer.organization.id %}">{{ interview.application_response.application.employer.organization.organizational_legal_form }}
                                 "{{ interview.application_response.application.employer.organization.name }}"</a></span>
-                            </p>
-                            <p class="text1">Назначенное на <span class="title"
-                                                                  style="font-size: unset">{{ interview.date_of_interview }}</span>
-                            </p>
+                                </p>
+                                <p class="text1">Назначенное на <span class="title"
+                                                                      style="font-size: unset">{{ interview.date_of_interview }}</span>
+                                </p>
 
+                            </div>
+                            <div class="flex-vertical gap-1em">
+                                <p class="text1">Статус: {{ interview.status_in_rus }}
+                                </p>
+                                {% if interview.status == 'pending' %}
+                                    <a href="{% url 'accept_invite_on_interview' interview.id %}">
+                                        <button class="button submit">Принять</button>
+                                    </a>
+                                    <a href="{% url 'reject_invite_on_interview' interview.id %}">
+                                        <button class="button reject">Отклонить</button>
+                                    </a>
+                                {% else %}
+                                    <br>
+                                    <br>
+                                    <br>
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="flex-vertical gap-1em">
-                            <p class="text1">Статус: {{ interview.status_in_rus }}
-                            </p>
-                            <br>
-                            <br>
-                            <br>
-                        </div>
+                        {% if interview.description %}
+                            <div class="flex-vertical">
+                                <p>Отзыв по собеседованию</p>
+                                <p>{{ interview.description }}</p>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

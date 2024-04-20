@@ -146,6 +146,7 @@ def update_old_overdue():
     old_applications = Application.objects.filter(final_date__lt=current_time, status__in=['new', 'in_progress', 'pending_approval'])
     for application in old_applications:
         application.status = 'overdue'
+        application.date_of_cancellation = current_time
         application.save()
     old_responses = ApplicationsResponses.objects.filter(application__final_date__lt=current_time, status__in=['pending', 'under_review'])
     for response in old_responses:
@@ -154,4 +155,8 @@ def update_old_overdue():
     old_interviews = JobInterview.objects.filter(date_of_interview__lt=current_time, status__in=['pending'])
     for interview in old_interviews:
         interview.status = 'overdue'
+        interview.save()
+    old_interviews = JobInterview.objects.filter(date_of_interview__lt=current_time, status__in=['accepted'])
+    for interview in old_interviews:
+        interview.status = 'passed'
         interview.save()

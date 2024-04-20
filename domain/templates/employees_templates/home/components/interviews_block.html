@@ -1,0 +1,72 @@
+{% load static %}
+{% block content %}
+    <div class="content-block flex-vertical gap-1em">
+        {% if extra_data.interviews %}
+            <h1 class="title">Собеседования запланированные на сегодня</h1>
+            {% for interview in extra_data.interviews %}
+                <div class="content-box flex-vertical gap-1em">
+                    <div class="content flex-horizontal gap-1em"
+                         style="justify-content: space-between; padding: 2em 4em">
+                        <div class="flex-vertical gap-1em">
+                            <h1 class="title" style="font-size: xx-large">Собеседование на должность
+                                {{ interview.application_response.application.position }}</h1>
+                            <p>В организацию <span class="title"
+                                                   style="font-size: unset"><a
+                                    href="{% url 'organization_view' interview.application_response.application.employer.organization.id %}">{{ interview.application_response.application.employer.organization.organizational_legal_form }}
+                                "{{ interview.application_response.application.employer.organization.name }}"</a></span>
+                            </p>
+                            <p>С кандидатом
+                                <a href="{% url 'job_seeker_view' interview.application_response.job_seeker.id %}"><span>{{ interview.application_response.job_seeker.last_name }} {{ interview.application_response.job_seeker.first_name }} {{ interview.application_response.job_seeker.patronymic }}</span></a>
+                            </p>
+                            <p class="text1">Назначенное на <span class="title"
+                                                                  style="font-size: unset">{{ interview.date_of_interview }}</span>
+                            </p>
+
+                        </div>
+                        <div class="flex-vertical gap-1em">
+                            <p class="text1">Статус: {{ interview.status_in_rus }}
+                            </p>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if extra_data.interviews_without_feedback %}
+            </div><h1 class="title">Собеседования без отзыва</h1>
+            {% for interview in extra_data.interviews_without_feedback %}
+                <div class="content-box flex-vertical gap-1em">
+                    <div class="content flex-horizontal gap-1em"
+                         style="justify-content: space-between; padding: 2em 4em">
+                        <div class="flex-vertical gap-1em">
+                            <h1 class="title" style="font-size: xx-large">Собеседование на должность
+                                {{ interview.application_response.application.position }}</h1>
+                            <p>В организацию <span class="title"
+                                                   style="font-size: unset"><a
+                                    href="{% url 'organization_view' interview.application_response.application.employer.organization.id %}">{{ interview.application_response.application.employer.organization.organizational_legal_form }}
+                                "{{ interview.application_response.application.employer.organization.name }}"</a></span>
+                            </p>
+                            <p>С кандидатом
+                                <a href="{% url 'job_seeker_view' interview.application_response.job_seeker.id %}"><span>{{ interview.application_response.job_seeker.last_name }} {{ interview.application_response.job_seeker.first_name }} {{ interview.application_response.job_seeker.patronymic }}</span></a>
+                            </p>
+                            <p class="text1">Назначенное на <span class="title"
+                                                                  style="font-size: unset">{{ interview.date_of_interview }}</span>
+                            </p>
+
+                        </div>
+                        <div class="flex-vertical gap-1em">
+                            <p class="text1">Статус: {{ interview.status_in_rus }}
+                            </p>
+                            <br>
+                            <a>
+                                <button class="button submit">Добавить отзыв</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock content %}

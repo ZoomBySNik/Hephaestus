@@ -1,5 +1,6 @@
 from operator import attrgetter
-
+from datetime import date
+from datetime import datetime as dt
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -15,10 +16,6 @@ from domain.general_functions import *
 
 @login_required
 def home_view(request, *args, **kwargs):
-    applications_by_new = Application.objects.all().order_by('-date_of_application').exclude(
-        Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
-    applications_by_final_date = Application.objects.all().order_by('final_date').exclude(
-        Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
     extra_data = {}
     if get_user_type(request.user.id) == 'job_seeker':
         job_seeker = get_user_data(request.user.id)
@@ -36,9 +33,32 @@ def home_view(request, *args, **kwargs):
         extra_data = {
             'applications': filtered_applications,
             'job_seeker': job_seeker}
+    if get_user_type(request.user.id) == 'employee':
+        applications_by_new = Application.objects.all().order_by('-date_of_application').filter(status='pending').exclude(
+            Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
+        applications_by_final_date = Application.objects.all().order_by('final_date').exclude(
+            Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
+        now = timezone.now()
+
+        # Формируем временной промежуток для сегодняшнего дня
+        start_of_day = dt.combine(date.today(), dt.min.time())
+        end_of_day = dt.combine(date.today(), dt.max.time())
+        interviews = JobInterview.objects.filter(date_of_interview__gte=start_of_day,
+                                                 date_of_interview__lte=end_of_day,
+                                                 status='accepted')
+        for interview in interviews:
+            interview.status_in_rus = get_russian_status_interview(interview.status)
+        interviews_without_feedback = JobInterview.objects.filter(status='passed')
+        for interview in interviews_without_feedback:
+            interview.status_in_rus = get_russian_status_interview(interview.status)
+        extra_data = {
+            'interviews': interviews,
+            'interviews_without_feedback': interviews_without_feedback,
+            'applications_by_new': applications_by_new,
+            'applications_by_final_date': applications_by_final_date,
+        }
+
     response = {
-        'applications_by_new': applications_by_new,
-        'applications_by_final_date': applications_by_final_date,
         'extra_data': extra_data
     }
     return render(request, 'general_templates/home/home.html', response)

@@ -74,6 +74,8 @@ urlpatterns = [
             path('interview/', include([
                 path('all/', job_seeker_interviews_view, name='job_seeker_interviews_view'),
                 path('all/<int:archive>/', job_seeker_interviews_view, name='job_seeker_interviews_view'),
+                path('accept/<str:interview_id>', accept_invite_on_interview, name='accept_invite_on_interview'),
+                path('reject/<str:interview_id>', reject_invite_on_interview, name='reject_invite_on_interview'),
             ])),
         ]))
     ])),

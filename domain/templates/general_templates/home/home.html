@@ -4,7 +4,10 @@
     <section class="flex-vertical gap-1em">
         <div class="split-section flex-vertical gap-2em">
             {% if user_type == 'employee' %}
-            {% include 'employees_templates/home/components/applications_block.html' %}
+                {% if extra_data.interviews or extra_data.interviews_without_feedback %}
+                    {% include 'employees_templates/home/components/interviews_block.html' %}
+                {% endif %}
+                {% include 'employees_templates/home/components/applications_block.html' %}
             {% elif user_type == 'job_seeker' %}
                 {% include 'job_seekers_templates/home/components/applications.html' %}
             {% endif %}

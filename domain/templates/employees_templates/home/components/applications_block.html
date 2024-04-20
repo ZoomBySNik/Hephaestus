@@ -3,43 +3,51 @@
     <div class="content-block flex-vertical gap-1em">
         <h1 class="title">Заявки</h1>
         <div class="content-box flex-vertical gap-1em">
-            {% if applications_by_new or applications_by_final_date %}
+            {% if extra_data.applications_by_new or extra_data.applications_by_final_date %}
                 <div class="top-splitter-two flex-horizontal">
-                    <div class="splitted-part left active" onclick="toggleSplitter(this)">Новые</div>
-                    <div class="splitted-part right" onclick="toggleSplitter(this)">Ближайший крайний срок</div>
+                    <div class="splitted-part left {% if extra_data.applications_by_new %}active{% endif %}"
+                         onclick="toggleSplitter(this)">Новые
+                    </div>
+                    <div class="splitted-part right {% if not extra_data.applications_by_new %}active{% endif %}"
+                         onclick="toggleSplitter(this)">Ближайший крайний срок
+                    </div>
                 </div>
-                <div class="content flex-vertical gap-1em active-content">
+                <div class="content flex-vertical gap-1em {% if extra_data.applications_by_new %}active-content{% else %}inactive-content{% endif %}">
                     <div class="flex-horizontal gap-1em">
                         <a href="{% url 'applications_view' 'without_archive_by_new' %}">
                             <button class="button">Просмотр заявок</button>
                         </a>
                     </div>
-                    <table class="table">
-                        <tr>
-                            <th>Время создания</th>
-                            <th>Заказчик</th>
-                            <th>Организация</th>
-                            <th>Должность</th>
-                            <th>Подробнее</th>
-                        </tr>
-                        {% for application in applications_by_new %}
+                    {% if extra_data.applications_by_new %}
+                        <table class="table">
                             <tr>
-                                <td>{{ application.date_of_application }}</td>
-                                <td>{{ application.employer.first_name }} {{ application.employer.last_name }}</td>
-                                <td>{{ application.employer.organization.organizational_legal_form }}
-                                    "{{ application.employer.organization.name }}"
-                                </td>
-                                <td>{{ application.position }}</td>
-                                <td><a href="{% url 'applications_view_detail' application.id %}"
-                                       style="width: 100%; height: 100%; display: inline-block">
-                                    <button class="button"><img src="{% static 'icons/arrow_forward.svg' %}"
-                                                                class="icon"></button>
-                                </a></td>
+                                <th>Время создания</th>
+                                <th>Заказчик</th>
+                                <th>Организация</th>
+                                <th>Должность</th>
+                                <th>Подробнее</th>
                             </tr>
-                        {% endfor %}
-                    </table>
+                            {% for application in extra_data.applications_by_new %}
+                                <tr>
+                                    <td>{{ application.date_of_application }}</td>
+                                    <td>{{ application.employer.first_name }} {{ application.employer.last_name }}</td>
+                                    <td>{{ application.employer.organization.organizational_legal_form }}
+                                        "{{ application.employer.organization.name }}"
+                                    </td>
+                                    <td>{{ application.position }}</td>
+                                    <td><a href="{% url 'applications_view_detail' application.id %}"
+                                           style="width: 100%; height: 100%; display: inline-block">
+                                        <button class="button"><img src="{% static 'icons/arrow_forward.svg' %}"
+                                                                    class="icon"></button>
+                                    </a></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% else %}
+                        <p class="error-message">Новых заявок пока нет</p>
+                    {% endif %}
                 </div>
-                <div class="content flex-vertical gap-1em inactive-content">
+                <div class="content flex-vertical gap-1em {% if extra_data.applications_by_new %}inactive-content{% else %}active-content{% endif %}">
                     <div class="flex-horizontal gap-1em">
                         <a href="{% url 'applications_view' 'without_archive_by_final_date' %}">
                             <button class="button">Просмотр заявок</button>
@@ -53,9 +61,14 @@
                             <th>Должность</th>
                             <th>Подробнее</th>
                         </tr>
-                        {% for application in applications_by_final_date %}
+                        {% for application in extra_data.applications_by_final_date %}
+
                             <tr>
-                                <td>{{ application.final_date }}</td>
+                                <td>{{ application.final_date }} {% if application.desired_date %}
+                                    <span class="error-message" title="Желаемый срок закончился">
+                                        <img src="{% static 'icons/warning.svg' %}" class="logout-button" style="height: 1em; width: 1em; display: inline-block; vertical-align: middle;">
+                                    </span>{% endif %}
+                                </td>
                                 <td>{{ application.employer.first_name }} {{ application.employer.last_name }}</td>
                                 <td>{{ application.employer.organization.organizational_legal_form }}
                                     "{{ application.employer.organization.name }}"

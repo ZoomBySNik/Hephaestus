@@ -352,6 +352,7 @@ class ApplicationsResponses(models.Model):
     STATUS_CHOICES = [
         ('pending', 'В ожидании'),
         ('under_review', 'Рассмотрение'),
+        ('sent_to_employer', 'Отправлен к работодателю'),
         ('accepted', 'Принят'),
         ('overdue', 'Просрочена'),
         ('rejected', 'Отклонен'),
