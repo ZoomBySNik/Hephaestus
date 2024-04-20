@@ -31,8 +31,8 @@
                                 <tr>
                                     <td>{{ application.date_of_application }}</td>
                                     <td>{{ application.employer.first_name }} {{ application.employer.last_name }}</td>
-                                    <td>{{ application.employer.organization.organizational_legal_form }}
-                                        "{{ application.employer.organization.name }}"
+                                    <td><a href="{% url 'organization_view' application.employer.organization.id %}" style="font-size: unset">{{ application.employer.organization.organizational_legal_form }}
+                                        "{{ application.employer.organization.name }}"</a>
                                     </td>
                                     <td>{{ application.position }}</td>
                                     <td><a href="{% url 'applications_view_detail' application.id %}"
@@ -66,12 +66,14 @@
                             <tr>
                                 <td>{{ application.final_date }} {% if application.desired_date %}
                                     <span class="error-message" title="Желаемый срок закончился">
-                                        <img src="{% static 'icons/warning.svg' %}" class="logout-button" style="height: 1em; width: 1em; display: inline-block; vertical-align: middle;">
+                                        <img src="{% static 'icons/warning.svg' %}" class="logout-button"
+                                             style="height: 1em; width: 1em; display: inline-block; vertical-align: middle;">
                                     </span>{% endif %}
                                 </td>
                                 <td>{{ application.employer.first_name }} {{ application.employer.last_name }}</td>
-                                <td>{{ application.employer.organization.organizational_legal_form }}
-                                    "{{ application.employer.organization.name }}"
+                                <td>
+                                    <a href="{% url 'organization_view' application.employer.organization.id %}" style="font-size: unset">{{ application.employer.organization.organizational_legal_form }}
+                                        "{{ application.employer.organization.name }}"</a>
                                 </td>
                                 <td>{{ application.position }}</td>
                                 <td><a href="{% url 'applications_view_detail' application.id %}"

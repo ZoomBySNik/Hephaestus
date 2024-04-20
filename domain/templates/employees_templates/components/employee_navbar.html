@@ -6,6 +6,11 @@
         </a>
     </button>
     <button class="button">
+        <a href="{% url 'employee_interviews_view' %}" class="expanded-link">
+            Собеседования
+        </a>
+    </button>
+    <button class="button">
         <a href="{% url 'job_seeker_list' %}" class="expanded-link">
             Соискатели
         </a>
@@ -13,11 +18,6 @@
     <button class="button">
         <a href="{% url 'references' %}" class="expanded-link">
             Справочники
-        </a>
-    </button>
-    <button class="button">
-        <a href="{% url 'employee_interviews_view' %}" class="expanded-link">
-            Собеседования
         </a>
     </button>
 {% endblock content %}
