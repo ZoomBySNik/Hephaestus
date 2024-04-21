@@ -84,17 +84,7 @@ def job_seeker_education_view(request):
     if request.method == 'POST':
         form = EducationForm(request.POST)
         if form.is_valid():
-            address_data = {
-                'locality': form.cleaned_data['education_organization_address_locality'],
-                'street': form.cleaned_data['education_organization_address_street'],
-                'number_of_building': form.cleaned_data['education_organization_address_street'],
-            }
-            addresses = Address.objects.filter(**address_data)
-
-            if addresses.exists():
-                address = addresses.first()
-            else:
-                address = Address.objects.create(**address_data)
+            address = get_or_create_address(form.cleaned_data['locality'], form.cleaned_data['street'], form.cleaned_data['number_of_building'])
 
             education_organization = EducationalOrganization(
                 address=address,

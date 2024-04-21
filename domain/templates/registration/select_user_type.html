@@ -4,10 +4,10 @@
 {% block content %}
     <h1 class="title">Выберите тип пользователя</h1>
     <div class="flex-horizontal gap-1em">
-        <a href="{% url 'jobseeker_registration' %}">
+        <a href="{% url 'registration' 'job_seeker' %}">
             <button class="button">Соискатель</button>
         </a>
-        <a href="{% url 'employer_registration' %}">
+        <a href="{% url 'registration' 'employer' %}">
             <button class="button">Работодатель</button>
         </a>
     </div>

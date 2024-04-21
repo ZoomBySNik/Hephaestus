@@ -1,4 +1,5 @@
 import datetime
+from datetime import timedelta, date
 from domain.decorators import *
 from django.db.models import Q
 from django.shortcuts import redirect, render
@@ -14,18 +15,7 @@ def organization_create_view(request, *args, **kwargs):
     if request.method == 'POST':
         form = OrganizationForm(request.POST, request.FILES,)
         if form.is_valid():
-            address_data = {
-                'locality': form.cleaned_data['locality'],
-                'street': form.cleaned_data['street'],
-                'number_of_building': form.cleaned_data['number_of_building'],
-                'apartment_number': form.cleaned_data['apartment_number'],
-            }
-            addresses = Address.objects.filter(**address_data)
-
-            if addresses.exists():
-                address = addresses.first()
-            else:
-                address = Address.objects.create(**address_data)
+            address = get_or_create_address(form.cleaned_data['locality'], form.cleaned_data['street'], form.cleaned_data['number_of_building'], form.cleaned_data['apartment_number'])
             organization = form.save(commit=False)
             organization.address = address
             organization.save()
@@ -67,18 +57,7 @@ def organization_edit_view(request, organization_id):
     if request.method == 'POST':
         form = OrganizationForm(request.POST, request.FILES, instance=organization)
         if form.is_valid():
-            address_data = {
-                'locality': form.cleaned_data['locality'],
-                'street': form.cleaned_data['street'],
-                'number_of_building': form.cleaned_data['number_of_building'],
-                'apartment_number': form.cleaned_data['apartment_number'],
-            }
-            addresses = Address.objects.filter(**address_data)
-
-            if addresses.exists():
-                address = addresses.first()
-            else:
-                address = Address.objects.create(**address_data)
+            address = get_or_create_address(form.cleaned_data['locality'], form.cleaned_data['street'], form.cleaned_data['number_of_building'], form.cleaned_data['apartment_number'])
             organization = form.save(commit=False)
             organization.address = address
             organization.save()
@@ -124,3 +103,23 @@ def application_create_view(request):
         'form': form
     }
     return render(request, 'employers_templates/applications/create/application_create.html', context)
+
+
+@employer_required
+def job_seeker_view(request, job_seeker_id):
+    job_seeker = JobSeeker.objects.get(id=job_seeker_id)
+    employer = Employer.objects.get(id=request.user.id)
+    responses = ApplicationsResponses.objects.get().filter(Q(job_seeker=job_seeker) & Q(application__employer=employer) & Q(status='sent_to_employer'))
+    if responses:
+        if job_seeker.birthdate:
+            job_seeker.age = (date.today() - job_seeker.birthdate) // timedelta(days=365.2425)
+        else:
+            job_seeker.age = None
+        work_experiences = job_seeker.workexperience_set.all().order_by('-date_of_employment')
+        context = {
+            'job_seeker': job_seeker,
+            'work_experiences': work_experiences,
+        }
+        return render(request, 'employees_templates/job_seekers/view/job_seeker_view.html', context)
+    else:
+        return redirect(request.META.get('HTTP_REFERER', None))

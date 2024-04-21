@@ -2,6 +2,7 @@
 {% load widget_tweaks %}
 {% load static %}
 {% block content %}
+    <h1 class="title">Регистрация</h1>
     <form method="POST" class="input-form flex-vertical gap-2em" enctype="multipart/form-data">
         {% csrf_token %}
         <p class="flex-horizontal gap-2em">

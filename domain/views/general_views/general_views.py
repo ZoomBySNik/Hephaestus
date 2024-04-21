@@ -4,8 +4,7 @@ from datetime import datetime as dt
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.shortcuts import render
 from domain.decorators import *
 from domain.forms.employers_forms import EmployerForm
 from domain.forms.general_forms import *
@@ -15,7 +14,7 @@ from domain.general_functions import *
 
 
 @login_required
-def home_view(request, *args, **kwargs):
+def home_view(request):
     update_old_overdue()
     extra_data = {}
     if get_user_type(request.user.id) == 'job_seeker':
@@ -35,12 +34,11 @@ def home_view(request, *args, **kwargs):
             'applications': filtered_applications,
             'job_seeker': job_seeker}
     if get_user_type(request.user.id) == 'employee':
-        applications_by_new = Application.objects.all().order_by('-date_of_application').filter(status='pending').exclude(
+        applications_by_new = Application.objects.all().order_by('-date_of_application').filter(
+            status='pending').exclude(
             Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
         applications_by_final_date = Application.objects.all().order_by('final_date').exclude(
             Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
-        now = timezone.now()
-
         # Формируем временной промежуток для сегодняшнего дня
         start_of_day = dt.combine(date.today(), dt.min.time())
         end_of_day = dt.combine(date.today(), dt.max.time())
@@ -74,39 +72,30 @@ def choose_user_type(request):
     return render(request, 'registration/select_user_type.html')
 
 
-def employer_registration(request):
+def registration(request, user_type):
     if request.method == 'POST':
-        form = EmployerRegistrationForm(request.POST)
+        if user_type == 'employer':
+            form = EmployerRegistrationForm(request.POST)
+        elif user_type == 'job_seeker':
+            form = JobSeekerRegistrationForm(request.POST)
+        else:
+            return redirect(request.META.get('HTTP_REFERER', None))
         if form.is_valid():
-            user = form.save()
-            # Аутентификация пользователя после регистрации
+            form.save()
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-            # Переход на страницу с ФИО зарегистрированного пользователя
-            return redirect('user_profile')  # Замените 'user_profile' на URL вашей страницы профиля
-    else:
-        form = EmployerRegistrationForm()
-    return render(request, 'registration/user_registration.html', {'form': form})
 
-
-def jobseeker_registration(request):
-    if request.method == 'POST':
-        form = JobSeekerRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            # Аутентификация пользователя после регистрации
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-            # Переход на страницу с ФИО зарегистрированного пользователя
-            return redirect('user_profile')  # Замените 'user_profile' на URL вашей страницы профиля
+            return redirect('user_profile')
     else:
-        form = JobSeekerRegistrationForm()
+        if user_type == 'employer':
+            form = EmployerRegistrationForm()
+        elif user_type == 'job_seeker':
+            form = JobSeekerRegistrationForm()
+        else:
+            return redirect(request.META.get('HTTP_REFERER', None))
     return render(request, 'registration/user_registration.html', {'form': form})
 
 
@@ -140,18 +129,7 @@ def profile_update(request):
             form = JobSeekerForm(request.POST, request.FILES, instance=data)
             if form.is_valid():
                 if form.cleaned_data['locality']:
-                    address_data = {
-                        'locality': form.cleaned_data['locality'],
-                        'street': None,
-                        'number_of_building': None,
-                        'apartment_number': None
-                    }
-                    addresses = Address.objects.filter(**address_data)
-
-                    if addresses.exists():
-                        address = addresses.first()
-                    else:
-                        address = Address.objects.create(**address_data)
+                    address = get_or_create_address(form.cleaned_data['locality'])
                     job_seeker = form.save(commit=False)
                     job_seeker.address = address
                     job_seeker.save()

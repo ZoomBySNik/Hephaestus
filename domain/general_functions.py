@@ -1,6 +1,6 @@
 import datetime
 from django.utils import timezone
-from domain.models import JobSeeker, Employer, Employee, Application, ApplicationsResponses, JobInterview
+from domain.models import JobSeeker, Employer, Employee, Application, ApplicationsResponses, JobInterview, Address
 
 
 def calculate_matching_between_job_seeker_and_application(job_seeker, application):
@@ -140,6 +140,23 @@ def get_russian_status_interview(status):
         'with_feedback': 'С отзывом',
     }
     return status_dict.get(status)
+
+
+def get_or_create_address(locality, street=None, number_of_building=None, apartment_number=None):
+    address_data = {
+        'locality': locality,
+        'street': street,
+        'number_of_building': number_of_building,
+        'apartment_number': apartment_number,
+    }
+    addresses = Address.objects.filter(**address_data)
+
+    if addresses.exists():
+        address = addresses.first()
+    else:
+        address = Address.objects.create(**address_data)
+    address.save()
+    return address
 
 
 def update_old_overdue():

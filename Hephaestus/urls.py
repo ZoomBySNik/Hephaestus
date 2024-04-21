@@ -101,8 +101,7 @@ urlpatterns = [
     path('logout/', v.LogoutView.as_view(next_page='login'), name='logout'),
 
     path('select_user_type/', choose_user_type, name='select_user_type'),
-    path('employer-registration/', employer_registration, name='employer_registration'),
-    path('jobseeker-registration/', jobseeker_registration, name='jobseeker_registration'),
+    path('registration/<str:user_type>', registration, name='registration'),
 
     path('profile/', profile, name='user_profile'),
     path('profile/edit/', profile_update, name='profile_update'),
