@@ -49,7 +49,10 @@
                                 "{{ interview.application_response.application.employer.organization.name }}"</a></span>
                             </p>
                             <p>С кандидатом
-                                <a href="{% url 'job_seeker_view' interview.application_response.job_seeker.id %}"><span>{{ interview.application_response.job_seeker.last_name }} {{ interview.application_response.job_seeker.first_name }} {{ interview.application_response.job_seeker.patronymic }}</span></a>
+                                <span class="title"
+                                      style="font-size: unset"><a
+                                        href="{% url 'job_seeker_view' interview.application_response.job_seeker.id %}">{{ interview.application_response.job_seeker.last_name }} {{ interview.application_response.job_seeker.first_name }} {{ interview.application_response.job_seeker.patronymic }}
+                                </a></span>
                             </p>
                             <p class="text1">Назначенное на <span class="title"
                                                                   style="font-size: unset">{{ interview.date_of_interview }}</span>
@@ -60,7 +63,7 @@
                             <p class="text1">Статус: {{ interview.status_in_rus }}
                             </p>
                             <br>
-                            <a>
+                            <a href="{% url 'create_interview_feedback' interview.id %}">
                                 <button class="button submit">Добавить отзыв</button>
                             </a>
                         </div>

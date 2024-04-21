@@ -107,3 +107,16 @@ class JobInterviewForm(forms.ModelForm):
     class Meta:
         model = JobInterview
         fields = ['employee', 'date_of_interview']
+
+
+class ReviewOnInterviewForm(forms.ModelForm):
+    interview_description = forms.CharField(label='Отзыв сотрудника', widget=forms.Textarea, required=True)
+    CHOICES = [
+        ('rejected', 'Отказать'),
+        ('sent_to_employer', 'Отправить к работодателю'),
+    ]
+    response_status = forms.ChoiceField(label='Статус', choices=CHOICES)
+
+    class Meta:
+        model = JobInterview
+        fields = ['interview_description', 'response_status']

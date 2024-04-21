@@ -137,3 +137,24 @@ def employee_interviews_view(request, archive=0):
         'archive': archive
     }
     return render(request, 'employees_templates/interviews/interviews.html', context)
+
+
+def create_interview_feedback(request, interview_id):
+    interview = JobInterview.objects.get(id=interview_id)
+    response = interview.application_response
+    if request.method == 'POST':
+        form = ReviewOnInterviewForm(request.POST)
+        if form.is_valid():
+            response.status = form.cleaned_data['response_status']
+            interview.description = form.cleaned_data['interview_description']
+            interview.status = 'with_feedback'
+            response.save()
+            interview.save()
+            return redirect(request.META.get('HTTP_REFERER', None))
+    else:
+        form = ReviewOnInterviewForm()
+    context = {
+        'form': form,
+        'application_response': response
+    }
+    return render(request, 'employees_templates/interviews/review_on_interview.html', context)

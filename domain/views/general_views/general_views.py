@@ -16,6 +16,7 @@ from domain.general_functions import *
 
 @login_required
 def home_view(request, *args, **kwargs):
+    update_old_overdue()
     extra_data = {}
     if get_user_type(request.user.id) == 'job_seeker':
         job_seeker = get_user_data(request.user.id)

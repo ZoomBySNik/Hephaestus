@@ -109,6 +109,7 @@ def get_russian_status_in_responses(status):
     status_dict = {
         'pending': 'В ожидании',
         'under_review': 'Рассмотрение',
+        'sent_to_employer': 'Отправлен к работодателю',
         'accepted': 'Принят',
         'rejected': 'Отклонен',
         'overdue': 'Просрочена',
@@ -132,11 +133,11 @@ def get_russian_status(status):
 def get_russian_status_interview(status):
     status_dict = {
         'pending': 'В ожидании',
-        'under_review': 'Рассмотрение',
         'accepted': 'Принят',
         'rejected': 'Отклонен',
         'overdue': 'Просрочена',
-        'withdrawn': 'Отозван',
+        'passed': 'Прошло',
+        'with_feedback': 'С отзывом',
     }
     return status_dict.get(status)
 

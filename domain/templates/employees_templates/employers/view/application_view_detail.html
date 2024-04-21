@@ -118,7 +118,7 @@
                                                             </button>
                                                         </a>
                                                     {% endif %}
-                                                    {% if application_response.status != 'accepted' and application_response.status != 'rejected' and application_response.status != 'withdrawn' and application_response.status != 'under_review' %}
+                                                    {% if application_response.status != 'accepted' and application_response.status != 'rejected' and application_response.status != 'withdrawn' and application_response.status != 'under_review' and application_response.status != 'sent_to_employer' %}
                                                         <a href="{% url 'reject_job_seeker_response' application_response.id %}">
                                                             <button class="button reject">Отказать</button>
                                                         </a>
@@ -147,7 +147,7 @@
                                                         {% endif %}
                                                     </div>
                                                     <div class="flex-vertical gap-1em" style="margin-left: auto">
-                                                        {% if forloop.last and interview.status != 'pending' and interview.status != 'accepted'  %}
+                                                        {% if forloop.last and interview.status != 'pending' and interview.status != 'accepted' and interview.status != 'with_feedback' %}
                                                             <a href="{% url 'invite_job_seeker_on_interview' application_response.id %}"><button class="button submit">Пригласить ещё</button></a>
                                                             <br>
                                                         {% endif %}
