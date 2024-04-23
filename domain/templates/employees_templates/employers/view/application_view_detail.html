@@ -95,6 +95,7 @@
 
 
 
+
                                                         {{ MEDIA_URL }}{{ application_response.job_seeker.profile_photo.url }}"
                                                      class="person-img-preview">
                                             {% else %}
@@ -136,25 +137,32 @@
                                                 <br>
                                             </div>
                                         </div>
-                                        <div class="flex-vertical gap-2em">
-                                            {% for interview in application_response.interviews %}
-                                                <div class="flex-horizontal persons-div" style="filter: drop-shadow(0 0 0.5em var(--element-shadow));">
-                                                    <div class="flex-vertical gap-1em">
-                                                        <h1 class="title text1">Собеседование от {{ interview.date_of_interview }} </h1>
-                                                        <p>Статус: {{ interview.status_in_rus }} </p>
-                                                        {% if interview.description %}
-                                                            <p>Отзыв: {{ interview.description }} </p>
-                                                        {% endif %}
+                                        {% if application_response.interviews %}
+                                            <div class="flex-vertical gap-2em">
+                                                {% for interview in application_response.interviews %}
+                                                    <div class="flex-horizontal persons-div"
+                                                         style="filter: drop-shadow(0 0 0.5em var(--element-shadow));">
+                                                        <div class="flex-vertical gap-1em">
+                                                            <h1 class="title text1">Собеседование
+                                                                от {{ interview.date_of_interview }} </h1>
+                                                            <p>Статус: {{ interview.status_in_rus }} </p>
+                                                            {% if interview.description %}
+                                                                <p>Отзыв: {{ interview.description }} </p>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="flex-vertical gap-1em" style="margin-left: auto">
+                                                            {% if forloop.last and interview.status != 'pending' and interview.status != 'accepted' and interview.status != 'with_feedback' %}
+                                                                <a href="{% url 'invite_job_seeker_on_interview' application_response.id %}">
+                                                                    <button class="button submit">Пригласить ещё
+                                                                    </button>
+                                                                </a>
+                                                                <br>
+                                                            {% endif %}
+                                                        </div>
                                                     </div>
-                                                    <div class="flex-vertical gap-1em" style="margin-left: auto">
-                                                        {% if forloop.last and interview.status != 'pending' and interview.status != 'accepted' and interview.status != 'with_feedback' %}
-                                                            <a href="{% url 'invite_job_seeker_on_interview' application_response.id %}"><button class="button submit">Пригласить ещё</button></a>
-                                                            <br>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}

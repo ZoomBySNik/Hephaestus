@@ -94,7 +94,9 @@ urlpatterns = [
         ])),
         path('applications/', include([
             path('create', application_create_view, name='application_create'),
+            path('apply/<str:application_response_id>', apply_job_seeker, name='apply_job_seeker'),
         ])),
+        path('job_seeker/<str:job_seeker_id>', allowed_job_seeker_view, name='allowed_job_seeker_view'),
     ])),
 
     path('login/', v.LoginView.as_view(next_page='home'), name='login'),

@@ -60,6 +60,13 @@ class ApplicationForm(forms.ModelForm):
 
 
 class ChangeStateOfApplicationForm(forms.ModelForm):
+    status = forms.ChoiceField(choices=[
+        ('new', 'Новая'),
+        ('in_progress', 'В обработке'),
+        ('pending_approval', 'На согласовании'),
+        ('canceled', 'Отменена'),
+    ], label='Статус')
+
     class Meta:
         model = Application
-        fields = ['status', ]
+        fields = ['status']

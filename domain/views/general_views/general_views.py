@@ -35,9 +35,10 @@ def home_view(request):
             'job_seeker': job_seeker}
     if get_user_type(request.user.id) == 'employee':
         applications_by_new = Application.objects.all().order_by('-date_of_application').filter(
-            status='pending').exclude(
+            status='new').exclude(
             Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
-        applications_by_final_date = Application.objects.all().order_by('final_date').exclude(
+        applications_by_final_date = Application.objects.all().order_by('final_date').filter(
+            status__in=['new', 'in_progress', 'pending_approval']).exclude(
             Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
         # Формируем временной промежуток для сегодняшнего дня
         start_of_day = dt.combine(date.today(), dt.min.time())
@@ -194,3 +195,18 @@ def organization_view(request, organization_id):
         applications = Application.objects.filter(employer__organization=organization).order_by('-date_of_application')
         context['applications'] = applications
     return render(request, 'general_templates/organization/organization_view.html', context)
+
+
+def confirmation(request, confirmation_text):
+    if request.method == 'POST':
+        if 'confirm' in request.POST:
+            # Пользователь подтвердил действие
+            return True
+        elif 'cancel' in request.POST:
+            # Пользователь отменил действие
+            return False
+
+    context = {
+        'confirmation_text': confirmation_text,
+    }
+    return render(request, 'components/confirmation_form.html', context)

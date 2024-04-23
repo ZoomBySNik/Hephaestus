@@ -1,4 +1,6 @@
 import datetime
+
+from django.db.models import Q
 from django.utils import timezone
 from domain.models import JobSeeker, Employer, Employee, Application, ApplicationsResponses, JobInterview, Address
 
@@ -93,6 +95,9 @@ def get_user_data(user_id):
             employer.applications = Application.objects.filter(employer=employer)
             for application in employer.applications:
                 application.status_in_rus = get_russian_status(application.status)
+                interviews = JobInterview.objects.filter(
+                    Q(application_response__status='sent_to_employer') & Q(application_response__application=application))
+                application.interviews = interviews
             return employer
         except Employer.DoesNotExist:
             return None

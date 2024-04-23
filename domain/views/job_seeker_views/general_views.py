@@ -84,7 +84,9 @@ def job_seeker_education_view(request):
     if request.method == 'POST':
         form = EducationForm(request.POST)
         if form.is_valid():
-            address = get_or_create_address(form.cleaned_data['locality'], form.cleaned_data['street'], form.cleaned_data['number_of_building'])
+            address = get_or_create_address(form.cleaned_data['education_organization_address_locality'],
+                                            form.cleaned_data['education_organization_address_street'],
+                                            form.cleaned_data['education_organization_address_number_of_building'])
 
             education_organization = EducationalOrganization(
                 address=address,
@@ -274,4 +276,3 @@ def accept_invite_on_interview(request, interview_id):
     interview.status = 'accepted'
     interview.save()
     return redirect(request.META.get('HTTP_REFERER', None))
-

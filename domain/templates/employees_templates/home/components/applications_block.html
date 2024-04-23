@@ -64,7 +64,7 @@
                         {% for application in extra_data.applications_by_final_date %}
 
                             <tr>
-                                <td>{{ application.final_date }} {% if application.desired_date %}
+                                <td>{{ application.final_date }} {% if application.desired_date <= date.today %}
                                     <span class="error-message" title="Желаемый срок закончился">
                                         <img src="{% static 'icons/warning.svg' %}" class="logout-button"
                                              style="height: 1em; width: 1em; display: inline-block; vertical-align: middle;">

@@ -9,7 +9,7 @@
                 <div class="content-box flex-vertical gap-1em">
                     <div class="content flex-horizontal gap-1em"
                          style="justify-content: space-between; padding: 2em 4em">
-                        <div class="flex-vertical gap-1em">
+                        <div class="flex-vertical gap-1em" style="width: 80%">
                             <h1 class="title" style="font-size: xx-large">Собеседование на должность
                                 {{ interview.application_response.application.position }}</h1>
                             <p>В организацию <span class="title"
@@ -26,19 +26,15 @@
                             <p class="text1">Назначенное на <span class="title"
                                                                   style="font-size: unset">{{ interview.date_of_interview }}</span>
                             </p>
-
+                            {% if interview.description %}<p>Отзыв: {{ interview.description }}</p>{% endif %}
                         </div>
-                        <div class="flex-vertical gap-1em">
+                        <div class="flex-vertical gap-1em" style="margin-bottom: auto">
                             <p class="text1">Статус: {{ interview.status_in_rus }}
                             </p>
-                            <br>
-                            <br>
                             {% if interview.status == 'passed' %}
                                 <a href="{% url 'create_interview_feedback' interview.id %}">
                                     <button class="button submit">Добавить отзыв</button>
                                 </a>
-                            {% else %}
-                                <br>
                             {% endif %}
                         </div>
                     </div>
