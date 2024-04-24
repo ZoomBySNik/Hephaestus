@@ -25,7 +25,7 @@
                                         графиком работы: <span class="title"
                                                                style="font-size: unset">{{ application.work_schedule.name.lower }}</span>
                                         и зарплатой <span class="title"
-                                                          style="font-size: unset">{{ application.salary }}</span>
+                                                          style="font-size: unset">{{ application.salary|floatformat:0|intcomma }}</span>
                                         рублей
                                     </p>
                                     <p>Желаемый срок подбора <span class="title"
