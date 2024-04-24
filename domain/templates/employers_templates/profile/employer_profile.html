@@ -34,34 +34,6 @@
                                     <p>Крайний срок подбора <span class="title"
                                                                   style="font-size: unset">{{ application.final_date }}</span>
                                     </p>
-                                    <h1 class="title" style="font-size: x-large">
-                                        Требования
-                                    </h1>
-                                    <p>
-                                        Специализация: <span class="title"
-                                                             style="font-size: unset">{{ application.specialization }}</span>
-                                    </p>
-                                    <p>
-                                        Опыт работы: <span class="title" style="font-size: unset"
-                                                           id="experience{{ application.id }}">{{ application.experience }}</span>
-                                    </p>
-                                    <p>
-                                        Образование: <span class="title"
-                                                           style="font-size: unset">{{ application.education_level }}</span>
-                                    </p>
-                                    <p>Навыки:
-                                        {% for skill in application.skills.all %}
-                                            <span class="title" style="font-size: unset">{{ skill }}</span>
-                                            {% if not forloop.last %},{% endif %}
-                                        {% endfor %}
-                                    </p>
-                                    <p>Программно-технические средства:
-                                        {% for software_and_hardware_tool in application.software_and_hardware_tools.all %}
-                                            <span class="title"
-                                                  style="font-size: unset">{{ software_and_hardware_tool }}</span>
-                                            {% if not forloop.last %},{% endif %}
-                                        {% endfor %}
-                                    </p>
                                     <h1 class="title" style="font-size: x-large">Техническая информация о
                                         заявке</h1>
                                     {% if application.employee %}<p>Заявку

@@ -31,11 +31,13 @@
                                 <p class="text1">Дата рождения: {% if not data.birthdate %}неуказана{% else %}
                                     {{ data.birthdate }}{% endif %}</p>
                                 <p class="text1">Место проживания: {% if not data.address %}неуказан{% else %}
-                                    {{ data.address.locality }}{% endif %}</p>
+                                    <a href="{{ data.address.map_link }}" target="_blank" style="font-size: unset"
+                                       class="title">{{ data.address.locality }}</a>{% endif %}</p>
                             {% elif user_type == 'employer' %}
                                 <a href="{% url 'organization_view' data.organization.id %}">
                                     <p class="text1">Организация: {% if not data.organization %}неуказана{% else %}
-                                        <span class="title" style="font-size: unset">{{ data.organization.organizational_legal_form.short_name }} "{{ data.organization.name }}"</span>{% endif %}
+                                        <span class="title"
+                                              style="font-size: unset">{{ data.organization.organizational_legal_form.short_name }} "{{ data.organization.name }}"</span>{% endif %}
                                     </p>
                                 </a>
                                 <p class="text1">Должность: {% if not data.position %}неуказана{% else %}

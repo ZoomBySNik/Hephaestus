@@ -16,10 +16,10 @@
                         </div>
                         <div class="flex-vertical gap-1em">
                             <p>{{ organization.about }}</p>
-                            <p>{{ organization.address.locality }}, улица {{ organization.address.street }},
+                            <p><a href="{{ organization.address.map_link }}" target="_blank">{{ organization.address.locality }}, улица {{ organization.address.street }},
                                 строение {{ organization.address.number_of_building }}
                                 {% if organization.address.apartment_number %}, помещение
-                                    {{ organization.address.apartment_number }}{% endif %}</p>
+                                    {{ organization.address.apartment_number }}{% endif %}</a></p>
                         </div>
                     </div>
                     {% if is_member %}

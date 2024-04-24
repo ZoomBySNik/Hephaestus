@@ -1,7 +1,12 @@
 import datetime
-
+import xml.etree.ElementTree as ET
+import requests
+from urllib.parse import urlencode
+from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
+
+from Hephaestus.settings import YANDEX_MAPS_API_KEY
 from domain.models import JobSeeker, Employer, Employee, Application, ApplicationsResponses, JobInterview, Address
 
 
@@ -58,7 +63,7 @@ def calculate_matching_between_job_seeker_and_application(job_seeker, applicatio
         software_and_hardware_tool_factor = software_and_hardware_tool_factor / count_of_software_and_hardware_tools
 
     percent = education_factor * specialization_factor * experience_factor * (
-                skill_factor + software_and_hardware_tool_factor) / 2 * 100
+            skill_factor + software_and_hardware_tool_factor) / 2 * 100
     percent = round(percent, 0)
     return percent
 
@@ -92,11 +97,12 @@ def get_user_data(user_id):
     elif user_type == 'employer':
         try:
             employer = Employer.objects.get(id=user_id)
-            employer.applications = Application.objects.filter(employer=employer)
+            employer.applications = Application.objects.filter(employer=employer).order_by('-date_of_application')
             for application in employer.applications:
                 application.status_in_rus = get_russian_status(application.status)
                 interviews = JobInterview.objects.filter(
-                    Q(application_response__status='sent_to_employer') & Q(application_response__application=application))
+                    Q(application_response__status='sent_to_employer') & Q(
+                        application_response__application=application))
                 application.interviews = interviews
             return employer
         except Employer.DoesNotExist:
@@ -154,6 +160,13 @@ def get_or_create_address(locality, street=None, number_of_building=None, apartm
         'number_of_building': number_of_building,
         'apartment_number': apartment_number,
     }
+    latitude, longitude, map_link = get_coordinates_and_map_link(locality, street, number_of_building,
+                                                                 YANDEX_MAPS_API_KEY)
+
+    # Обновляем данные адреса
+    address_data['latitude'] = latitude
+    address_data['longitude'] = longitude
+    address_data['map_link'] = map_link
     addresses = Address.objects.filter(**address_data)
 
     if addresses.exists():
@@ -166,12 +179,14 @@ def get_or_create_address(locality, street=None, number_of_building=None, apartm
 
 def update_old_overdue():
     current_time = timezone.now()
-    old_applications = Application.objects.filter(final_date__lt=current_time, status__in=['new', 'in_progress', 'pending_approval'])
+    old_applications = Application.objects.filter(final_date__lt=current_time,
+                                                  status__in=['new', 'in_progress', 'pending_approval'])
     for application in old_applications:
         application.status = 'overdue'
         application.date_of_cancellation = current_time
         application.save()
-    old_responses = ApplicationsResponses.objects.filter(application__final_date__lt=current_time, status__in=['pending', 'under_review'])
+    old_responses = ApplicationsResponses.objects.filter(application__final_date__lt=current_time,
+                                                         status__in=['pending', 'under_review'])
     for response in old_responses:
         response.status = 'overdue'
         response.save()
@@ -183,3 +198,32 @@ def update_old_overdue():
     for interview in old_interviews:
         interview.status = 'passed'
         interview.save()
+
+
+def get_coordinates_and_map_link(locality, street, house_number, api_key):
+    address_string = f"Россия, {locality}, {street}, {house_number}"
+    query = {'apikey': api_key, 'geocode': address_string, 'lang': 'ru_RU'}
+    url = 'https://geocode-maps.yandex.ru/1.x/?' + urlencode(query)
+
+    try:
+        response = requests.get(url, timeout=10)
+        root = ET.fromstring(response.content)
+        geo_object = root.find('.//{http://maps.yandex.ru/ymaps/1.x}GeoObject')
+        pos = geo_object.find('.//{http://www.opengis.net/gml}pos').text
+        longitude, latitude = map(float, pos.split())
+        map_link = f"https://yandex.ru/maps/?ll={longitude},{latitude}&z=15&pt={longitude},{latitude}&mode=search"
+        return latitude, longitude, map_link
+    except Exception as e:
+        print(f"Failed to geocode address {address_string}: {str(e)}")
+        return None, None, None
+
+
+def geocode_addresses():
+    addresses = Address.objects.all()
+
+    for address in addresses:
+        address.latitude, address.longitude, address.map_link = get_coordinates_and_map_link(address.locality,
+                                                                                             address.street,
+                                                                                             address.number_of_building,
+                                                                                             YANDEX_MAPS_API_KEY)
+        address.save()
