@@ -1,6 +1,4 @@
 {% extends 'base.html' %}
-{% load widget_tweaks %}
-{% load static %}
 {% block content %}
     <section class="split-section flex-vertical gap-2em">
         <div class="content-block flex-vertical gap-1em">
@@ -34,7 +32,7 @@
                                     графиком работы: <span class="title"
                                                            style="font-size: unset">{{ application.work_schedule.name.lower }}</span>
                                     и зарплатой <span class="title"
-                                                      style="font-size: unset">{{ application.salary }}</span> рублей</p>
+                                                      style="font-size: unset">{{ application.salary|floatformat:0|intcomma }}</span> рублей</p>
                                 <p>Желаемый срок подбора <span class="title" style="font-size: unset">{{ application.desired_date }}</span></p>
                                 <p>Крайний срок подбора <span class="title" style="font-size: unset">{{ application.final_date }}</span></p>
                                 <h1 class="title" style="font-size: x-large">

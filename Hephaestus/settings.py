@@ -17,7 +17,6 @@ from django.template.context_processors import media
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -40,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_cleanup.apps.CleanupConfig',
     'phonenumber_field',
+    'django.contrib.humanize',
     'widget_tweaks',
     'domain',
 ]
@@ -72,6 +72,12 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'domain.context_processors.user'
             ],
+            'builtins': [
+                'django.templatetags.static',
+                'django.contrib.humanize.templatetags.humanize',
+                'domain.filters',
+                'widget_tweaks.templatetags.widget_tweaks',
+            ],
             'libraries': {
                 'filters': 'domain.filters',
 
@@ -82,7 +88,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Hephaestus.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -92,7 +97,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -123,7 +127,6 @@ TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
