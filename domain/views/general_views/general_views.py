@@ -27,8 +27,13 @@ def home_view(request):
         filtered_applications = []
         for application in applications:
             application.matching_result = calculate_matching_between_job_seeker_and_application(job_seeker, application)
-            if application.matching_result >= 50:
+            application.distance = haversine_distance(job_seeker.address.latitude, job_seeker.address.longitude,
+                                                      application.employer.organization.address.latitude,
+                                                      application.employer.organization.address.longitude)
+            if application.matching_result >= 50 and (
+                    application.distance < 60 or job_seeker.work_location_preference != 'local'):
                 filtered_applications.append(application)
+
         filtered_applications = sorted(filtered_applications, key=attrgetter('matching_result'), reverse=True)
         extra_data = {
             'applications': filtered_applications,

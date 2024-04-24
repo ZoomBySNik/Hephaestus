@@ -32,6 +32,10 @@
                                         <label for="{{ form.locality.id_for_label }}">{{ form.locality.label }}:</label>
                                         {{ form.locality }}
                                     </p>
+                                    <p>
+                                        <label for="{{ form.work_location_preference.id_for_label }}">Как бы вы хотели работать?</label>
+                                        {{ form.work_location_preference }}
+                                    </p>
                                 {% elif user_type == 'employer' %}
                                     {% if data.organization %}
                                         <p>

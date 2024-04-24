@@ -33,6 +33,9 @@
                                 <p class="text1">Место проживания: {% if not data.address %}неуказан{% else %}
                                     <a href="{{ data.address.map_link }}" target="_blank" style="font-size: unset"
                                        class="title">{{ data.address.locality }}</a>{% endif %}</p>
+                                <p class="text1">Ищу работу {% if data.work_location_preference == 'remote' %}
+                                    удалённо{% elif data.work_location_preference ==  'local' %}по месту
+                                    проживания{% elif data.work_location_preference ==  'relocation' %}и готов к переезду{% endif %}</p>
                             {% elif user_type == 'employer' %}
                                 <a href="{% url 'organization_view' data.organization.id %}">
                                     <p class="text1">Организация: {% if not data.organization %}неуказана{% else %}

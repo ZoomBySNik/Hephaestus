@@ -4,6 +4,7 @@ import requests
 from urllib.parse import urlencode
 from django.conf import settings
 from django.db.models import Q
+import math
 from django.utils import timezone
 
 from Hephaestus.settings import YANDEX_MAPS_API_KEY
@@ -227,3 +228,25 @@ def geocode_addresses():
                                                                                              address.number_of_building,
                                                                                              YANDEX_MAPS_API_KEY)
         address.save()
+
+
+def haversine_distance(lat1, lon1, lat2, lon2):
+    # Радиус Земли в километрах
+    radius = 6371.0
+
+    # Преобразование широты и долготы из градусов в радианы
+    lat1_rad = math.radians(lat1)
+    lon1_rad = math.radians(lon1)
+    lat2_rad = math.radians(lat2)
+    lon2_rad = math.radians(lon2)
+
+    # Разница между координатами широты и долготы
+    dlat = lat2_rad - lat1_rad
+    dlon = lon2_rad - lon1_rad
+
+    # Расчет расстояния с использованием формулы Гаверсинуса
+    a = math.sin(dlat / 2) ** 2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2) ** 2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    distance = radius * c
+
+    return int(round(distance, 0))

@@ -10,7 +10,8 @@ class JobSeekerForm(forms.ModelForm):
 
     class Meta:
         model = JobSeeker
-        fields = ['last_name', 'first_name', 'patronymic', 'phone_number', 'email', 'birthdate', 'locality', 'about']
+        fields = ['last_name', 'first_name', 'patronymic', 'phone_number', 'email', 'birthdate', 'locality', 'about',
+                  'work_location_preference']
         widgets = {
             'birthdate': forms.DateInput(attrs={'type': 'date'}),
         }

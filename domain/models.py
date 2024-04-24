@@ -59,7 +59,8 @@ class Organization(models.Model):
     address = models.ForeignKey('Address', on_delete=models.PROTECT,
                                 null=False, blank=False, verbose_name='Адрес')
     about = models.TextField(blank=True, null=True, verbose_name='Описание профиля')
-    organization_logo = models.ImageField(blank=True, null=True, verbose_name='Логотип организации', upload_to='organization_logos')
+    organization_logo = models.ImageField(blank=True, null=True, verbose_name='Логотип организации',
+                                          upload_to='organization_logos')
 
     def __str__(self):
         return '%s' % self.name
@@ -123,8 +124,8 @@ class EducationalOrganization(models.Model):
 class EducationLevel(models.Model):
     name = models.CharField(max_length=90, blank=False, null=False, verbose_name='Наименование')
     code = models.IntegerField(validators=[
-            MinValueValidator(0), MaxValueValidator(10)], blank=False, null=False,
-                               verbose_name='Код уровня профессионального образования')
+        MinValueValidator(0), MaxValueValidator(10)], blank=False, null=False,
+        verbose_name='Код уровня профессионального образования')
 
     def __str__(self):
         return '%s' % self.name
@@ -195,11 +196,19 @@ class WorkSchedule(models.Model):
 
 
 class JobSeeker(CustomUser):
+    LOCATION_CHOICES = [
+        ('remote', 'Удалённая работа'),
+        ('local', 'Работа в городе проживания'),
+        ('relocation', 'Готовность к переезду')
+    ]
+
     birthdate = models.DateField(blank=True, null=True, verbose_name='Дата рождения')
     address = models.ForeignKey('Address', blank=True, null=True, on_delete=models.PROTECT, verbose_name='Адрес')
     skill = models.ManyToManyField('Skill', blank=True, verbose_name='Навыки')
     specialization = models.ManyToManyField('Specialization', blank=True, verbose_name='Специализация')
     about = models.TextField(blank=True, null=True, verbose_name='Описание организации')
+    work_location_preference = models.CharField(max_length=15, choices=LOCATION_CHOICES, default='local',
+                                                verbose_name='Место желаемой работы')
 
     def __str__(self):
         return '%s %s %s' % (self.last_name, self.first_name, self.birthdate.isoformat())
@@ -388,15 +397,16 @@ class JobInterview(models.Model):
     ]
 
     application_response = models.ForeignKey('ApplicationsResponses', blank=False, null=False,
-                                    on_delete=models.CASCADE, verbose_name='Отклик на заявку')
+                                             on_delete=models.CASCADE, verbose_name='Отклик на заявку')
     employee = models.ForeignKey('Employee', blank=False, null=False,
-                                   on_delete=models.CASCADE, verbose_name='Сотрудник')
+                                 on_delete=models.CASCADE, verbose_name='Сотрудник')
     date_of_interview = models.DateTimeField(blank=False, null=False, verbose_name='Время собеседования')
     description = models.TextField(blank=True, null=True, verbose_name='Отзыв сотрудника')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name='Статус')
 
     def __str__(self):
-        return 'Собеседование с "%s" от %s' % (self.application_response.job_seeker.__str__, self.date_of_interview.date)
+        return 'Собеседование с "%s" от %s' % (
+        self.application_response.job_seeker.__str__, self.date_of_interview.date)
 
     class Meta:
         verbose_name = 'Собеседование'
