@@ -8,7 +8,7 @@
                     {% csrf_token %}
                     <h1 class="title text-size-larger">Основная информация</h1>
                     <h1>
-                        Заказчик: {{ employer.name }} {{ employer.patronymic }} {{ employer.surname }}, {{ employer.position|lower }}
+                        Заказчик: {{ employer.last_name }} {{ employer.first_name }} {{ employer.patronymic }}, {{ employer.position|lower }}
                         организации {{ employer.organization.organizational_legal_form }}
                         "{{ employer.organization.name }}"</h1>
                     <p class="flex-horizontal gap-2em">
