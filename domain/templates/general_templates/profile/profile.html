@@ -35,9 +35,11 @@
                                        class="title">{{ data.address.locality }}</a>{% endif %}</p>
                                 <p class="text1">Ищу работу {% if data.work_location_preference == 'remote' %}
                                     удалённо{% elif data.work_location_preference ==  'local' %}по месту
-                                    проживания{% elif data.work_location_preference ==  'relocation' %}и готов к переезду{% endif %}</p>
+                                    проживания{% elif data.work_location_preference ==  'relocation' %}и готов к
+                                    переезду{% endif %}</p>
                             {% elif user_type == 'employer' %}
-                                <a {% if data.organization %}href="{% url 'organization_view' data.organization.id %}"{% endif %}>
+                                <a {% if data.organization %}href="{% url 'organization_view' data.organization.id %}"{% endif %}
+                                   style="font-size: unset">
                                     <p class="text1">Организация: {% if not data.organization %}неуказана{% else %}
                                         <span class="title"
                                               style="font-size: unset">{{ data.organization.organizational_legal_form.short_name }} "{{ data.organization.name }}"</span>{% endif %}

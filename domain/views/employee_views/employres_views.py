@@ -24,10 +24,10 @@ def applications_view(request, ordering='without_archive_by_new'):
     archive = False
     if ordering in ordering_mas:
         applications = Application.objects.exclude(
-            Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))
+            Q(status__in=['completed', 'overdue', 'canceled']))
     elif ordering in ordering_mas_archive:
         applications = Application.objects.filter(
-            Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))
+            Q(status__in=['completed', 'overdue', 'canceled']))
         archive = True
     else:
         applications = Application.objects.all()

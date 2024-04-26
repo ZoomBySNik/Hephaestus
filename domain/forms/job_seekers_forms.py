@@ -1,6 +1,8 @@
 from datetime import timedelta
 from datetime import datetime as dt
 from django import forms
+from django.core.exceptions import ValidationError
+
 from domain.models import *
 
 
@@ -104,10 +106,35 @@ class JobInterviewForm(forms.ModelForm):
             days=7)).strftime('%Y-%m-%dT%H:%M'),
     }),
         label='Время собеседования')
+    locality = forms.CharField(max_length=255, label='Населенный пункт',
+                               required=False)
+    street = forms.CharField(max_length=255, label='Улица',
+                             required=False)
+    number_of_building = forms.CharField(max_length=31, label='Номер строения',
+                                         required=False)
+    apartment_number = forms.CharField(max_length=31, label='Номер помещения',
+                                       required=False)
 
     class Meta:
         model = JobInterview
-        fields = ['employee', 'date_of_interview']
+        fields = ['employee', 'date_of_interview', 'locality', 'street', 'number_of_building', 'apartment_number', 'link']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        locality = cleaned_data.get('locality')
+        street = cleaned_data.get('street')
+        number_of_building = cleaned_data.get('number_of_building')
+        apartment_number = cleaned_data.get('apartment_number')
+        link = cleaned_data.get('link')
+
+        if (locality or street or number_of_building or apartment_number) and link:
+            raise ValidationError(
+                "Можно заполнить только одно из полей 'Место проведения' или 'Ссылка для онлайн собеседования'")
+        elif not (locality or street or number_of_building) and not link:
+            raise ValidationError(
+                "Необходимо заполнить одно из полей 'Место проведения' или 'Ссылка для онлайн собеседования'")
+
+        return cleaned_data
 
 
 class ReviewOnInterviewForm(forms.ModelForm):

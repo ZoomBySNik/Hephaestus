@@ -401,12 +401,15 @@ class JobInterview(models.Model):
     employee = models.ForeignKey('Employee', blank=False, null=False,
                                  on_delete=models.CASCADE, verbose_name='Сотрудник')
     date_of_interview = models.DateTimeField(blank=False, null=False, verbose_name='Время собеседования')
+    address = models.ForeignKey('Address', blank=True, null=True, on_delete=models.CASCADE,
+                                verbose_name='Место собеседования')
+    link = models.URLField(max_length=2083, blank=True, null=True, verbose_name='Ссылка на онлайн собеседование')
     description = models.TextField(blank=True, null=True, verbose_name='Отзыв сотрудника')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name='Статус')
 
     def __str__(self):
         return 'Собеседование с "%s" от %s' % (
-        self.application_response.job_seeker.__str__, self.date_of_interview.date)
+            self.application_response.job_seeker.__str__, self.date_of_interview.date)
 
     class Meta:
         verbose_name = 'Собеседование'

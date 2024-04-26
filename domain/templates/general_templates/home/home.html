@@ -8,7 +8,7 @@
                 {% endif %}
                 {% include 'employees_templates/home/components/applications_block.html' %}
             {% elif user_type == 'job_seeker' %}
-                {% if job_seeker.address and job_seeker.birthday %}
+                {% if extra_data.job_seeker.address %}
                     {% include 'job_seekers_templates/home/components/applications.html' %}
                 {% endif %}
             {% endif %}
