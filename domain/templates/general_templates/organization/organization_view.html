@@ -47,10 +47,10 @@
                                         href="{% url 'organization_view' application.employer.organization.id %}">{{ application.employer.organization.organizational_legal_form }}
                                 "{{ application.employer.organization.name }}"</a></span></p>
                                 <p>С зарплатой в <span class="title"
-                                                       style="font-size: unset">{{ application.salary }}</span>
+                                                       style="font-size: unset">{{ application.salary|floatformat:0|intcomma }}</span>
                                     рублей
                                 </p>
-
+                                <p>Статус: <span class="title" style="font-size: unset">{{ application.status_in_rus }}</span></p>
                             </div>
                             <div class="flex-vertical gap-1em"
                                  style="justify-content: flex-start; height: 100%">

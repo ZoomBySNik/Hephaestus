@@ -17,7 +17,8 @@
                             графиком работы: <span class="title"
                                                    style="font-size: unset">{{ application.work_schedule.name.lower }}</span>
                             и зарплатой <span class="title"
-                                              style="font-size: unset">{{ application.salary|floatformat:0|intcomma }}</span> рублей</p>
+                                              style="font-size: unset">{{ application.salary|floatformat:0|intcomma }}</span>
+                            рублей</p>
                         <p>Желаемый срок подбора <span class="title"
                                                        style="font-size: unset">{{ application.desired_date }}</span>
                         </p>
@@ -58,18 +59,20 @@
                         <h1 class="title" style="font-size: x-large">Техническая информация о заявке</h1>
                         <p>Статус заявки: <span class="title"
                                                 style="font-size: unset">{{ application.status_in_rus }}</span></p>
-                        <div class="flex-vertical gap-05em">
-                            <p class="title" style="font-size: unset">Изменить статус</p>
-                            <form method="post" class="input-form flex-horizontal gap-1em"
-                                  style="justify-content: flex-start">
-                                {% csrf_token %}
-                                <p style="justify-content: flex-start; align-items: center;">
-                                    <label for="{{ form.status.id_for_label }}">{{ form.status.label }}:</label>
-                                    {{ form.status }}
-                                </p>
-                                <button type="submit" class="button submit">Сохранить</button>
-                            </form>
-                        </div>
+                        {% if application.status != 'completed' and application.status != 'overdue' and application.status != 'canceled' %}
+                            <div class="flex-vertical gap-05em">
+                                <p class="title" style="font-size: unset">Изменить статус</p>
+                                <form method="post" class="input-form flex-horizontal gap-1em"
+                                      style="justify-content: flex-start">
+                                    {% csrf_token %}
+                                    <p style="justify-content: flex-start; align-items: center;">
+                                        <label for="{{ form.status.id_for_label }}">{{ form.status.label }}:</label>
+                                        {{ form.status }}
+                                    </p>
+                                    <button type="submit" class="button submit">Сохранить</button>
+                                </form>
+                            </div>
+                        {% endif %}
                         {% if application.date_of_cancellation %}
                             <p>Дата отмены заявки: <span class="title"
                                                          style="font-size: unset">{{ application.date_of_cancellation }}</span>
@@ -89,6 +92,7 @@
                                         <div class="flex-horizontal gap-3em">
                                             {% if application_response.job_seeker.profile_photo %}
                                                 <img src="
+
 
 
 

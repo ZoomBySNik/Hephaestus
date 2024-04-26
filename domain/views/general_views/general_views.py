@@ -197,8 +197,33 @@ def organization_view(request, organization_id):
         'is_member': is_member,
         'is_job_seeker': is_job_seeker,
     }
-    if is_job_seeker or is_member:
+    if is_job_seeker:
+        filtered_applications = []
+        if user_data.address:
+            applications = Application.objects.filter(
+                Q(employer__organization=organization) &
+                (~Q(applicationsresponses__job_seeker_id=user_data.id) &
+                 ~(Q(date_of_completion__isnull=False) | Q(
+                     date_of_cancellation__isnull=False)) &
+                 ~Q(status='new'))
+            ).order_by('-date_of_application')
+            for application in applications:
+                application.status_in_rus = get_russian_status(application.status)
+                application.matching_result = calculate_matching_between_job_seeker_and_application(user_data,
+                                                                                                    application)
+                application.distance = haversine_distance(user_data.address.latitude, user_data.address.longitude,
+                                                          application.employer.organization.address.latitude,
+                                                          application.employer.organization.address.longitude)
+                if application.matching_result >= 50 and (
+                        application.distance < 60 or user_data.work_location_preference != 'local'):
+                    filtered_applications.append(application)
+            filtered_applications = sorted(filtered_applications, key=attrgetter('matching_result'), reverse=True)
+        applications = filtered_applications
+        context['applications'] = applications
+    if is_member:
         applications = Application.objects.filter(employer__organization=organization).order_by('-date_of_application')
+        for application in applications:
+            application.status_in_rus = get_russian_status(application.status)
         context['applications'] = applications
     return render(request, 'general_templates/organization/organization_view.html', context)
 
