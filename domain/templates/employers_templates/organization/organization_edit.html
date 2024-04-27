@@ -20,9 +20,9 @@
                             <label for="{{ form.about.id_for_label }}">{{ form.about.label }}:</label>
                             {{ form.about|add_class:'input-field' }}
                         </p>
-                        <p>
+                        <p style="text-wrap: nowrap">
                             <label for="{{ form.organization_logo.id_for_label }}">{{ form.organization_logo.label }}:</label>
-                            {{ form.organization_logo }}
+                            {{ form.organization_logo|add_class:'input-field' }}
                         </p>
                         <p>
                             <label for="{{ form.okved_kode.id_for_label }}">{{ form.okved_kode.label }}:</label>

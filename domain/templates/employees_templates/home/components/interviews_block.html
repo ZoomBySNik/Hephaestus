@@ -56,7 +56,23 @@
                             <p class="text1">Назначенное на <span class="title"
                                                                   style="font-size: unset">{{ interview.date_of_interview }}</span>
                             </p>
-
+                            {% if interview.address %}
+                                <p class="text1">
+                                    <a href="{{ interview.address.map_link }}"
+                                       target="_blank">{{ interview.address.locality }},
+                                        улица {{ interview.address.street }},
+                                        строение {{ interview.address.number_of_building }}
+                                        {% if interview.address.apartment_number %}, помещение
+                                            {{ interview.address.apartment_number }}{% endif %}
+                                    </a>
+                                </p>
+                            {% elif interview.link %}
+                                <p class="text1">
+                                    <a href="{{ interview.link }}" target="_blank">
+                                        Ссылка на онлайн собеседование: {{ interview.link }}
+                                    </a>
+                                </p>
+                            {% endif %}
                         </div>
                         <div class="flex-vertical gap-1em">
                             <p class="text1">Статус: {{ interview.status_in_rus }}

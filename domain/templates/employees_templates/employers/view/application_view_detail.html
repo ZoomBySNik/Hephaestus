@@ -113,7 +113,7 @@
                                                 <p>{{ application_response.job_seeker.email }}</p>
                                             </div>
                                             <div class="flex-vertical gap-05em">
-                                                <p class="text1">Процент соответствия вакансии: 100%</p>
+                                                <p class="text1">Процент соответствия вакансии: {{ application_response.evaluation|floatformat }}%</p>
                                                 <div class="flex-horizontal gap-05em">
                                                     {% if application_response.status == 'pending' %}
                                                         <a href="{% url 'invite_job_seeker_on_interview' application_response.id %}">

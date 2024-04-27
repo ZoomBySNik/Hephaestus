@@ -22,7 +22,7 @@ def home_view(request):
         applications = Application.objects.filter(
             ~Q(applicationsresponses__job_seeker_id=job_seeker.id) &
             ~(Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False)) &
-            ~Q(status='new')
+            ~Q(status__in=['new', 'completed', 'overdue', 'canceled'])
         )
         filtered_applications = []
         if job_seeker.address:
@@ -32,8 +32,8 @@ def home_view(request):
                 application.distance = haversine_distance(job_seeker.address.latitude, job_seeker.address.longitude,
                                                           application.employer.organization.address.latitude,
                                                           application.employer.organization.address.longitude)
-                if application.matching_result >= 50 and (
-                        application.distance < 60 or job_seeker.work_location_preference != 'local'):
+                if application.matching_result >= 0 and (
+                        application.distance < 50 or job_seeker.work_location_preference != 'local'):
                     filtered_applications.append(application)
             filtered_applications = sorted(filtered_applications, key=attrgetter('matching_result'), reverse=True)
         extra_data = {
@@ -57,11 +57,15 @@ def home_view(request):
         interviews_without_feedback = JobInterview.objects.filter(status='passed')
         for interview in interviews_without_feedback:
             interview.status_in_rus = get_russian_status_interview(interview.status)
+        application_responses = ApplicationsResponses.objects.filter(status='pending')
+        for application_response in application_responses:
+            application_response.status_in_rus = get_russian_status_in_responses(application_response.status)
         extra_data = {
             'interviews': interviews,
             'interviews_without_feedback': interviews_without_feedback,
             'applications_by_new': applications_by_new,
             'applications_by_final_date': applications_by_final_date,
+            'application_responses': application_responses
         }
 
     response = {

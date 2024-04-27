@@ -1,0 +1,29 @@
+{% block content %}
+    <div class="content-block flex-vertical gap-1em">
+        <h1 class="title">Отклики на заявки</h1>
+        <div class="content-box flex-vertical gap-1em">
+            <div class="content flex-vertical gap-1em">
+                <table class="table">
+                    <tr>
+                        <th>Время отклика</th>
+                        <th>Соискатель</th>
+                        <th>Процент соответствия</th>
+                        <th>Подробнее</th>
+                    </tr>
+                    {% for application_response in extra_data.application_responses %}
+                        <tr>
+                            <td>{{ application_response.date_of_response }}</td>
+                            <td>{{ application_response.job_seeker.last_name }} {{ application_response.job_seeker.first_name }} {{ application_response.job_seeker.patronymic }}</td>
+                            <td>{{ application_response.evaluation|floatformat }}%</td>
+                            <td><a href="{% url 'applications_view_detail' application_response.application.id %}"
+                                   style="width: 100%; height: 100%; display: inline-block">
+                                <button class="button"><img src="{% static 'icons/arrow_forward.svg' %}"
+                                                            class="icon"></button>
+                            </a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -6,6 +6,9 @@
                 {% if extra_data.interviews or extra_data.interviews_without_feedback %}
                     {% include 'employees_templates/home/components/interviews_block.html' %}
                 {% endif %}
+                {% if extra_data.application_responses %}
+                    {% include 'employees_templates/home/components/application_responses_block.html' %}
+                {% endif %}
                 {% include 'employees_templates/home/components/applications_block.html' %}
             {% elif user_type == 'job_seeker' %}
                 {% if extra_data.job_seeker.address %}
