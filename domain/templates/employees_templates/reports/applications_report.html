@@ -2,12 +2,40 @@
 {% block content %}
     <section class="split-section flex-vertical gap-2em">
         <div class="content-block flex-vertical gap-1em">
-            <h1 class="title">Выбор отчёта</h1>
+            <h1 class="title">Отчёт по заявкам на подбор</h1>
             <div class="content-box flex-vertical gap-1em">
                 <div class="content flex-vertical gap-05em" style="padding: 2em 4em">
                     <div class="flex-vertical gap-2em">
                         {{ start_date }} - {{ end_date }}
-                        {% for application in applications %}<p>{{ application.employer.organization.okved_kode_text }}</p>{% endfor %}
+                        <table class="table">
+                            <tr>
+                                <th>Время создания</th>
+                                <th>Организация</th>
+                                <th>Род деятельности организации</th>
+                                <th>Заказчик</th>
+                                <th>Должность заказчика</th>
+                                <th>Должность вакансии</th>
+                                <th>Откликнулось</th>
+                                <th>Организованно собеседований</th>
+                                <th>Дата выполнения заявки</th>
+                                <th>Подробнее</th>
+                            </tr>
+                            {% for application in applications %}
+                                <tr>
+                                    <td>{{ application.date_of_application }}</td>
+                                    <td>{{ application.employer.first_name }} {{ application.employer.last_name }}</td>
+                                    <td><a href="{% url 'organization_view' application.employer.organization.id %}" style="font-size: unset">{{ application.employer.organization.organizational_legal_form }}
+                                        "{{ application.employer.organization.name }}"</a>
+                                    </td>
+                                    <td>{{ application.position }}</td>
+                                    <td><a href="{% url 'applications_view_detail' application.id %}"
+                                           style="width: 100%; height: 100%; display: inline-block">
+                                        <button class="button"><img src="{% static 'icons/arrow_forward.svg' %}"
+                                                                    class="icon"></button>
+                                    </a></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
                     </div>
                 </div>
             </div>

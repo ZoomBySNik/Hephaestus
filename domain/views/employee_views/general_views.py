@@ -77,6 +77,10 @@ def applications_report(request):
             applications = Application.objects.filter(date_of_application__range=[start_date, end_date])
             for application in applications:
                 application.employer.organization.okved_kode_text = get_okved_description(application.employer.organization.okved_kode)
+                application.responses = application.applicationsresponses_set.all()
+                for response in application.responses:
+                    response.interviews = response.jobinterview_set.all()
+
             # Здесь можно выполнить необходимые действия с датами
             context = {
                 'start_date': start_date,
