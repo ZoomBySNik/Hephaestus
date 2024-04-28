@@ -3,11 +3,12 @@ import xml.etree.ElementTree as ET
 import requests
 from urllib.parse import urlencode
 from django.conf import settings
+from dadata import Dadata
 from django.db.models import Q
 import math
 from django.utils import timezone
 
-from Hephaestus.settings import YANDEX_MAPS_API_KEY
+from Hephaestus.settings import YANDEX_MAPS_API_KEY, DADATA_API_KEY
 from domain.models import JobSeeker, Employer, Employee, Application, ApplicationsResponses, JobInterview, Address
 
 
@@ -250,3 +251,13 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     distance = radius * c
 
     return int(round(distance, 0))
+
+
+def get_okved_description(okved_code):
+    token = DADATA_API_KEY
+    dadata = Dadata(token)
+    result = dadata.find_by_id("okved2", okved_code)
+    print(result[0]["value"])
+    if result:
+        return result[0]["value"]
+    return None

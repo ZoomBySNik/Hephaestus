@@ -59,3 +59,33 @@ def references_view(request, reference='OrganizationalLegalForm'):
         error_message = f"Справочник {reference} не найден"
         error_page_url = reverse('error_page', kwargs={'error_message': error_message})
         return redirect(error_page_url)
+
+
+@employee_required
+def select_report_view(request):
+    context = {}
+    return render(request, 'employees_templates/reports/select_report.html', context)
+
+
+@employee_required
+def applications_report(request):
+    if request.method == 'POST':
+        form = DateRangeForm(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+            applications = Application.objects.filter(date_of_application__range=[start_date, end_date])
+            for application in applications:
+                application.employer.organization.okved_kode_text = get_okved_description(application.employer.organization.okved_kode)
+            # Здесь можно выполнить необходимые действия с датами
+            context = {
+                'start_date': start_date,
+                'end_date': end_date,
+                'applications': applications
+            }
+            return render(request, 'employees_templates/reports/applications_report.html', context)
+    else:
+        # Если метод запроса GET, показываем пустую форму
+        form = DateRangeForm()
+
+    return render(request, 'employees_templates/reports/date_range.html', {'form': form})

@@ -144,3 +144,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 YANDEX_MAPS_API_KEY = '64aafd15-2707-40c5-8928-d17a7508d8a0'
+DADATA_API_KEY = '449f469bded4fbc011bd386099c0f54879fd5792'

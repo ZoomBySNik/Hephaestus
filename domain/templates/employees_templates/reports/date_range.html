@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            <h1 class="title">Выбор параметров отчёта</h1>
+            <div class="content-box flex-vertical gap-1em">
+                <div class="content flex-vertical gap-05em" style="padding: 2em 4em">
+                    <form method="POST" class="flex-vertical gap-1em">
+                        {% csrf_token %}
+                        <p>
+                            <label for="{{ form.start_date.id_for_label }}">{{ form.start_date.label }}:</label>
+                            {{ form.start_date|add_class:'input-field' }}
+                        </p>
+                        <p>
+                            <label for="{{ form.end_date.id_for_label }}">{{ form.end_date.label }}:</label>
+                            {{ form.end_date|add_class:'input-field' }}
+                        </p>
+                        <button type="submit" class="button submit">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

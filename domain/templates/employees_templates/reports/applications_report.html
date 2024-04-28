@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            <h1 class="title">Выбор отчёта</h1>
+            <div class="content-box flex-vertical gap-1em">
+                <div class="content flex-vertical gap-05em" style="padding: 2em 4em">
+                    <div class="flex-vertical gap-2em">
+                        {{ start_date }} - {{ end_date }}
+                        {% for application in applications %}<p>{{ application.employer.organization.okved_kode_text }}</p>{% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
