@@ -539,6 +539,11 @@ tr:hover td {
     filter: drop-shadow(0 0 0.9em var(--shadow-next));
 }
 
+.checkbox-div{
+    max-height: 20em;
+    overflow-y: auto;
+}
+
 .checkbox-div div {
     background: var(--div-bg);
     border-radius: 1em;
@@ -616,3 +621,19 @@ tr:hover td {
 .box-with-slider::-webkit-scrollbar-button {
     display: none;
 }
+
+::-webkit-scrollbar {
+    background-color: transparent;
+}
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px; /* Скругляем бегунок */
+    background-color: var(--td-bg); /* Замените на ваш желаемый цвет */
+}
+::-webkit-scrollbar-button {
+    display: none;
+}
+
