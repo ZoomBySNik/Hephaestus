@@ -67,6 +67,9 @@ def invite_job_seeker_on_interview(request, application_response_id):
             )
             interview.save()
             application_response.status = 'under_review'
+            application = application_response.application
+            application.date_of_last_change = datetime.datetime.now()
+            application.save()
             application_response.save()
             return redirect(request.META.get('HTTP_REFERER', None))
     else:
@@ -112,6 +115,9 @@ def create_interview_feedback(request, interview_id):
             interview.description = form.cleaned_data['interview_description']
             interview.status = 'with_feedback'
             response.save()
+            application = interview.application_response.application
+            application.date_of_last_change = datetime.datetime.now()
+            application.save()
             interview.save()
             return redirect(request.META.get('HTTP_REFERER', None))
     else:

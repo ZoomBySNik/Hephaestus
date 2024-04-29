@@ -6,36 +6,60 @@
             <div class="content-box flex-vertical gap-1em">
                 <div class="content flex-vertical gap-05em" style="padding: 2em 4em">
                     <div class="flex-vertical gap-2em">
-                        {{ start_date }} - {{ end_date }}
-                        <table class="table">
-                            <tr>
-                                <th>Время создания</th>
-                                <th>Организация</th>
-                                <th>Род деятельности организации</th>
-                                <th>Заказчик</th>
-                                <th>Должность заказчика</th>
-                                <th>Должность вакансии</th>
-                                <th>Откликнулось</th>
-                                <th>Организованно собеседований</th>
-                                <th>Дата выполнения заявки</th>
-                                <th>Подробнее</th>
-                            </tr>
-                            {% for application in applications %}
+                        <div class="flex-horizontal" style="justify-content: space-between">
+                            <p>{{ start_date }} - {{ end_date }}</p>
+                            <button class="button" onclick="exportToExcel('отчет_по_заявкам_')">Сохранить отчёт</button>
+                        </div>
+                        <div class="box-with-slider">
+                            <table class="table" style="white-space: nowrap;" id="export">
                                 <tr>
-                                    <td>{{ application.date_of_application }}</td>
-                                    <td>{{ application.employer.first_name }} {{ application.employer.last_name }}</td>
-                                    <td><a href="{% url 'organization_view' application.employer.organization.id %}" style="font-size: unset">{{ application.employer.organization.organizational_legal_form }}
-                                        "{{ application.employer.organization.name }}"</a>
-                                    </td>
-                                    <td>{{ application.position }}</td>
-                                    <td><a href="{% url 'applications_view_detail' application.id %}"
-                                           style="width: 100%; height: 100%; display: inline-block">
-                                        <button class="button"><img src="{% static 'icons/arrow_forward.svg' %}"
-                                                                    class="icon"></button>
-                                    </a></td>
+                                    <th>Время создания</th>
+                                    <th>Организация</th>
+                                    <th>Род деятельности организации</th>
+                                    <th>Заказчик</th>
+                                    <th>Должность заказчика</th>
+                                    <th>Должность вакансии</th>
+                                    <th>Откликнулось</th>
+                                    <th>Организованно собеседований</th>
+                                    <th>Статус заявки</th>
+                                    <th>Соискатель принятый на работу</th>
+                                    <th>Дата выполнения заявки</th>
+                                    <th>Время последнего изменения заявки</th>
+                                    <th>Работник принявший заявку</th>
+                                    <th id="ignore-export">Подробнее</th>
                                 </tr>
-                            {% endfor %}
-                        </table>
+                                {% for application in applications %}
+                                    <tr>
+                                        <td>{{ application.date_of_application }}</td>
+                                        <td><a href="{% url 'organization_view' application.employer.organization.id %}"
+                                               style="font-size: unset">{{ application.employer.organization.organizational_legal_form }}
+                                            "{{ application.employer.organization.name }}"</a>
+                                        </td>
+                                        <td>{{ application.employer.organization.okved_kode }} {{ application.employer.organization.okved_kode_text }}</td>
+                                        <td>{{ application.employer.last_name }} {{ application.employer.first_name }} {{ application.employer.patronymic }}</td>
+                                        <td>{{ application.employer.position }}</td>
+                                        <td>{{ application.position }}</td>
+                                        <td>{{ application.responses|length }}</td>
+                                        <td>{{ application.count_of_interviews }}</td>
+                                        <td>{{ application.status_in_rus }}</td>
+                                        <td>{% if application.status == 'completed' %}
+                                            {{ application.job_seeker.last_name }}
+                                            {{ application.job_seeker.first_name }}
+                                            {{ application.job_seeker.patronymic }}{% else %}---{% endif %}</td>
+                                        <td>{% if application.status == 'completed' %}
+                                            {{ application.date_of_completion }}{% else %}---{% endif %}</td>
+                                        <td>{{ application.date_of_last_change }}</td>
+                                        <td>{{ application.employee.last_name }} {{ application.employee.first_name }} {{ application.employee.patronymic }}</td>
+                                        <td id="ignore-export"><a
+                                                href="{% url 'applications_view_detail' application.id %}"
+                                                style="width: 100%; height: 100%; display: inline-block">
+                                            <button class="button"><img src="{% static 'icons/arrow_forward.svg' %}"
+                                                                        class="icon"></button>
+                                        </a></td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

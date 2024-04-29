@@ -73,6 +73,7 @@ def application_detail_view(request, application_id):
                 application.date_of_completion = None
                 application.date_of_cancellation = None
                 application.status = status
+            application.date_of_last_change = datetime.datetime.now()
             application.save()
             return redirect('applications_view_detail', application_id=application.id)
     else:

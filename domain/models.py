@@ -76,7 +76,7 @@ class Employer(CustomUser):
     position = models.CharField(max_length=90, blank=True, null=True, verbose_name='Должность')
 
     def __str__(self):
-        return '%s %s' % (self.last_name, self.first_name)
+        return '%s %s %s' % (self.last_name, self.first_name, self.patronymic)
 
     class Meta:
         verbose_name = 'Работодатель'

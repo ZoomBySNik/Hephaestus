@@ -1,3 +1,6 @@
+import calendar
+from datetime import date
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -72,14 +75,28 @@ def applications_report(request):
     if request.method == 'POST':
         form = DateRangeForm(request.POST)
         if form.is_valid():
-            start_date = form.cleaned_data['start_date']
-            end_date = form.cleaned_data['end_date']
-            applications = Application.objects.filter(date_of_application__range=[start_date, end_date])
+            start_date = form.cleaned_data['start_date'] or datetime.date.today().replace(day=1)
+            end_date = form.cleaned_data['end_date'] or datetime.date.today().replace(
+                day=calendar.monthrange(date.today().year, date.today().month)[1])
+            statuses = form.cleaned_data['status']
+            employer = form.cleaned_data['employer']
+
+            applications = Application.objects.filter(
+                Q(date_of_application__range=[start_date, end_date]) &
+                Q(status__in=statuses)
+            )
+            if employer:
+                applications = applications.filter(employer=employer)
             for application in applications:
                 application.employer.organization.okved_kode_text = get_okved_description(application.employer.organization.okved_kode)
-                application.responses = application.applicationsresponses_set.all()
+                application.responses = ApplicationsResponses.objects.filter(application=application)
+                application.status_in_rus = get_russian_status(application.status)
+                application.count_of_interviews = 0
                 for response in application.responses:
-                    response.interviews = response.jobinterview_set.all()
+                    response.interviews = JobInterview.objects.filter(application_response=response)
+                    application.count_of_interviews += response.interviews.count()
+                    if response.status == 'accepted':
+                        application.job_seeker = response.job_seeker
 
             # Здесь можно выполнить необходимые действия с датами
             context = {

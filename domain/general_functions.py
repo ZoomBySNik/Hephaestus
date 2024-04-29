@@ -186,6 +186,7 @@ def update_old_overdue():
     for application in old_applications:
         application.status = 'overdue'
         application.date_of_cancellation = current_time
+        application.date_of_last_change = current_time
         application.save()
     old_responses = ApplicationsResponses.objects.filter(application__final_date__lt=current_time,
                                                          status__in=['pending', 'under_review'])

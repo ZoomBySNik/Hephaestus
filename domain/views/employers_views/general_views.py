@@ -97,6 +97,7 @@ def application_create_view(request):
             application = form.save(commit=False)
             application.position = position
             application.employer = employer
+            application.date_of_last_change = datetime.datetime.now()
             application.save()
             form.save_m2m()
 
@@ -134,26 +135,36 @@ def allowed_job_seeker_view(request, job_seeker_id):
 @employer_required
 def apply_job_seeker(request, application_response_id):
     application_response = ApplicationsResponses.objects.get(id=application_response_id)
-    if confirmation(request,
-                    str('Вы собираетесь принять соискателя ' + application_response.job_seeker.last_name + application_response.job_seeker.first_name + application_response.job_seeker.patronymic + ' и закрыть заявку?')):
-        application_response.status = 'accepted'
-        application = Application.objects.get(id=application_response.application.id)
-        application.status = 'completed'
-        application.date_of_completion = datetime.datetime.now()
-        another_responses = ApplicationsResponses.objects.filter(application=application)
-        application_response.save()
-        application.save()
-        for response in another_responses:
-            if response.id != application_response.id:
-                response.status = 'rejected'
-                response.description = 'Найден другой кандидат'
-                response.save()
-                interviews = JobInterview.objects.filter(application_response=response)
-                for interview in interviews:
-                    if interview.status in ['pending', 'accepted']:
-                        interview.status = 'rejected'
-                        interview.description = 'Собеседование отменено по причине закрытия заявки'
-                        interview.save()
-        return redirect(request.META.get('HTTP_REFERER', None))
+
+    if request.method == 'POST':
+        if confirmation(request,
+                        str('Вы собираетесь принять соискателя ' + application_response.job_seeker.last_name +
+                            application_response.job_seeker.first_name +
+                            application_response.job_seeker.patronymic + ' и закрыть заявку?')):
+            application_response.status = 'accepted'
+            application = Application.objects.get(id=application_response.application.id)
+            application.status = 'completed'
+            application.date_of_completion = datetime.datetime.now()
+            another_responses = ApplicationsResponses.objects.filter(application=application)
+            application_response.save()
+            application.date_of_last_change = datetime.datetime.now()
+            application.save()
+            for response in another_responses:
+                if response.id != application_response.id:
+                    response.status = 'rejected'
+                    response.description = 'Найден другой кандидат'
+                    response.save()
+                    interviews = JobInterview.objects.filter(application_response=response)
+                    for interview in interviews:
+                        if interview.status in ['pending', 'accepted']:
+                            interview.status = 'rejected'
+                            interview.description = 'Собеседование отменено по причине закрытия заявки'
+                            interview.save()
+            return redirect('home')
+        else:
+            return redirect(request.META.get('HTTP_REFERER', None))
     else:
-        return redirect(request.META.get('HTTP_REFERER', None))
+        return confirmation(request,
+                            str('Вы собираетесь принять соискателя ' + application_response.job_seeker.last_name +
+                                application_response.job_seeker.first_name +
+                                application_response.job_seeker.patronymic + ' и закрыть заявку?'))

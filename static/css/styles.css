@@ -356,7 +356,7 @@
     text-shadow: 0 0 0.1em var(--error-color);
 }
 
-.error-message:hover{
+.error-message:hover {
     text-shadow: 0 0 0.3em var(--error-color);
 }
 
@@ -515,7 +515,7 @@ tr:hover td {
     padding: 1em;
 }
 
-.persons-div:hover{
+.persons-div:hover {
     filter: drop-shadow(0 0 0.5em var(--element-shadow));
 }
 
@@ -590,4 +590,29 @@ tr:hover td {
     margin: 0;
     background: var(--td-bg);
     filter: drop-shadow(0 0 0.9em var(--element-shadow));
+}
+
+.box-with-slider {
+    overflow-x: auto;
+}
+
+.box-with-slider::-webkit-scrollbar {
+    background-color: transparent;
+}
+
+/* Скругляем трек */
+.box-with-slider::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+/* Стилизуем бегунок (ползунок) */
+.box-with-slider::-webkit-scrollbar-thumb {
+    border-radius: 10px; /* Скругляем бегунок */
+    background-color: var(--td-bg); /* Замените на ваш желаемый цвет */
+}
+
+/* Отключаем боковые кнопки */
+.box-with-slider::-webkit-scrollbar-button {
+    display: none;
 }

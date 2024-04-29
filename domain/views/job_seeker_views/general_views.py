@@ -182,6 +182,9 @@ def job_seeker_application_response_create(request, application_id):
         job_seeker=job_seeker,
         evaluation=calculate_matching_between_job_seeker_and_application(job_seeker, application),
     )
+    application = application_response.application
+    application.date_of_last_change = datetime.datetime.now()
+    application.save()
     application_response.save()
     return redirect('job_seeker_application_view', application_id=application_id)
 
@@ -196,6 +199,9 @@ def job_seeker_application_response_withdraw(request, application_id):
     if existing_response:
         if existing_response.status == 'pending':
             existing_response.status = 'withdrawn'
+            application = existing_response.application
+            application.date_of_last_change = datetime.datetime.now()
+            application.save()
             existing_response.save()
         return redirect('job_seeker_application_view', application_id=application_id)
     return redirect('job_seeker_application_view', application_id=application_id)
@@ -266,6 +272,9 @@ def job_seeker_interviews_view(request, archive=0):
 def reject_invite_on_interview(request, interview_id):
     interview = JobInterview.objects.get(id=interview_id)
     interview.status = 'rejected'
+    application = interview.application_response.application
+    application.date_of_last_change = datetime.datetime.now()
+    application.save()
     interview.save()
     return redirect(request.META.get('HTTP_REFERER', None))
 
@@ -274,5 +283,8 @@ def reject_invite_on_interview(request, interview_id):
 def accept_invite_on_interview(request, interview_id):
     interview = JobInterview.objects.get(id=interview_id)
     interview.status = 'accepted'
+    application = interview.application_response.application
+    application.date_of_last_change = datetime.datetime.now()
+    application.save()
     interview.save()
     return redirect(request.META.get('HTTP_REFERER', None))

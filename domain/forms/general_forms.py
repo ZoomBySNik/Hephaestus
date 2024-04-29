@@ -6,13 +6,15 @@ from domain.models import *
 
 class EmployerRegistrationForm(UserCreationForm):
     phone_number = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel'}), label='Номер телефона')
+
     class Meta:
         model = Employer
-        fields = ['username', 'email', 'last_name', 'first_name',  'patronymic', 'phone_number']
+        fields = ['username', 'email', 'last_name', 'first_name', 'patronymic', 'phone_number']
 
 
 class JobSeekerRegistrationForm(UserCreationForm):
     phone_number = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel'}), label='Номер телефона')
+
     class Meta:
         model = JobSeeker
         fields = ['username', 'email', 'last_name', 'first_name', 'patronymic', 'phone_number']
@@ -35,11 +37,21 @@ class PhotoSaveForm(forms.ModelForm):
 class EmployeeForm(forms.ModelForm):
     phone_number = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel'}), label='Номер телефона')
     employee_position = forms.ModelChoiceField(queryset=EmployeePosition.objects.all(), label='Должность')
+
     class Meta:
         model = Employee
         fields = ['last_name', 'first_name', 'patronymic', 'phone_number', 'email', 'employee_position']
 
 
 class DateRangeForm(forms.Form):
-    start_date = forms.DateField(label='Начальная дата', widget=forms.DateInput(attrs={'type': 'date'}))
-    end_date = forms.DateField(label='Конечная дата', widget=forms.DateInput(attrs={'type': 'date'}))
+    start_date = forms.DateField(label='Начальная дата', widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    end_date = forms.DateField(label='Конечная дата', widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    STATUS_CHOICES = Application.STATUS_CHOICES
+    status = forms.MultipleChoiceField(choices=STATUS_CHOICES, required=True, widget=forms.CheckboxSelectMultiple,
+                                       label='Статусы')
+    employer = forms.ModelChoiceField(queryset=Employer.objects.filter(application__isnull=False).distinct(),
+                                      required=False, label='Заказчик')
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Установите начальное значение для поля status как список всех доступных статусов
+        self.fields['status'].initial = [choice[0] for choice in self.STATUS_CHOICES]
