@@ -22,6 +22,8 @@ class OrganizationForm(forms.ModelForm):
                                          error_messages={"required": "Введите номер строения"})
     apartment_number = forms.CharField(max_length=31, label='Номер помещения',
                                        required=False)
+    okved_code = forms.CharField(max_length=9, label='Код ОКВЭД', required=False,
+                                 widget=forms.TextInput(attrs={'autocomplete': 'off', 'class': 'okved-autocomplete'}))
 
     class Meta:
         model = Organization

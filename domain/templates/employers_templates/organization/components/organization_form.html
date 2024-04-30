@@ -1,0 +1,96 @@
+{% block content %}
+    <form method="POST" class="input-form flex-vertical gap-2em" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1 class="title text-size-larger">Основная информация</h1>
+        <p>
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}:</label>
+            {{ form.name }}
+        </p>
+        <p>
+            <label for="{{ form.organizational_legal_form.id_for_label }}">{{ form.organizational_legal_form.label }}:</label>
+            {{ form.organizational_legal_form }}
+        </p>
+        <p>
+            <label for="{{ form.about.id_for_label }}">{{ form.about.label }}:</label>
+            {{ form.about|add_class:'input-field' }}
+        </p>
+        <p style="text-wrap: nowrap">
+            <label for="{{ form.organization_logo.id_for_label }}">{{ form.organization_logo.label }}:</label>
+            <input type="file" name="organization_logo" accept="image/*" id="id_organization_logo">
+        </p>
+        <p style="display: none">
+            <label for="{{ form.okved_kode.id_for_label }}">{{ form.okved_kode.label }}:</label>
+            {{ form.okved_kode }}
+        </p>
+        <div class="flex-horizontal gap-2em" style="align-items: baseline; "><label
+                for="{{ form.okved_kode.id_for_label }}">Введите код или род деятельности
+            организации:</label>
+            <div class="flex-vertical gap-1em" style="flex: 1">
+                <input id="okved2" name="okved2" type="text" class="input-field" style="width: 100%"
+                       value="{{ form.okved_kode.value }}"/>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link href="http://cdn.jsdelivr.net/npm/suggestions-jquery@22.6.0/dist/css/suggestions.min.css"
+              rel="stylesheet"/>
+        <script src="http://cdn.jsdelivr.net/npm/suggestions-jquery@22.6.0/dist/js/jquery.suggestions.min.js"></script>
+        <script>
+            $("#okved2").suggestions({
+                token: "{{ DADATA_API_KEY }}",
+                type: "OKVED2",
+                /* Вызывается, когда пользователь выбирает одну из подсказок */
+                onSelect: function (suggestion) {
+                    // Помещаем значение кода ОКВЭД в скрытое поле
+                    $("#{{ form.okved_kode.id_for_label }}").val(suggestion.data.kod);
+                }
+            });
+        </script>
+        <h1 class="title text-size-larger">Финансовая информация</h1>
+        <p>
+            <label for="{{ form.payment_account.id_for_label }}">{{ form.payment_account.label }}:</label>
+            {{ form.payment_account }}
+        </p>
+        <p>
+            <label for="{{ form.inn.id_for_label }}">{{ form.inn.label }}:</label>
+            {{ form.inn }}
+        </p>
+        <h1 class="title text-size-larger">Адрес</h1>
+        <p class="flex-horizontal" style="display: none">
+            <label for="{{ form.locality.id_for_label }}">{{ form.locality.label }}:</label>
+            {{ form.locality }}
+            <label for="{{ form.street.id_for_label }}">{{ form.street.label }}:</label>
+            {{ form.street|add_class:"width-180" }}
+            <label for="{{ form.number_of_building.id_for_label }}">Дом:</label>
+            {{ form.number_of_building }}
+            <label for="{{ form.apartment_number.id_for_label }}">Помещение:</label>
+            {{ form.apartment_number }}
+        </p>
+        <div class="flex-horizontal gap-2em" style="align-items: baseline; "><label
+                for="{{ form.okved_kode.id_for_label }}">Введите адрес
+            организации:</label>
+            <div class="flex-vertical gap-1em" style="flex: 1">
+                <input id="address" name="address" type="text" class="input-field" style="width: 100%"
+                       value="{{ form.locality.value }} {{ form.street.value }} {{ form.number_of_building.value }} {{ form.apartment_number.value }}"/>
+            </div>
+        </div>
+
+        <script>
+            $("#address").suggestions({
+                token: "{{ DADATA_API_KEY }}",
+                type: "ADDRESS",
+                /* Вызывается, когда пользователь выбирает одну из подсказок */
+                onSelect: function (suggestion) {
+                    // Заполнение скрытых полей адреса значениями из подсказки
+                    $("#locality").val(suggestion.data.city);
+                    $("#street").val(suggestion.data.street);
+                    $("#number_of_building").val(suggestion.data.house);
+                    $("#apartment_number").val(suggestion.data.flat);
+                }
+            });
+        </script>
+        {% if form.errors %}
+            <p class="error-message">{{ form.errors }}</p>
+        {% endif %}
+        <button type="submit" class="button submit" style="width: fit-content;">Сохранить</button>
+    </form>
+{% endblock content %}

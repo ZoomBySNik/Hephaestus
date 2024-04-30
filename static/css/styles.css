@@ -607,13 +607,13 @@ tr:hover td {
 
 /* Скругляем трек */
 .box-with-slider::-webkit-scrollbar-track {
-    border-radius: 10px;
+    border-radius: 0.6em;
     background-color: transparent;
 }
 
 /* Стилизуем бегунок (ползунок) */
 .box-with-slider::-webkit-scrollbar-thumb {
-    border-radius: 10px; /* Скругляем бегунок */
+    border-radius: 0.6em; /* Скругляем бегунок */
     background-color: var(--td-bg); /* Замените на ваш желаемый цвет */
 }
 
@@ -626,14 +626,23 @@ tr:hover td {
     background-color: transparent;
 }
 ::-webkit-scrollbar-track {
-    border-radius: 10px;
+    border-radius: 0.6em;
     background-color: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px; /* Скругляем бегунок */
+    border-radius: 0.6em; /* Скругляем бегунок */
     background-color: var(--td-bg); /* Замените на ваш желаемый цвет */
 }
 ::-webkit-scrollbar-button {
     display: none;
 }
-
+.suggestions-suggestions {
+    background-color: var(--td-bg) !important;
+    border: none !important;
+    border-radius: 0.6em !important;
+}
+.suggestions-suggestion:hover {
+    background-color: var(--div-bg) !important;
+    border: none !important;
+    border-radius: 0.6em !important;
+}
