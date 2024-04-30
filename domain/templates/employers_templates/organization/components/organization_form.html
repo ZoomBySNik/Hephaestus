@@ -81,10 +81,10 @@
                 /* Вызывается, когда пользователь выбирает одну из подсказок */
                 onSelect: function (suggestion) {
                     // Заполнение скрытых полей адреса значениями из подсказки
-                    $("#locality").val(suggestion.data.city);
-                    $("#street").val(suggestion.data.street);
-                    $("#number_of_building").val(suggestion.data.house);
-                    $("#apartment_number").val(suggestion.data.flat);
+                    $("#id_locality").val(suggestion.data.city);
+                    $("#id_street").val(suggestion.data.street);
+                    $("#id_number_of_building").val(suggestion.data.house);
+                    $("#id_apartment_number").val(suggestion.data.flat);
                 }
             });
         </script>

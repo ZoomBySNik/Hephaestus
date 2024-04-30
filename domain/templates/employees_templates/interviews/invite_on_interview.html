@@ -27,11 +27,11 @@
                             </div>
                             <div class="flex-vertical gap-1em inner-part">
                                 <div class="content flex-vertical gap-3em active-content" style="padding: 2em 4em;">
-                                    <p>
+                                    <p style="display: none">
                                         <label for="{{ form.locality.id_for_label }}">{{ form.locality.label }}:</label>
                                         {{ form.locality }}
                                     </p>
-                                    <p class="flex-horizontal">
+                                    <p class="flex-horizontal" style="display: none">
                                         <label for="{{ form.street.id_for_label }}">{{ form.street.label }}:</label>
                                         {{ form.street|add_class:"width-180" }}
                                         <label for="{{ form.number_of_building.id_for_label }}">Дом:</label>
@@ -39,11 +39,35 @@
                                         <label for="{{ form.apartment_number.id_for_label }}">Помещение:</label>
                                         {{ form.apartment_number }}
                                     </p>
+                                    <div class="flex-horizontal gap-2em" style="align-items: baseline; "><label
+                                            for="{{ form.okved_kode.id_for_label }}">Введите адрес
+                                        организации:</label>
+                                        <div class="flex-vertical gap-1em" style="flex: 1">
+                                            <input id="address" name="address" type="text" class="input-field"
+                                                   style="width: 100%"
+                                                   value="{{ form.locality.value }} {{ form.street.value }} {{ form.number_of_building.value }} {{ form.apartment_number.value }}"/>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        $("#address").suggestions({
+                                            token: "{{ DADATA_API_KEY }}",
+                                            type: "ADDRESS",
+                                            /* Вызывается, когда пользователь выбирает одну из подсказок */
+                                            onSelect: function (suggestion) {
+                                                // Заполнение скрытых полей адреса значениями из подсказки
+                                                $("#id_locality").val(suggestion.data.city);
+                                                $("#id_street").val(suggestion.data.street);
+                                                $("#id_number_of_building").val(suggestion.data.house);
+                                                $("#id_apartment_number").val(suggestion.data.flat);
+                                            }
+                                        });
+                                    </script>
                                 </div>
                                 <div class="content flex-vertical gap-3em inactive-content" style="padding: 2em 4em;">
                                     <p style="justify-content: flex-start;">
                                         <label for="{{ form.link.id_for_label }}">Ссылка для онлайн
-                                    собеседования:</label>
+                                            собеседования:</label>
                                         {{ form.link|add_class:'input-field' }}
                                     </p>
                                 </div>
