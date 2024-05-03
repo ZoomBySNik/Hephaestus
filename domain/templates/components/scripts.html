@@ -158,5 +158,35 @@
             var filename = name + timestamp + '.xlsx';
             saveAs(new Blob([s2ab(wbout)], {type: "application/octet-stream"}), filename);
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const textareas = document.querySelectorAll('textarea');
+
+            function getInitialRows(textarea) {
+                const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight);
+                const paddingHeight = parseFloat(getComputedStyle(textarea).paddingTop) + parseFloat(getComputedStyle(textarea).paddingBottom);
+                const borderTopWidth = parseFloat(getComputedStyle(textarea).borderTopWidth);
+                const borderBottomWidth = parseFloat(getComputedStyle(textarea).borderBottomWidth);
+                const totalHeight = textarea.clientHeight - borderTopWidth - borderBottomWidth;
+                const contentHeight = totalHeight - paddingHeight;
+
+                return Math.floor(contentHeight / lineHeight);
+            }
+
+            // Для каждого textarea добавляем слушатель события input
+            textareas.forEach(textarea => {
+                textarea.setAttribute('rows', 'auto');
+                textarea.style.height = ``
+                textarea.style.height = `${textarea.scrollHeight}px`
+                textarea.style.overflowY = 'auto';
+                textarea.style.resize = 'none';
+                textarea.addEventListener('input', () => {
+                    // обнуляем высоту, чтобы поле уменьшалось, если содержимое уменьшается
+                    textarea.style.height = ``
+                    textarea.style.height = `${textarea.scrollHeight}px`
+                })
+            });
+        });
     </script>
+
 {% endblock content %}

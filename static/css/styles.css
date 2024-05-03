@@ -236,6 +236,7 @@
 
 .input-field {
     width: 70%;
+    flex:1;
     border-style: none;
     border-radius: 0.5em;
     padding: 0.2em 0.3em;
@@ -249,6 +250,7 @@
 
 .input-field:focus {
     all: unset;
+    flex:1;
     width: 70%;
     align-items: center;
     font-size: inherit;

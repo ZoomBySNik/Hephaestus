@@ -26,8 +26,7 @@
                 for="{{ form.okved_kode.id_for_label }}">Введите код или род деятельности
             организации:</label>
             <div class="flex-vertical gap-1em" style="flex: 1">
-                <input id="okved2" name="okved2" type="text" class="input-field" style="width: 100%"
-                       value="{{ form.okved_kode.value }}"/>
+                <textarea id="okved2" name="okved2" class="input-field" style="width: 100%" rows="1">{{ form.okved_kode.value }}</textarea>
             </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

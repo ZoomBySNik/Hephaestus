@@ -48,6 +48,8 @@
 
                                 <p class="text1">Должность: {% if not data.position %}неуказана{% else %}
                                     {{ data.position }}{% endif %}</p>
+                            {% elif user_type == 'employee' %}
+                                <p class="text1">{{ data.employee_position.name }}</p>
                             {% else %}
                                 <br>
                                 <br>

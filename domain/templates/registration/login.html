@@ -1,6 +1,6 @@
 {% extends 'registration/registration_base.html' %}
 {% block content %}
-            <h1 class="title">Вход</h1>
+            <h1 class="title">Вход/Регистрация</h1>
             <form method="POST" action="{% url 'login' %}">
                 {% csrf_token %}
                 <div class="flex-vertical gap-05em">

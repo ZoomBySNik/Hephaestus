@@ -32,7 +32,7 @@ def home_view(request):
                 application.distance = haversine_distance(job_seeker.address.latitude, job_seeker.address.longitude,
                                                           application.employer.organization.address.latitude,
                                                           application.employer.organization.address.longitude)
-                if application.matching_result >= 0 and (
+                if application.matching_result >= 50 and (
                         application.distance < 50 or job_seeker.work_location_preference != 'local'):
                     filtered_applications.append(application)
             filtered_applications = sorted(filtered_applications, key=attrgetter('matching_result'), reverse=True)

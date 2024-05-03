@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            <div class="content-box flex-vertical gap-1em">
+                <div class="content flex-vertical gap-2em">
+                    <div class="flex-vertical gap-1em">
+                        <h1 class="title" style="font-size: xx-large">Заявка
+                            от {{ application.date_of_application.date }}</h1>
+                        <p>
+                            Заявитель: {{ application.employer.last_name }} {{ application.employer.first_name }} {{ application.employer.patronymic }}, {{ application.employer.position }}
+                            <a href="{% url 'organization_view' application.employer.organization.id %}">организации {{ application.employer.organization.organizational_legal_form }}
+                                "{{ application.employer.organization.name }}"</a>
+                        </p>
+                        <p>На должность <span class="title"
+                                              style="font-size: unset">{{ application.position }}</span> с
+                            графиком работы: <span class="title"
+                                                   style="font-size: unset">{{ application.work_schedule.name.lower }}</span>
+                            и зарплатой <span class="title"
+                                              style="font-size: unset">{{ application.salary|floatformat:0|intcomma }}</span>
+                            рублей</p>
+                        <p>Желаемый срок подбора <span class="title"
+                                                       style="font-size: unset">{{ application.desired_date }}</span>
+                        </p>
+                        <p>Крайний срок подбора <span class="title"
+                                                      style="font-size: unset">{{ application.final_date }}</span>
+                        </p>
+                    </div>
+                    <div class="flex-vertical gap-1em">
+                        <h1 class="title" style="font-size: x-large">
+                            Требования
+                        </h1>
+                        <p>
+                            Специализация: <span class="title"
+                                                 style="font-size: unset">{{ application.specialization }}</span>
+                        </p>
+                        <p>
+                            Опыт работы: <span class="title" style="font-size: unset"
+                                               id="experience{{ application.id }}">{{ application.experience }}</span>
+                        </p>
+                        <p>
+                            Образование: <span class="title"
+                                               style="font-size: unset">{{ application.education_level }}</span>
+                        </p>
+                        <p>Навыки:
+                            {% for skill in application.skills.all %}
+                                <span class="title" style="font-size: unset">{{ skill }}</span>
+                                {% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </p>
+                        <p>Программно-технические средства:
+                            {% for software_and_hardware_tool in application.software_and_hardware_tools.all %}
+                                <span class="title" style="font-size: unset">{{ software_and_hardware_tool }}</span>
+                                {% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="flex-vertical gap-1em">
+                        <h1 class="title" style="font-size: x-large">Техническая информация о заявке</h1>
+                        <p>Статус заявки: <span class="title"
+                                                style="font-size: unset">{{ application.status_in_rus }}</span></p>
+                        {% if application.status != 'completed' and application.status != 'overdue' and application.status != 'canceled' %}
+                            <div class="flex-vertical gap-05em">
+                                <p class="title" style="font-size: unset">Изменить статус</p>
+                                <form method="post" class="input-form flex-horizontal gap-1em"
+                                      style="justify-content: flex-start">
+                                    {% csrf_token %}
+                                    <p style="justify-content: flex-start; align-items: center;">
+                                        <label for="{{ form.status.id_for_label }}">{{ form.status.label }}:</label>
+                                        {{ form.status }}
+                                    </p>
+                                    <button type="submit" class="button submit">Сохранить</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                        {% if application.date_of_cancellation %}
+                            <p>Дата отмены заявки: <span class="title"
+                                                         style="font-size: unset">{{ application.date_of_cancellation }}</span>
+                            </p>
+                        {% elif application.date_of_completion %}
+                            <p>Дата выполнения заявки: <span class="title"
+                                                             style="font-size: unset">{{ application.date_of_completion }}</span>
+                            </p>
+                        {% endif %}
+                        <div class="flex-vertical gap-1em">
+                            {% for application_response in application_responses %}
+                                <div id="search_results">
+                                    <div class="flex-vertical gap-1em">
+
+                                    </div>
+                                    <div class="flex-vertical persons-div gap-3em">
+                                        <div class="flex-horizontal gap-3em">
+                                            {% if application_response.job_seeker.profile_photo %}
+                                                <img src="
+
+
+
+
+
+
+                                                        {{ MEDIA_URL }}{{ application_response.job_seeker.profile_photo.url }}"
+                                                     class="person-img-preview">
+                                            {% else %}
+                                                <div class="person-img-preview"></div>
+                                            {% endif %}
+                                            <div class="flex-vertical gap-05em">
+                                                <p>{{ application_response.job_seeker.last_name }}</p>
+                                                <p>{{ application_response.job_seeker.first_name }}</p>
+                                                <p>{{ application_response.job_seeker.patronymic }}</p>
+                                            </div>
+                                            <div class="flex-vertical gap-05em">
+                                                <p>{{ application_response.job_seeker.phone_number }}</p>
+                                                <p>{{ application_response.job_seeker.email }}</p>
+                                            </div>
+                                            <div class="flex-vertical gap-05em">
+                                                <p class="text1">Процент соответствия вакансии: {{ application_response.evaluation|floatformat }}%</p>
+                                                <div class="flex-horizontal gap-05em">
+                                                    {% if application_response.status == 'pending' %}
+                                                        <a href="{% url 'invite_job_seeker_on_interview' application_response.id %}">
+                                                            <button class="button submit">Пригласить
+                                                            </button>
+                                                        </a>
+                                                    {% endif %}
+                                                    {% if application_response.status != 'accepted' and application_response.status != 'rejected' and application_response.status != 'withdrawn' and application_response.status != 'under_review' and application_response.status != 'sent_to_employer' %}
+                                                        <a href="{% url 'reject_job_seeker_response' application_response.id %}">
+                                                            <button class="button reject">Отказать</button>
+                                                        </a>
+                                                    {% endif %}
+                                                    <p style="text-wrap: nowrap;">Статус
+                                                        отклика: {{ application_response.status_in_rus }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex-vertical gap-05em" style="margin-left: auto">
+                                                <a href="{% url 'job_seeker_view' application_response.job_seeker.id %}"
+                                                   target="_blank">
+                                                    <button class="button">Подробнее</button>
+                                                </a>
+                                                <br>
+                                                <br>
+                                            </div>
+                                        </div>
+                                        {% if application_response.interviews %}
+                                            <div class="flex-vertical gap-2em">
+                                                {% for interview in application_response.interviews %}
+                                                    <div class="flex-horizontal persons-div"
+                                                         style="filter: drop-shadow(0 0 0.5em var(--element-shadow));">
+                                                        <div class="flex-vertical gap-1em">
+                                                            <h1 class="title text1">Собеседование
+                                                                от {{ interview.date_of_interview }} </h1>
+                                                            <p>Статус: {{ interview.status_in_rus }} </p>
+                                                            {% if interview.description %}
+                                                                <p>Отзыв: {{ interview.description }} </p>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="flex-vertical gap-1em" style="margin-left: auto">
+                                                            {% if forloop.last and interview.status != 'pending' and interview.status != 'accepted' and interview.status != 'with_feedback' %}
+                                                                <a href="{% url 'invite_job_seeker_on_interview' application_response.id %}">
+                                                                    <button class="button submit">Пригласить ещё
+                                                                    </button>
+                                                                </a>
+                                                                <br>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var experienceElement = document.getElementById('experience{{ application.id }}');
+                            var years = parseInt(experienceElement.innerText);
+
+                            if (years % 10 === 1 && years % 100 !== 11) {
+                                experienceElement.innerText = years + ' год';
+                            } else if (years % 10 >= 2 && years % 10 <= 4 && (years % 100 < 10 || years % 100 >= 20)) {
+                                experienceElement.innerText = years + ' года';
+                            } else {
+                                experienceElement.innerText = years + ' лет';
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
