@@ -35,7 +35,7 @@
                                         <div class="flex-vertical gap-1em" style="flex: 1">
                                             <input id="address" name="address" type="text" class="input-field"
                                                    style="width: 100%"
-                                                   value="{{ form.locality.value }}"/>
+                                                   value="{% if form.locality.value %}{{ form.locality.value }}{% endif %}"/>
                                         </div>
                                     </div>
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -79,8 +79,10 @@
                         {% if user_type == 'job_seeker' %}
                             <div class="flex-vertical gap-1em">
                                 <h1 class="title">О себе</h1>
-                                <label for="{{ form.about.id_for_label }}">{{ form.about.label }}:</label>
-                                {{ form.about|add_class:'input-field' }}
+                                <div class="flex-horizontal gap-2em" style="align-items: baseline">
+                                    <label for="{{ form.about.id_for_label }}">{{ form.about.label }}:</label>
+                                    {{ form.about|add_class:'input-field' }}
+                                </div>
                             </div>
                         {% endif %}
                         <div class="flex-vertical gap-1em">

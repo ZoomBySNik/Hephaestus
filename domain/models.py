@@ -58,7 +58,7 @@ class Organization(models.Model):
     inn = models.CharField(max_length=12, blank=False, null=False, verbose_name='ИНН')
     address = models.ForeignKey('Address', on_delete=models.PROTECT,
                                 null=False, blank=False, verbose_name='Адрес')
-    about = models.TextField(blank=True, null=True, verbose_name='Описание профиля')
+    about = models.TextField(blank=True, null=True, verbose_name='Описание организации')
     organization_logo = models.ImageField(blank=True, null=True, verbose_name='Логотип организации',
                                           upload_to='organization_logos')
 
@@ -206,7 +206,7 @@ class JobSeeker(CustomUser):
     address = models.ForeignKey('Address', blank=True, null=True, on_delete=models.PROTECT, verbose_name='Адрес')
     skill = models.ManyToManyField('Skill', blank=True, verbose_name='Навыки')
     specialization = models.ManyToManyField('Specialization', blank=True, verbose_name='Специализация')
-    about = models.TextField(blank=True, null=True, verbose_name='Описание организации')
+    about = models.TextField(blank=True, null=True, verbose_name='О себе')
     work_location_preference = models.CharField(max_length=15, choices=LOCATION_CHOICES, default='local',
                                                 verbose_name='Место желаемой работы')
 
