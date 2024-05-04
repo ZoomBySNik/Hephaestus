@@ -187,6 +187,20 @@
                 })
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var requiredInputs = document.querySelectorAll('input[required]');
+
+            requiredInputs.forEach(function (input) {
+                input.addEventListener('blur', function () {
+                    if (!input.value) {
+                        input.classList.add('invalid'); // Добавляем класс для стилизации
+                    } else {
+                        input.classList.remove('invalid'); // Удаляем класс
+                    }
+                });
+            });
+        });
     </script>
 
 {% endblock content %}

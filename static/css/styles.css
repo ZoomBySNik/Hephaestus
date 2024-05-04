@@ -261,8 +261,8 @@
     box-shadow: 0 0 0.5em 0.3em var(--element-shadow);
 }
 
-.input-field:required:invalid {
-    box-shadow: 0 0 0.5em 0.3em var(--reject-bg);
+.invalid {
+    box-shadow: 0 0 0.5em 0.3em var(--reject-bg)!important;
 }
 
 .input-form {
@@ -347,10 +347,6 @@
     padding: 0.2em 1em;
     gap: 0.2em;
     box-shadow: 0 0 0.5em 0.1em var(--element-shadow);
-}
-
-.input-form:not(:valid) p input:required:invalid:focus {
-    box-shadow: 0 0 0.5em 0.3em var(--reject-bg);
 }
 
 .error-message {
