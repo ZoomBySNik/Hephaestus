@@ -154,8 +154,11 @@
                                             {{ education.year_received }}
                                         </td>
                                         <td>
-                                            <button class="button reject"><img src="{% static 'icons/delete.svg' %}"
-                                                                               class="icon"></button>
+                                            <a href="{% url 'delete_education' education.id %}">
+                                                <button class="button reject">
+                                                    <img src="{% static 'icons/delete.svg' %}" class="icon">
+                                                </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -206,8 +209,11 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            <button class="button reject"><img src="{% static 'icons/delete.svg' %}"
-                                                                               class="icon"></button>
+                                            <a href="{% url 'delete_work_experience_view' work_experience.id %}">
+                                                <button class="button reject">
+                                                    <img src="{% static 'icons/delete.svg' %}" class="icon">
+                                                </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 {% endfor %}

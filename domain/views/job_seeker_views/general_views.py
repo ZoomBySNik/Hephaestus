@@ -106,7 +106,7 @@ def software_and_hardware_tools_view(request):
 def job_seeker_education_view(request):
     job_seeker = JobSeeker.objects.get(id=request.user.id)
     if request.method == 'POST':
-        form = EducationForm(request.POST, request.FILES,)
+        form = EducationForm(request.POST, request.FILES, )
         if form.is_valid():
             address = get_or_create_address(form.cleaned_data['education_organization_address_locality'],
                                             form.cleaned_data['education_organization_address_street'],
@@ -144,6 +144,25 @@ def job_seeker_education_view(request):
         'form': form,
     }
     return render(request, 'job_seekers_templates/profile/create/education_create.html', context)
+
+
+@job_seeker_required
+def delete_education_view(request, education_id):
+    # Получаем объект образования по его ID или возвращаем 404 ошибку, если объект не найден
+    education = get_object_or_404(EducationOfJobSeeker, pk=education_id)
+
+    education.delete()
+
+    return redirect('user_profile')
+
+
+@job_seeker_required
+def delete_work_experience_view(request, work_experience_id):
+    work_experience = get_object_or_404(WorkExperience, pk=work_experience_id)
+
+    work_experience.delete()
+
+    return redirect('user_profile')
 
 
 @job_seeker_required

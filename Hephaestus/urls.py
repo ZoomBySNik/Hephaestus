@@ -69,9 +69,14 @@ urlpatterns = [
             path('specializations', specialization_view, name='job_seeker_specializations'),
             path('software_and_hardware_tools', software_and_hardware_tools_view,
                  name='job_seeker_software_and_hardware_tools'),
-            path('education', job_seeker_education_view, name='job_seeker_education'),
-            path('work_experience', job_seeker_work_experience_view,
-                 name='job_seeker_work_experience'),
+            path('education/', include([
+                path('add', job_seeker_education_view, name='job_seeker_education'),
+                path('delete/<int:education_id>', delete_education_view, name='delete_education'),
+            ])),
+            path('work_experience/', include([
+                path('add', job_seeker_work_experience_view, name='job_seeker_work_experience'),
+                path('delete/<int:work_experience_id>', delete_work_experience_view, name='delete_work_experience_view'),
+            ])),
         ])),
         path('application/', include([
             path('view/<str:application_id>', job_seeker_application_view, name='job_seeker_application_view'),
