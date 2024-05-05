@@ -72,10 +72,16 @@ def software_and_hardware_tools_view(request):
         form = SoftwareAndHardwareToolForm(request.POST)
 
         if form.is_valid():
-            tools = SoftwareAndHardwareToolOfJobSeeker.objects.filter(job_seeker=job_seeker)
-            tools.delete()
+            selected_tools = list(form.cleaned_data['software_and_hardware_tools'])
 
-            for tool in form.cleaned_data['software_and_hardware_tools']:
+            new_tools = form.cleaned_data['new_software_and_hardware_tools'].split(',')
+            if new_tools:
+                for new_tool in new_tools:
+                    tool = SoftwareAndHardwareTool.objects.create(name=new_tool)
+                    tool.save()
+                    selected_tools.append(tool)
+            SoftwareAndHardwareToolOfJobSeeker.objects.filter(job_seeker=job_seeker).delete()
+            for tool in selected_tools:
                 SoftwareAndHardwareToolOfJobSeeker.objects.create(
                     job_seeker=job_seeker,
                     software_and_hardware_tool=tool
@@ -100,7 +106,7 @@ def software_and_hardware_tools_view(request):
 def job_seeker_education_view(request):
     job_seeker = JobSeeker.objects.get(id=request.user.id)
     if request.method == 'POST':
-        form = EducationForm(request.POST)
+        form = EducationForm(request.POST, request.FILES,)
         if form.is_valid():
             address = get_or_create_address(form.cleaned_data['education_organization_address_locality'],
                                             form.cleaned_data['education_organization_address_street'],
@@ -119,14 +125,17 @@ def job_seeker_education_view(request):
                 education_level=form.cleaned_data['education_level']
             )
             education.save()
-
+            document_confirmation = DocumentConfirmation.objects.create(file=form.cleaned_data['document_photo'])
+            document_confirmation.save()
             education_job_seeker = EducationOfJobSeeker.objects.create(
                 job_seeker=job_seeker,
                 education=education,
-                year_received=form.cleaned_data['year_received']
+                year_received=form.cleaned_data['year_received'],
+                document_confirmation=document_confirmation
             )
             education_job_seeker.save()
             return redirect('user_profile')
+        print(form.errors)
     else:
         form = EducationForm()
 

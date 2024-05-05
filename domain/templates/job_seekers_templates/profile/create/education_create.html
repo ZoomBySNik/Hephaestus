@@ -8,7 +8,7 @@
         <h1 class="title">Образование</h1>
         <div class="content-box flex-vertical gap-1em">
             <div class="content flex-vertical gap-2em" style="padding: 4em 8em;">
-                <form method="POST" class="input-form flex-vertical gap-2em">
+                <form method="POST" class="input-form flex-vertical gap-2em" enctype="multipart/form-data">
                     {% csrf_token %}
                     <h1 class="title text-size-larger">Данные об образовательной организации</h1>
                     <p>
@@ -31,7 +31,7 @@
                         организации:</label>
                         <div class="flex-vertical gap-1em" style="flex: 1">
                             <input id="address" name="address" type="text" class="input-field" style="width: 100%"
-                                   value="{{ form.locality.value }} {{ form.street.value }} {{ form.number_of_building.value }} {{ form.apartment_number.value }}"/>
+                                   value="{% if form.education_organization_address_locality.value %}{{ form.education_organization_address_locality.value }} {{ form.education_organization_address_street.value }} {{ form.education_organization_address_number_of_building.value }} {{ form.apartment_number.value }}{% endif %}"/>
                         </div>
                     </div>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -45,10 +45,9 @@
                             /* Вызывается, когда пользователь выбирает одну из подсказок */
                             onSelect: function (suggestion) {
                                 // Заполнение скрытых полей адреса значениями из подсказки
-                                $("#id_locality").val(suggestion.data.city);
-                                $("#id_street").val(suggestion.data.street);
-                                $("#id_number_of_building").val(suggestion.data.house);
-                                $("#id_apartment_number").val(suggestion.data.flat);
+                                $("#id_education_organization_address_locality").val(suggestion.data.city);
+                                $("#id_education_organization_address_street").val(suggestion.data.street);
+                                $("#id_education_organization_address_number_of_building").val(suggestion.data.house);
                             }
                         });
                     </script>
@@ -68,6 +67,11 @@
                     <p>
                         <label for="{{ form.year_received.id_for_label }}">{{ form.year_received.label }}:</label>
                         {{ form.year_received }}
+                    </p>
+                    <h1 class="title text-size-larger">Подтверждение документом</h1>
+                    <p style="align-items: baseline">
+                        <label for="{{ form.document_photo.id_for_label }}">{{ form.document_photo.label }}:</label>
+                        {{ form.document_photo|add_class:'input-field'  }}
                     </p>
                     <button type="submit" class="button submit">Сохранить</button>
                 </form>

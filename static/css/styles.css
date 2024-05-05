@@ -275,6 +275,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: baseline;
     gap: 2em;
 }
 
@@ -650,4 +651,27 @@ tr:hover td {
     background-color: var(--div-bg) !important;
     border: none !important;
     border-radius: 0.6em !important;
+}
+
+::-webkit-file-upload-button{
+    justify-content: flex-start;
+    align-items: center;
+    border-style: none;
+    border-radius: 0.4em;
+    background: var(--td-bg);
+    padding: 0.2em 0.6em;
+    box-shadow: 0 0 0.5em 0.1em var(--element-shadow);
+    width: fit-content;
+}
+
+::-webkit-file-upload-button:focus {
+    align-items: center;
+    text-align: center;
+}
+
+::-webkit-file-upload-button:hover {
+    background: var(--table-bg);
+    box-shadow: 0 0 0.6em 0.2em var(--shadow-next);
+    color: var(--text-hover);
+    text-shadow: 0 0 0.07em var(--text-hover);
 }

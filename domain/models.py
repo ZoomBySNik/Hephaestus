@@ -226,6 +226,8 @@ class WorkExperience(models.Model):
     organization = models.CharField(max_length=255, blank=False, null=False, verbose_name='Организация')
     position = models.ForeignKey('Position', blank=False, null=False,
                                  on_delete=models.PROTECT, verbose_name='Должность')
+    document_confirmation = models.ForeignKey('DocumentConfirmation', blank=False, null=False,
+                                              on_delete=models.CASCADE, verbose_name='Подтверждение образования')
 
     def __str__(self):
         return '%s %s лет %s' % \
@@ -257,6 +259,8 @@ class EducationOfJobSeeker(models.Model):
                                   on_delete=models.PROTECT, verbose_name='Образование')
     year_choices = [(year, str(year)) for year in range(1980, datetime.datetime.now().year + 1)]
     year_received = models.IntegerField(choices=year_choices, blank=False, null=False, verbose_name='Год получения')
+    document_confirmation = models.ForeignKey('DocumentConfirmation', blank=False, null=False,
+                                              on_delete=models.CASCADE, verbose_name='Подтверждение образования')
 
     def __str__(self):
         return '%s %s лет %s' % (self.job_seeker.__str__(), self.education.__str__(), self.year_received)
@@ -264,6 +268,19 @@ class EducationOfJobSeeker(models.Model):
     class Meta:
         verbose_name = 'Образование соискателя'
         verbose_name_plural = 'Образования соискателей'
+
+
+class DocumentConfirmation(models.Model):
+    confirmation = models.BooleanField(blank=True, null=True, verbose_name='Факт подтверждения')
+    file = models.ImageField(blank=False, null=False,
+                            verbose_name='Фотография документа', upload_to='attachment_to_confirmation')
+
+    def __str__(self):
+        return self.file.name
+
+    class Meta:
+        verbose_name = 'Приложение к публикации'
+        verbose_name_plural = 'Приложения к публикациям'
 
 
 class SoftwareAndHardwareToolOfJobSeeker(models.Model):

@@ -46,10 +46,11 @@ class SoftwareAndHardwareToolForm(forms.ModelForm):
         queryset=SoftwareAndHardwareTool.objects.all().order_by('name'),
         widget=forms.CheckboxSelectMultiple,
         label='Программно-технические средства')
+    new_software_and_hardware_tools = forms.CharField(label='Добавить новые навыки', required=False)
 
     class Meta:
         model = SoftwareAndHardwareToolOfJobSeeker
-        fields = ('software_and_hardware_tools',)
+        fields = ('software_and_hardware_tools', 'new_software_and_hardware_tools')
 
 
 class EducationForm(forms.ModelForm):
@@ -70,20 +71,22 @@ class EducationForm(forms.ModelForm):
                            error_messages={"required": "Введите код специальности"})
     education_level = forms.ModelChoiceField(queryset=EducationLevel.objects.all(),
                                              label='Уровень образования')
+    document_photo = forms.ImageField(label='Фотография документа')
 
     class Meta:
         model = EducationOfJobSeeker
         fields = (
             'education_organization_name', 'education_organization_address_locality',
             'education_organization_address_street', 'education_organization_address_number_of_building', 'name',
-            'code', 'education_level',
+            'code', 'education_level', 'document_photo',
             'year_received')
 
 
 class WorkExperienceForm(forms.ModelForm):
+    document_photo = forms.ImageField(label='Фотография документа')
     class Meta:
         model = WorkExperience
-        fields = ('organization', 'position', 'date_of_employment', 'date_of_dismissal')
+        fields = ('organization', 'position', 'date_of_employment', 'date_of_dismissal', 'document_photo')
         exclude = ['job_seeker', ]
 
         widgets = {
