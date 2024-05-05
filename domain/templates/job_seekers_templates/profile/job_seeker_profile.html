@@ -1,19 +1,35 @@
 {% block content %}
     <div class="flex-vertical extra-part">
         <div class="top-splitter-two flex-horizontal">
-            <div class="splitted-part left active" onclick="toggleSplitter(this)">Публикации
+            <div class="splitted-part left {% if data.skill.exists and data.specialization.exists and data.specialization.exists and data.softwareandhardwaretoolofjobseeker_set.exists and data.educationofjobseeker_set.exists and data.workexperience_set.exists %}
+            active
+            {% else %}
+
+            {% endif %}" onclick="toggleSplitter(this)">Публикации
             </div>
-            <div class="splitted-part right" onclick="toggleSplitter(this)">Профессиональные
+            <div class="splitted-part right {% if data.skill.exists and data.specialization.exists and data.specialization.exists and data.softwareandhardwaretoolofjobseeker_set.exists and data.educationofjobseeker_set.exists and data.workexperience_set.exists %}
+
+            {% else %}
+            active
+            {% endif %}" onclick="toggleSplitter(this)">Профессиональные
                 качества
             </div>
         </div>
         <div class="flex-vertical gap-1em inner-part">
-            <div class="content flex-vertical gap-3em active-content" style="padding: 2em 4em;">
+            <div class="content flex-vertical gap-3em {% if data.skill.exists and data.specialization.exists and data.specialization.exists and data.softwareandhardwaretoolofjobseeker_set.exists and data.educationofjobseeker_set.exists and data.workexperience_set.exists %}
+            active-content
+            {% else %}
+            inactive-content
+            {% endif %}" style="padding: 2em 4em;">
                 <a href="#">
                     <button class="button">Создать новую публикацию</button>
                 </a>
             </div>
-            <div class="content flex-vertical gap-3em inactive-content" style="padding: 2em 4em;">
+            <div class="content flex-vertical gap-3em {% if data.skill.exists and data.specialization.exists and data.specialization.exists and data.softwareandhardwaretoolofjobseeker_set.exists and data.educationofjobseeker_set.exists and data.workexperience_set.exists %}
+            inactive-content
+            {% else %}
+            active-content
+            {% endif %}" style="padding: 2em 4em;">
                 <div class="flex-vertical gap-2em">
                     <div class="flex-vertical gap-1em">
                         <h1 class="title" style="font-size: xx-large">Навыки:</h1>
