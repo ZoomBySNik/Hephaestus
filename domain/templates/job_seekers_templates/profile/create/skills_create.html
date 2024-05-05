@@ -30,9 +30,65 @@
                             </div>
                         {% endfor %}
                     </div>
+                    <div style="display: none">{{ form.new_skills }}</div>
+                    <div id="new-skills-container" class="flex-vertical gap gap-05em"></div>
+                    <button type="button" class="button" onclick="addSkillInput()">Добавить навык</button>
                     <button type="submit" class="button submit">Сохранить</button>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        function addSkillInput() {
+            var container = document.getElementById("new-skills-container");
+
+            var skillDiv = document.createElement("div");
+            skillDiv.classList.add("flex-horizontal", "gap-2em");
+
+            var input = document.createElement("input");
+            input.type = "text";
+            input.classList.add("input-field");
+            input.name = "new_skills[]";
+            input.placeholder = "Введите новый навык";
+
+            var deleteButton = document.createElement("button");
+            deleteButton.textContent = "Удалить";
+            deleteButton.classList.add("button", "reject");
+            deleteButton.type = "button";
+
+            deleteButton.addEventListener("click", function () {
+                skillDiv.remove();
+            });
+
+            skillDiv.appendChild(input);
+            skillDiv.appendChild(deleteButton);
+
+            container.appendChild(skillDiv);
+        }
+
+        var form = document.querySelector('.input-form');
+
+        // Добавляем обработчик события для отправки формы
+        form.addEventListener('submit', function (event) {
+            // Получаем контейнер для новых навыков
+            var container = document.getElementById("new-skills-container");
+
+            // Получаем все созданные поля для новых навыков
+            var newSkillInputs = container.querySelectorAll('input[name="new_skills[]"]');
+
+            // Создаем массив для хранения значений новых навыков
+            var newSkills = [];
+
+            // Проходимся по каждому полю и добавляем его значение в массив
+            newSkillInputs.forEach(function (input) {
+                newSkills.push(input.value);
+            });
+
+            // Преобразуем массив в строку, разделяя значения запятой
+            var newSkillsString = newSkills.join(',');
+
+            // Находим поле для новых навыков и присваиваем ему собранную строку значений
+            document.querySelector('input[name="new_skills"]').value = newSkillsString;
+        });
+    </script>
 {% endblock content %}

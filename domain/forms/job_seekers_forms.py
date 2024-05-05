@@ -23,20 +23,22 @@ class SkillsForm(forms.ModelForm):
     skills = forms.ModelMultipleChoiceField(queryset=Skill.objects.all().order_by('name'),
                                             widget=forms.CheckboxSelectMultiple,
                                             label='Навыки')
+    new_skills = forms.CharField(label='Добавить новые навыки', required=False)
 
     class Meta:
         model = JobSeeker
-        fields = ('skills',)
+        fields = ('skills', 'new_skills')
 
 
 class SpecializationForm(forms.ModelForm):
     specializations = forms.ModelMultipleChoiceField(queryset=Specialization.objects.all().order_by('name'),
                                                      widget=forms.CheckboxSelectMultiple,
                                                      label='Специализции')
+    new_specializations = forms.CharField(label='Добавить новые навыки', required=False)
 
     class Meta:
         model = JobSeeker
-        fields = ('specializations',)
+        fields = ('specializations', 'new_specializations')
 
 
 class SoftwareAndHardwareToolForm(forms.ModelForm):

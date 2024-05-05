@@ -29,9 +29,65 @@
                             </div>
                         {% endfor %}
                     </div>
+                    <div style="display: none">{{ form.new_specializations }}</div>
+                    <div id="new-specializations-container" class="flex-vertical gap gap-05em"></div>
+                    <button type="button" class="button" onclick="addSkillInput()">Добавить специализацию</button>
                     <button type="submit" class="button submit">Сохранить</button>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        function addSkillInput() {
+            var container = document.getElementById("new-specializations-container");
+
+            var specializationDiv = document.createElement("div");
+            specializationDiv.classList.add("flex-horizontal", "gap-2em");
+
+            var input = document.createElement("input");
+            input.type = "text";
+            input.classList.add("input-field");
+            input.name = "new_specializations[]";
+            input.placeholder = "Введите новую специализацию";
+
+            var deleteButton = document.createElement("button");
+            deleteButton.textContent = "Удалить";
+            deleteButton.classList.add("button", "reject");
+            deleteButton.type = "button";
+
+            deleteButton.addEventListener("click", function () {
+                skillDiv.remove();
+            });
+
+            specializationDiv.appendChild(input);
+            specializationDiv.appendChild(deleteButton);
+
+            container.appendChild(specializationDiv);
+        }
+
+        var form = document.querySelector('.input-form');
+
+        // Добавляем обработчик события для отправки формы
+        form.addEventListener('submit', function (event) {
+            // Получаем контейнер для новых навыков
+            var container = document.getElementById("new-specializations-container");
+
+            // Получаем все созданные поля для новых навыков
+            var newSpecializationsInputs = container.querySelectorAll('input[name="new_specializations[]"]');
+
+            // Создаем массив для хранения значений новых навыков
+            var newSpecializations = [];
+
+            // Проходимся по каждому полю и добавляем его значение в массив
+            newSpecializationsInputs.forEach(function (input) {
+                newSpecializations.push(input.value);
+            });
+
+            // Преобразуем массив в строку, разделяя значения запятой
+            var newSpecializationsString = newSpecializations.join(',');
+
+            // Находим поле для новых навыков и присваиваем ему собранную строку значений
+            document.querySelector('input[name="new_specializations"]').value = newSpecializationsString;
+        });
+    </script>
 {% endblock content %}

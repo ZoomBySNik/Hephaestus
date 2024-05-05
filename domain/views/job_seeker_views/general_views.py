@@ -14,7 +14,16 @@ def skills_view(request):
     if request.method == 'POST':
         form = SkillsForm(request.POST)
         if form.is_valid():
-            job_seeker.skill.set(form.cleaned_data['skills'])
+            existing_skills = list(form.cleaned_data['skills'])
+
+            new_skills = form.cleaned_data['new_skills'].split(',')
+            print(new_skills)
+            skills = existing_skills
+            for skill_name in new_skills:
+                skill, created = Skill.objects.get_or_create(name=skill_name)
+                skills.append(skill)
+
+            job_seeker.skill.set(skills)
             job_seeker.save()
             return redirect('user_profile')
     else:
@@ -33,7 +42,16 @@ def specialization_view(request):
     if request.method == 'POST':
         form = SpecializationForm(request.POST)
         if form.is_valid():
-            job_seeker.specialization.set(form.cleaned_data['specializations'])
+            existing_specializations = list(form.cleaned_data['specializations'])
+
+            new_specializations = form.cleaned_data['new_specializations'].split(',')
+            print(new_specializations)
+            specializations = existing_specializations
+            for specializations_name in new_specializations:
+                specialization, created = Specialization.objects.get_or_create(name=specializations_name)
+                specializations.append(specialization)
+
+            job_seeker.specialization.set(specializations)
             job_seeker.save()
             return redirect('user_profile')
     else:
