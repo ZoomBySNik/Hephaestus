@@ -150,14 +150,17 @@ def job_seeker_education_view(request):
 def job_seeker_work_experience_view(request):
     job_seeker = JobSeeker.objects.get(id=request.user.id)
     if request.method == 'POST':
-        form = WorkExperienceForm(request.POST)
+        form = WorkExperienceForm(request.POST, request.FILES)
         if form.is_valid():
+            document_confirmation = DocumentConfirmation.objects.create(file=form.cleaned_data['document_photo'])
+            document_confirmation.save()
             work_experience = WorkExperience.objects.create(
                 job_seeker=job_seeker,
                 organization=form.cleaned_data['organization'],
                 position=form.cleaned_data['position'],
                 date_of_employment=form.cleaned_data['date_of_employment'],
-                date_of_dismissal=form.cleaned_data['date_of_dismissal']
+                date_of_dismissal=form.cleaned_data['date_of_dismissal'],
+                document_confirmation=document_confirmation
             )
             work_experience.save()
             return redirect('user_profile')

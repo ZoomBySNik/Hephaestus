@@ -21,9 +21,11 @@
             {% else %}
             inactive-content
             {% endif %}" style="padding: 2em 4em;">
-                <a href="#">
-                    <button class="button">Создать новую публикацию</button>
-                </a>
+                <div class="flex-horizontal">
+                    <a href="#">
+                        <button class="button">Создать новую публикацию</button>
+                    </a>
+                </div>
             </div>
             <div class="content flex-vertical gap-3em {% if data.skill.exists and data.specialization.exists and data.specialization.exists and data.softwareandhardwaretoolofjobseeker_set.exists and data.educationofjobseeker_set.exists and data.workexperience_set.exists %}
             inactive-content
@@ -53,9 +55,11 @@
                         {% else %}
                             <p class="error-message">Вы пока не добавили навыки</p>
                         {% endif %}
-                        <a href="{% url 'job_seeker_skills' %}">
-                            <button class="button submit">Изменить навыки</button>
-                        </a>
+                        <div class="flex-horizontal">
+                            <a href="{% url 'job_seeker_skills' %}">
+                                <button class="button submit">Изменить навыки</button>
+                            </a>
+                        </div>
                     </div>
                     <div class="flex-vertical gap-1em">
                         <h1 class="title" style="font-size: xx-large">Специализации:</h1>
@@ -79,9 +83,11 @@
                         {% else %}
                             <p class="error-message">Вы пока не добавили специализаций</p>
                         {% endif %}
-                        <a href="{% url 'job_seeker_specializations' %}">
-                            <button class="button submit">Изменить специализации</button>
-                        </a>
+                        <div class="flex-horizontal">
+                            <a href="{% url 'job_seeker_specializations' %}">
+                                <button class="button submit">Изменить специализации</button>
+                            </a>
+                        </div>
                     </div>
                     <div class="flex-vertical gap-1em">
                         <h1 class="title" style="font-size: xx-large">Программно-технические средства:</h1>
@@ -105,9 +111,11 @@
                         {% else %}
                             <p class="error-message">Вы пока не добавили программно-технических средств</p>
                         {% endif %}
-                        <a href="{% url 'job_seeker_software_and_hardware_tools' %}">
-                            <button class="button submit">Изменить программно технические средства</button>
-                        </a>
+                        <div class="flex-horizontal">
+                            <a href="{% url 'job_seeker_software_and_hardware_tools' %}">
+                                <button class="button submit">Изменить программно технические средства</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="flex-vertical gap-2em">
@@ -123,6 +131,7 @@
                                     <th>Уровень образования</th>
                                     <th>Учебное заведение</th>
                                     <th>Год получения образования</th>
+                                    <th></th>
                                 </tr>
                                 {% for education in data.educationofjobseeker_set.all %}
                                     <tr>
@@ -144,15 +153,21 @@
                                         <td>
                                             {{ education.year_received }}
                                         </td>
+                                        <td>
+                                            <button class="button reject"><img src="{% static 'icons/delete.svg' %}"
+                                                                               class="icon"></button>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             </table>
                         {% else %}
                             <p class="error-message">Вы пока не добавили образование</p>
                         {% endif %}
-                        <a href="{% url 'job_seeker_education' %}">
-                            <button class="button submit">Добавить образование</button>
-                        </a>
+                        <div class="flex-horizontal">
+                            <a href="{% url 'job_seeker_education' %}">
+                                <button class="button submit">Добавить образование</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="flex-vertical gap-2em">
@@ -167,6 +182,7 @@
                                     <th>Организация</th>
                                     <th>Дата трудоустройства</th>
                                     <th>Дата увольнения</th>
+                                    <th style="width: 5%"></th>
                                 </tr>
                                 {% for work_experience in data.work_experiences %}
                                     <tr>
@@ -189,6 +205,10 @@
                                                 -
                                             {% endif %}
                                         </td>
+                                        <td>
+                                            <button class="button reject"><img src="{% static 'icons/delete.svg' %}"
+                                                                               class="icon"></button>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             </table>
@@ -196,9 +216,12 @@
                             <p class="error-message">Вы пока не добавили информацию о предыдущей
                                 работе</p>
                         {% endif %}
-                        <a href="{% url 'job_seeker_work_experience' %}">
-                            <button class="button submit">Изменить опыт работы</button>
-                        </a>
+                        <div class="flex-horizontal">
+                            <a href="{% url 'job_seeker_work_experience' %}">
+                                <button class="button submit">Изменить опыт работы</button>
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             </div>
