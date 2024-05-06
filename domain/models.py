@@ -211,7 +211,7 @@ class JobSeeker(CustomUser):
                                                 verbose_name='Место желаемой работы')
 
     def __str__(self):
-        return '%s %s %s' % (self.last_name, self.first_name, self.birthdate.isoformat())
+        return '%s %s %s' % (self.last_name, self.first_name, self.patronymic)
 
     class Meta:
         verbose_name = 'Соискатель'

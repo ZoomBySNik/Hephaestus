@@ -1,0 +1,42 @@
+{% block content %}
+    <div class="content-block flex-vertical gap-1em">
+        <h1 class="title">Данные требующие подтверждение</h1>
+        {% if extra_data.unconfirmed_educations %}
+            <div class="content-box flex-vertical gap-1em">
+            <div class="content flex-vertical gap-1em">
+                <h1 class="title" style="font-size: x-large">Неподтверждённое образование:</h1>
+                {% for unconfirmed_education in extra_data.unconfirmed_educations %}
+                    <div class="flex-horizontal gap-05em" style="align-items: baseline; justify-content: space-between">
+                        <p>
+                            Образование у соискателя
+                            <span class="title" style="font-size: unset">
+                                {{ unconfirmed_education.job_seeker }}
+                            </span>
+                            не подтверждено
+                        </p>
+                        <button class="button">На страницу подтверждения</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if extra_data.unconfirmed_work_experiences %}
+            <div class="content-box flex-vertical gap-1em">
+            <div class="content flex-vertical gap-1em">
+                <h1 class="title" style="font-size: x-large">Неподтверждённый опыт работы:</h1>
+                {% for unconfirmed_work_experience in extra_data.unconfirmed_work_experiences %}
+                    <div class="flex-horizontal gap-05em" style="align-items: baseline; justify-content: space-between">
+                        <p>
+                            Опыт работы у соискателя
+                            <span class="title" style="font-size: unset">
+                                {{ unconfirmed_work_experience.job_seeker }}
+                            </span>
+                            не подтвержден
+                        </p>
+                        <button class="button">На страницу подтверждения</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            <h1 class="title">Подтверждение {% if flag == 'education' %}образования{% else %}опыта работы{% endif %}</h1>
+            <div class="content-box flex-vertical gap-1em">
+                <div class="content flex-horizontal gap-1em" style="justify-content: space-between; padding: 2em 4em">
+                    <p>
+                        Соискатель: {% unconfirmed.job_seeker %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
