@@ -13,7 +13,9 @@ from domain.models import JobSeeker, Employer, Employee, Application, Applicatio
 
 
 def calculate_matching_between_job_seeker_and_application(job_seeker, application):
-    educations = job_seeker.educationofjobseeker_set.all()
+    educations = job_seeker.educationofjobseeker_set.filter(
+        document_confirmation__confirmation=True
+    )
     education_factor = 0
     for education in educations:
         if education.education.education_level.code >= application.education_level.code:
@@ -24,7 +26,9 @@ def calculate_matching_between_job_seeker_and_application(job_seeker, applicatio
         if specialization == application.specialization:
             specialization_factor = 1
 
-    work_experiences = job_seeker.workexperience_set.all()
+    work_experiences = job_seeker.workexperience_set.filter(
+        document_confirmation__confirmation=True
+    )
     work_experiences_years = 0
     for work_experience in work_experiences:
         date_of_employment = work_experience.date_of_employment

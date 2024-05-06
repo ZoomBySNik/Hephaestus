@@ -131,6 +131,7 @@
                                     <th>Уровень образования</th>
                                     <th>Учебное заведение</th>
                                     <th>Год получения образования</th>
+                                    <th>Статус подтверждения</th>
                                     <th></th>
                                 </tr>
                                 {% for education in data.educationofjobseeker_set.all %}
@@ -152,6 +153,17 @@
                                         </td>
                                         <td>
                                             {{ education.year_received }}
+                                        </td>
+                                        <td>
+                                            {% if education.document_confirmation.confirmation is not None %}
+                                                {% if education.document_confirmation.confirmation %}
+                                                    Подтверждено
+                                                {% else %}
+                                                    Не подтверждено
+                                                {% endif %}
+                                            {% else %}
+                                                Не просмотрено
+                                            {% endif %}
                                         </td>
                                         <td>
                                             <a href="{% url 'delete_education' education.id %}">
@@ -185,6 +197,7 @@
                                     <th>Организация</th>
                                     <th>Дата трудоустройства</th>
                                     <th>Дата увольнения</th>
+                                    <th>Статус подтверждения</th>
                                     <th style="width: 5%"></th>
                                 </tr>
                                 {% for work_experience in data.work_experiences %}
@@ -206,6 +219,17 @@
                                                 {{ work_experience.date_of_dismissal }}
                                             {% else %}
                                                 -
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if education.document_confirmation.confirmation is not None %}
+                                                {% if education.document_confirmation.confirmation %}
+                                                    Подтверждено
+                                                {% else %}
+                                                    Не подтверждено
+                                                {% endif %}
+                                            {% else %}
+                                                Не просмотрено
                                             {% endif %}
                                         </td>
                                         <td>

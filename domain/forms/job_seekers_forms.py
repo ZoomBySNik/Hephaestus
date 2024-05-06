@@ -54,17 +54,36 @@ class SoftwareAndHardwareToolForm(forms.ModelForm):
 
 
 class EducationForm(forms.ModelForm):
-    education_organization_name = forms.CharField(max_length=255, label='Образовательная организация',
-                                                  error_messages={"required": "Введите наименование организации"})
-    education_organization_address_locality = forms.CharField(max_length=255, label="Населённый пункт",
-                                                              error_messages={
-                                                                  "required": "Введите населённый пункт"})
-    education_organization_address_street = forms.CharField(max_length=255, label='Улица',
-                                                            error_messages={
-                                                                "required": "Введите улицу"})
-    education_organization_address_number_of_building = forms.CharField(max_length=255, label='Номер строения',
-                                                                        error_messages={
-                                                                            "required": "Введите номер строения"})
+    existing_education_organization = forms.ModelChoiceField(
+        queryset=EducationalOrganization.objects.all(),
+        required=False,
+        label='Образовательная организация',
+        empty_label='Выберите образовательную организацию'
+    )
+    education_organization_name = forms.CharField(
+        max_length=255,
+        label='Образовательная организация',
+        required=False,
+        error_messages={"required": "Введите наименование организации"}
+    )
+    education_organization_address_locality = forms.CharField(
+        max_length=255,
+        label="Населённый пункт",
+        required=False,
+        error_messages={"required": "Введите населённый пункт"}
+    )
+    education_organization_address_street = forms.CharField(
+        max_length=255,
+        label='Улица',
+        required=False,
+        error_messages={"required": "Введите улицу"}
+    )
+    education_organization_address_number_of_building = forms.CharField(
+        max_length=255,
+        label='Номер строения',
+        required=False,
+        error_messages={"required": "Введите номер строения"}
+    )
     name = forms.CharField(max_length=255, label='Наименование специальности',
                            error_messages={"required": "Введите наименование специальности"})
     code = forms.CharField(max_length=9, label='Код специальности',
@@ -84,6 +103,7 @@ class EducationForm(forms.ModelForm):
 
 class WorkExperienceForm(forms.ModelForm):
     document_photo = forms.ImageField(label='Фотография документа')
+
     class Meta:
         model = WorkExperience
         fields = ('organization', 'position', 'date_of_employment', 'date_of_dismissal', 'document_photo')
@@ -122,7 +142,8 @@ class JobInterviewForm(forms.ModelForm):
 
     class Meta:
         model = JobInterview
-        fields = ['employee', 'date_of_interview', 'locality', 'street', 'number_of_building', 'apartment_number', 'link']
+        fields = ['employee', 'date_of_interview', 'locality', 'street', 'number_of_building', 'apartment_number',
+                  'link']
 
     def clean(self):
         cleaned_data = super().clean()

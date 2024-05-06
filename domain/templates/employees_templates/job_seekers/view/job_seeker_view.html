@@ -131,6 +131,7 @@
                                                 <th>Уровень образования</th>
                                                 <th>Учебное заведение</th>
                                                 <th>Год получения образования</th>
+                                                <th>Статус подтверждения</th>
                                             </tr>
                                             {% for education in job_seeker.educationofjobseeker_set.all %}
                                                 <tr>
@@ -151,6 +152,17 @@
                                                     </td>
                                                     <td>
                                                         {{ education.year_received }}
+                                                    </td>
+                                                    <td>
+                                                        {% if education.document_confirmation.confirmation is not None %}
+                                                            {% if education.document_confirmation.confirmation %}
+                                                                Подтверждено
+                                                            {% else %}
+                                                                Не подтверждено
+                                                            {% endif %}
+                                                        {% else %}
+                                                            Не просмотрено
+                                                        {% endif %}
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -173,6 +185,7 @@
                                                 <th>Организация</th>
                                                 <th>Дата трудоустройства</th>
                                                 <th>Дата увольнения</th>
+                                                <th>Статус подтверждения</th>
                                             </tr>
                                             {% for work_experience in work_experiences %}
                                                 <tr>
@@ -193,6 +206,17 @@
                                                             {{ work_experience.date_of_dismissal }}
                                                         {% else %}
                                                             -
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if education.document_confirmation.confirmation is not None %}
+                                                            {% if education.document_confirmation.confirmation %}
+                                                                Подтверждено
+                                                            {% else %}
+                                                                Не подтверждено
+                                                            {% endif %}
+                                                        {% else %}
+                                                            Не просмотрено
                                                         {% endif %}
                                                     </td>
                                                 </tr>

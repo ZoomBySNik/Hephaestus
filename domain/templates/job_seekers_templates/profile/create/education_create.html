@@ -10,47 +10,65 @@
             <div class="content flex-vertical gap-2em" style="padding: 4em 8em;">
                 <form method="POST" class="input-form flex-vertical gap-2em" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <h1 class="title text-size-larger">Данные об образовательной организации</h1>
-                    <p>
-                        <label for="{{ form.education_organization_name.id_for_label }}">{{ form.education_organization_name.label }}:</label>
-                        {{ form.education_organization_name }}
-                    </p>
-                    <h1 class="title text-size-larger">Адрес образовательной организации</h1>
-                    <p style="display: none">
-                        <label for="{{ form.education_organization_address_locality.id_for_label }}">{{ form.education_organization_address_locality.label }}:</label>
-                        {{ form.education_organization_address_locality }}
-                    </p>
-                    <p class="flex-horizontal" style="display: none">
-                        <label for="{{ form.education_organization_address_street.id_for_label }}">{{ form.education_organization_address_street.label }}:</label>
-                        {{ form.education_organization_address_street|add_class:"width-180" }}
-                        <label for="{{ form.education_organization_address_number_of_building.id_for_label }}">Дом:</label>
-                        {{ form.education_organization_address_number_of_building }}
-                    </p>
-                    <div class="flex-horizontal gap-2em" style="align-items: baseline; "><label
-                            for="{{ form.okved_kode.id_for_label }}">Введите адрес
-                        организации:</label>
-                        <div class="flex-vertical gap-1em" style="flex: 1">
-                            <input id="address" name="address" type="text" class="input-field" style="width: 100%"
-                                   value="{% if form.education_organization_address_locality.value %}{{ form.education_organization_address_locality.value }} {{ form.education_organization_address_street.value }} {{ form.education_organization_address_number_of_building.value }} {{ form.apartment_number.value }}{% endif %}"/>
+                    <div class="flex-vertical extra-part">
+                        <div class="top-splitter-two flex-horizontal">
+                            <div class="splitted-part left active" onclick="toggleSplitter(this)">Выбрать существующую
+                            </div>
+                            <div class="splitted-part right" onclick="toggleSplitter(this)">Создать новую</div>
+                        </div>
+                        <div class="flex-vertical gap-1em inner-part">
+                            <div class="content flex-vertical gap-3em active-content" style="padding: 2em 4em;">
+                                <label for="{{ form.existing_education_organization.id_for_label }}">{{ form.existing_education_organization.label }}:</label>
+                                {{ form.existing_education_organization|add_class:"input-field" }}
+                                Если вашей образовательной организации нет, перейдите на вкладку создания новой и
+                                внесите данные о ней
+                            </div>
+                            <div class="content flex-vertical gap-3em inactive-content" style="padding: 2em 4em;">
+                                <h1 class="title text-size-larger">Данные об образовательной организации</h1>
+                                <p>
+                                    <label for="{{ form.education_organization_name.id_for_label }}">{{ form.education_organization_name.label }}:</label>
+                                    {{ form.education_organization_name }}
+                                </p>
+                                <h1 class="title text-size-larger">Адрес образовательной организации</h1>
+                                <p style="display: none">
+                                    <label for="{{ form.education_organization_address_locality.id_for_label }}">{{ form.education_organization_address_locality.label }}:</label>
+                                    {{ form.education_organization_address_locality }}
+                                </p>
+                                <p class="flex-horizontal" style="display: none">
+                                    <label for="{{ form.education_organization_address_street.id_for_label }}">{{ form.education_organization_address_street.label }}:</label>
+                                    {{ form.education_organization_address_street|add_class:"width-180" }}
+                                    <label for="{{ form.education_organization_address_number_of_building.id_for_label }}">Дом:</label>
+                                    {{ form.education_organization_address_number_of_building }}
+                                </p>
+                                <div class="flex-horizontal gap-2em" style="align-items: baseline; "><label
+                                        for="{{ form.okved_kode.id_for_label }}">Введите адрес
+                                    организации:</label>
+                                    <div class="flex-vertical gap-1em" style="flex: 1">
+                                        <input id="address" name="address" type="text" class="input-field"
+                                               style="width: 100%"
+                                               value="{% if form.education_organization_address_locality.value %}{{ form.education_organization_address_locality.value }} {{ form.education_organization_address_street.value }} {{ form.education_organization_address_number_of_building.value }} {{ form.apartment_number.value }}{% endif %}"/>
+                                    </div>
+                                </div>
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                                <link href="http://cdn.jsdelivr.net/npm/suggestions-jquery@22.6.0/dist/css/suggestions.min.css"
+                                      rel="stylesheet"/>
+                                <script src="http://cdn.jsdelivr.net/npm/suggestions-jquery@22.6.0/dist/js/jquery.suggestions.min.js"></script>
+                                <script>
+                                    $("#address").suggestions({
+                                        token: "{{ DADATA_API_KEY }}",
+                                        type: "ADDRESS",
+                                        /* Вызывается, когда пользователь выбирает одну из подсказок */
+                                        onSelect: function (suggestion) {
+                                            // Заполнение скрытых полей адреса значениями из подсказки
+                                            $("#id_education_organization_address_locality").val(suggestion.data.city);
+                                            $("#id_education_organization_address_street").val(suggestion.data.street);
+                                            $("#id_education_organization_address_number_of_building").val(suggestion.data.house);
+                                        }
+                                    });
+                                </script>
+                            </div>
                         </div>
                     </div>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-                    <link href="http://cdn.jsdelivr.net/npm/suggestions-jquery@22.6.0/dist/css/suggestions.min.css"
-                          rel="stylesheet"/>
-                    <script src="http://cdn.jsdelivr.net/npm/suggestions-jquery@22.6.0/dist/js/jquery.suggestions.min.js"></script>
-                    <script>
-                        $("#address").suggestions({
-                            token: "{{ DADATA_API_KEY }}",
-                            type: "ADDRESS",
-                            /* Вызывается, когда пользователь выбирает одну из подсказок */
-                            onSelect: function (suggestion) {
-                                // Заполнение скрытых полей адреса значениями из подсказки
-                                $("#id_education_organization_address_locality").val(suggestion.data.city);
-                                $("#id_education_organization_address_street").val(suggestion.data.street);
-                                $("#id_education_organization_address_number_of_building").val(suggestion.data.house);
-                            }
-                        });
-                    </script>
                     <h1 class="title text-size-larger">Данные об образовании</h1>
                     <p>
                         <label for="{{ form.name.id_for_label }}">{{ form.name.label }}:</label>
@@ -71,7 +89,7 @@
                     <h1 class="title text-size-larger">Подтверждение документом</h1>
                     <p style="align-items: baseline">
                         <label for="{{ form.document_photo.id_for_label }}">{{ form.document_photo.label }}:</label>
-                        {{ form.document_photo|add_class:'input-field'  }}
+                        {{ form.document_photo|add_class:'input-field' }}
                     </p>
                     <button type="submit" class="button submit">Сохранить</button>
                 </form>

@@ -108,23 +108,25 @@ def job_seeker_education_view(request):
     if request.method == 'POST':
         form = EducationForm(request.POST, request.FILES, )
         if form.is_valid():
-            address = get_or_create_address(form.cleaned_data['education_organization_address_locality'],
-                                            form.cleaned_data['education_organization_address_street'],
-                                            form.cleaned_data['education_organization_address_number_of_building'])
+            if form.cleaned_data['existing_education_organization']:
+                education_organization = form.cleaned_data['existing_education_organization']
+            else:
+                address = get_or_create_address(form.cleaned_data['education_organization_address_locality'],
+                                                form.cleaned_data['education_organization_address_street'],
+                                                form.cleaned_data['education_organization_address_number_of_building'])
 
-            education_organization = EducationalOrganization(
-                address=address,
-                name=form.cleaned_data['education_organization_name']
-            )
-            education_organization.save()
+                education_organization = EducationalOrganization(
+                    address=address,
+                    name=form.cleaned_data['education_organization_name']
+                )
+                education_organization.save()
 
-            education = Education.objects.create(
+            education = Education.objects.get_or_create(
                 organization=education_organization,
                 name=form.cleaned_data['name'],
                 code=form.cleaned_data['code'],
                 education_level=form.cleaned_data['education_level']
             )
-            education.save()
             document_confirmation = DocumentConfirmation.objects.create(file=form.cleaned_data['document_photo'])
             document_confirmation.save()
             education_job_seeker = EducationOfJobSeeker.objects.create(
@@ -148,21 +150,13 @@ def job_seeker_education_view(request):
 
 @job_seeker_required
 def delete_education_view(request, education_id):
-    # Получаем объект образования по его ID или возвращаем 404 ошибку, если объект не найден
     education = get_object_or_404(EducationOfJobSeeker, pk=education_id)
-
+    document_confirmation = DocumentConfirmation.objects.get(id=education.document_confirmation.id)
+    document_confirmation.delete()
     education.delete()
 
     return redirect('user_profile')
 
-
-@job_seeker_required
-def delete_work_experience_view(request, work_experience_id):
-    work_experience = get_object_or_404(WorkExperience, pk=work_experience_id)
-
-    work_experience.delete()
-
-    return redirect('user_profile')
 
 
 @job_seeker_required
@@ -192,6 +186,15 @@ def job_seeker_work_experience_view(request):
     }
     return render(request, 'job_seekers_templates/profile/create/work_experience.html', context)
 
+
+@job_seeker_required
+def delete_work_experience_view(request, work_experience_id):
+    work_experience = get_object_or_404(WorkExperience, pk=work_experience_id)
+    document_confirmation = DocumentConfirmation.objects.get(id=work_experience.document_confirmation.id)
+    document_confirmation.delete()
+    work_experience.delete()
+
+    return redirect('user_profile')
 
 @job_seeker_required
 def job_seeker_application_view(request, application_id):
