@@ -2,22 +2,67 @@
 {% block content %}
     <section class="split-section flex-vertical gap-2em">
         <div class="content-block flex-vertical gap-1em">
-            <h1 class="title">Подтверждение {% if flag == 'education' %}образования{% else %}опыта работы{% endif %}</h1>
+            <h1 class="title">Подтверждение {% if flag == 'education' %}образования{% else %}опыта
+                работы{% endif %}</h1>
             <div class="content-box flex-vertical gap-1em">
                 <div class="content flex-vertical gap-1em" style="justify-content: space-between; padding: 2em 4em">
                     <p>
-                        Соискатель: {{ unconfirmed.job_seeker }}
+                        Соискатель: <span class="text2">{{ unconfirmed.job_seeker }}</span>
                     </p>
                     {% if flag == 'education' %}
-                        <p>Наименование учебного заведения: {{ unconfirmed.education.organization.name }}</p>
-                        <p>Наименование и код специализации: "{{ unconfirmed.education.name }}" {{ unconfirmed.education.code }}</p>
-                        <p>Уровень образования: {{ unconfirmed.education.education_level }}</p>
-                        <p>Год окончания обучения: {{ unconfirmed.year_received }}</p>
+                        <p>Наименование учебного заведения: <span
+                                class="text2">{{ unconfirmed.education.organization.name }}</span></p>
+                        <p>Наименование и код специализации: <span
+                                class="text2">"{{ unconfirmed.education.name }}" {{ unconfirmed.education.code }}</span>
+                        </p>
+                        <p>Уровень образования: <span class="text2">{{ unconfirmed.education.education_level }}</span>
+                        </p>
+                        <p>Год окончания обучения: <span class="text2">{{ unconfirmed.year_received }}</span></p>
                     {% else %}
-
+                        <p>Наименование организации: <span class="text2">{{ unconfirmed.organization }}</span></p>
+                        <p>Должность: <span class="text2">{{ unconfirmed.position }}</span></p>
+                        <p>Дата приёма: <span class="text2">{{ unconfirmed.date_of_employment }}</span></p>
+                        <p>Дата увольнения:
+                            <span class="text2">
+                                {% if unconfirmed.date_of_dismissal %}
+                                    {{ unconfirmed.date_of_dismissal }}
+                                {% else %}
+                                    ---
+                                {% endif %}
+                            </span>
+                        </p>
                     {% endif %}
+                    <div class="flex-horizontal gap-2em">
+                        <button class="button" id="toggleButton">Вложения</button>
+                        <button class="button submit" id="confirmButton" disabled onclick="location.href='{% url 'document_confirm_view'  unconfirmed.document_confirmation.id %}'">Подтвердить</button>
+                        <button class="button reject" id="rejectButton" disabled onclick="location.href='{% url 'document_reject_view'  unconfirmed.document_confirmation.id %}'">Отклонить</button>
+                    </div>
+                    <div class="image-wrapper" id="attachmentImage" style="display: none;">
+                        <img src="/media/{{ MEDIA_URL }}{{ unconfirmed.document_confirmation.file }}">
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
+
+    <script>
+        const toggleButton = document.getElementById('toggleButton');
+        const confirmButton = document.getElementById('confirmButton');
+        const rejectButton = document.getElementById('rejectButton');
+        const attachmentImage = document.getElementById('attachmentImage');
+
+        // Добавляем обработчик события клика на кнопку "Вложения"
+        toggleButton.addEventListener('click', function () {
+            // Переключаем отображение картинки
+            if (attachmentImage.style.display === "none") {
+                attachmentImage.style.display = "block";
+            } else {
+                attachmentImage.style.display = "none";
+            }
+            // Разблокируем кнопки "Подтвердить" и "Отклонить"
+            confirmButton.disabled = false
+            rejectButton.disabled = false;
+        });
+    </script>
 {% endblock %}

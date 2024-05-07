@@ -97,6 +97,17 @@
     text-shadow: 0 0 0.1em var(--text-color);
 }
 
+.text2{
+    color: var(--text-color);
+    font-size: unset;
+    font-weight: 400;
+    word-wrap: break-word;
+    text-shadow: 0 0 0.065em var(--text-color);
+}
+.text2:hover {
+    text-shadow: 0 0 0.1em var(--text-color);
+}
+
 .button {
     display: flex;
     justify-content: flex-start;
@@ -120,6 +131,12 @@
     box-shadow: 0 0 0.6em 0.2em var(--shadow-next);
     color: var(--text-hover);
     text-shadow: 0 0 0.07em var(--text-hover);
+}
+
+.button[disabled] {
+    opacity: 0.5; /* Уменьшаем прозрачность */
+    cursor: not-allowed; /* Изменяем курсор */
+    pointer-events: none; /* Отключаем события указателя */
 }
 
 .expanded {
@@ -676,4 +693,16 @@ tr:hover td {
     box-shadow: 0 0 0.6em 0.2em var(--shadow-next);
     color: var(--text-hover);
     text-shadow: 0 0 0.07em var(--text-hover);
+}
+
+.image-wrapper {
+    border-radius: 2em;
+    filter: drop-shadow(0 0 0.9em var(--element-shadow));
+    overflow: hidden;
+    width: 100%;
+}
+
+.image-wrapper img {
+    width: 100%; /* Чтобы изображение занимало всю доступную ширину контейнера */
+    height: auto; /* Автоматически рассчитываемая высота, чтобы сохранить пропорции изображения */
 }

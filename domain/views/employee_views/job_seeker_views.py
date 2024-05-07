@@ -106,6 +106,7 @@ def employee_interviews_view(request, archive=0):
 
 
 def create_interview_feedback(request, interview_id):
+    update_old_overdue()
     interview = JobInterview.objects.get(id=interview_id)
     response = interview.application_response
     if request.method == 'POST':
@@ -129,6 +130,7 @@ def create_interview_feedback(request, interview_id):
     return render(request, 'employees_templates/interviews/review_on_interview.html', context)
 
 
+@employee_required
 def document_required_in_confirmation_view(request, document_confirmation_id):
     document_confirmation = get_object_or_404(DocumentConfirmation, id=document_confirmation_id)
 
@@ -145,3 +147,19 @@ def document_required_in_confirmation_view(request, document_confirmation_id):
         context = {'unconfirmed': work_experience_instance}
     context['flag'] = flag
     return render(request, 'employees_templates/job_seekers/confirmation/confirmation.html', context)
+
+
+@employee_required
+def document_confirm_view(request, document_confirmation_id):
+    document_confirmation = get_object_or_404(DocumentConfirmation, id=document_confirmation_id)
+    document_confirmation.confirmation = True
+    document_confirmation.save()
+    return redirect('home')
+
+
+@employee_required
+def document_reject_view(request, document_confirmation_id):
+    document_confirmation = get_object_or_404(DocumentConfirmation, id=document_confirmation_id)
+    document_confirmation.confirmation = False
+    document_confirmation.save()
+    return redirect('home')
