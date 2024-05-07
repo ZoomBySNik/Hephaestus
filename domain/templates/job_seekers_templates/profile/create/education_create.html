@@ -18,8 +18,10 @@
                         </div>
                         <div class="flex-vertical gap-1em inner-part">
                             <div class="content flex-vertical gap-3em active-content" style="padding: 2em 4em;">
-                                <label for="{{ form.existing_education_organization.id_for_label }}">{{ form.existing_education_organization.label }}:</label>
-                                {{ form.existing_education_organization|add_class:"input-field" }}
+                                <p>
+                                   <label for="{{ form.existing_education_organization.id_for_label }}">{{ form.existing_education_organization.label }}:</label>
+                                    {{ form.existing_education_organization|add_class:"input-field" }}
+                                </p>
                                 Если вашей образовательной организации нет, перейдите на вкладку создания новой и
                                 внесите данные о ней
                             </div>

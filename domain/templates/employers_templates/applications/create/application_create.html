@@ -3,7 +3,7 @@
     <section class="split-section flex-vertical gap-2em">
         <div class="content-block flex-vertical gap-1em">
             <h1 class="title">Создание заявки на подбор</h1>
-            <div class="content-box flex-vertical gap-1em" style="padding: 4em 8em;">
+            <div class="content-box flex-vertical gap-1em" {% comment %}style="padding: 4em 8em;"{% endcomment %}>
                 <form method="POST" class="input-form flex-vertical gap-2em">
                     {% csrf_token %}
                     <h1 class="title text-size-larger">Основная информация</h1>

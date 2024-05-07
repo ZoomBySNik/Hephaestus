@@ -29,7 +29,7 @@ def references_view(request, reference='OrganizationalLegalForm'):
         if reference == 'EducationLevel':
             display_model = selected_model.objects.all().order_by('-code')
         else:
-            display_model = selected_model.objects.all()
+            display_model = selected_model.objects.all().order_by('name')
         display_name = selected_model._meta.verbose_name_plural
         fields_names = [field for field in selected_model._meta.get_fields() if
                         not field.is_relation and field.name != 'id']

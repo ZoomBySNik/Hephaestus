@@ -20,8 +20,9 @@ def skills_view(request):
             print(new_skills)
             skills = existing_skills
             for skill_name in new_skills:
-                skill, created = Skill.objects.get_or_create(name=skill_name)
-                skills.append(skill)
+                if len(skill_name)>=3:
+                    skill, created = Skill.objects.get_or_create(name=skill_name)
+                    skills.append(skill)
 
             job_seeker.skill.set(skills)
             job_seeker.save()
@@ -48,8 +49,9 @@ def specialization_view(request):
             print(new_specializations)
             specializations = existing_specializations
             for specializations_name in new_specializations:
-                specialization, created = Specialization.objects.get_or_create(name=specializations_name)
-                specializations.append(specialization)
+                if len(specializations_name) >= 3:
+                    specialization, created = Specialization.objects.get_or_create(name=specializations_name)
+                    specializations.append(specialization)
 
             job_seeker.specialization.set(specializations)
             job_seeker.save()
@@ -77,9 +79,10 @@ def software_and_hardware_tools_view(request):
             new_tools = form.cleaned_data['new_software_and_hardware_tools'].split(',')
             if new_tools:
                 for new_tool in new_tools:
-                    tool = SoftwareAndHardwareTool.objects.create(name=new_tool)
-                    tool.save()
-                    selected_tools.append(tool)
+                    if len(new_tool) >= 3:
+                        tool = SoftwareAndHardwareTool.objects.create(name=new_tool)
+                        tool.save()
+                        selected_tools.append(tool)
             SoftwareAndHardwareToolOfJobSeeker.objects.filter(job_seeker=job_seeker).delete()
             for tool in selected_tools:
                 SoftwareAndHardwareToolOfJobSeeker.objects.create(
@@ -109,7 +112,7 @@ def job_seeker_education_view(request):
         form = EducationForm(request.POST, request.FILES, )
         if form.is_valid():
             if form.cleaned_data['existing_education_organization']:
-                education_organization = form.cleaned_data['existing_education_organization']
+                education_organization = EducationalOrganization.objects.get(id=form.cleaned_data['existing_education_organization'].id)
             else:
                 address = get_or_create_address(form.cleaned_data['education_organization_address_locality'],
                                                 form.cleaned_data['education_organization_address_street'],
@@ -121,7 +124,7 @@ def job_seeker_education_view(request):
                 )
                 education_organization.save()
 
-            education = Education.objects.get_or_create(
+            education, created = Education.objects.get_or_create(
                 organization=education_organization,
                 name=form.cleaned_data['name'],
                 code=form.cleaned_data['code'],

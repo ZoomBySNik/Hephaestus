@@ -9,7 +9,8 @@ import math
 from django.utils import timezone
 
 from Hephaestus.settings import YANDEX_MAPS_API_KEY, DADATA_API_KEY
-from domain.models import JobSeeker, Employer, Employee, Application, ApplicationsResponses, JobInterview, Address
+from domain.models import JobSeeker, Employer, Employee, Application, ApplicationsResponses, JobInterview, Address, \
+    SoftwareAndHardwareTool
 
 
 def calculate_matching_between_job_seeker_and_application(job_seeker, application):
@@ -25,6 +26,8 @@ def calculate_matching_between_job_seeker_and_application(job_seeker, applicatio
     for specialization in specializations:
         if specialization == application.specialization:
             specialization_factor = 1
+        else:
+            specialization_factor = 0.3
 
     work_experiences = job_seeker.workexperience_set.filter(
         document_confirmation__confirmation=True
@@ -64,13 +67,14 @@ def calculate_matching_between_job_seeker_and_application(job_seeker, applicatio
     else:
         software_and_hardware_tool_factor = 0
         for software_and_hardware_tool in software_and_hardware_tools:
-            if software_and_hardware_tool.software_and_hardware_tool in application.software_and_hardware_tools.all():
+            if SoftwareAndHardwareTool.objects.get(id = software_and_hardware_tool.software_and_hardware_tool.id) in application.software_and_hardware_tools.all():
                 software_and_hardware_tool_factor += 1
         software_and_hardware_tool_factor = software_and_hardware_tool_factor / count_of_software_and_hardware_tools
 
-    percent = education_factor * specialization_factor * experience_factor * (
-            skill_factor + software_and_hardware_tool_factor) / 2 * 100
+    percent = education_factor * (specialization_factor + experience_factor +
+            skill_factor + software_and_hardware_tool_factor) / 5 * 100
     percent = round(percent, 0)
+    print('perecnt ' + str(percent))
     return percent
 
 
