@@ -16,6 +16,8 @@ from domain.general_functions import *
 @login_required
 def home_view(request):
     update_old_overdue()
+    start_of_day = dt.combine(date.today(), dt.min.time())
+    end_of_day = dt.combine(date.today(), dt.max.time())
     extra_data = {}
     if get_user_type(request.user.id) == 'job_seeker':
         job_seeker = get_user_data(request.user.id)
@@ -36,9 +38,20 @@ def home_view(request):
                         application.distance < 50 or job_seeker.work_location_preference != 'local'):
                     filtered_applications.append(application)
             filtered_applications = sorted(filtered_applications, key=attrgetter('matching_result'), reverse=True)
+        interviews_pending = JobInterview.objects.filter(
+            Q(application_response__job_seeker=job_seeker) & Q(status='pending'))
+        interviews_today = JobInterview.objects.filter(
+            Q(application_response__job_seeker=job_seeker) &
+            Q(status='accepted') &
+            Q(date_of_interview__range=(start_of_day, end_of_day))
+        )
         extra_data = {
             'applications': filtered_applications,
-            'job_seeker': job_seeker}
+            'job_seeker': job_seeker,
+            'interviews_pending': interviews_pending,
+            'interviews_today': interviews_today,
+
+        }
     if get_user_type(request.user.id) == 'employee':
         applications_by_new = Application.objects.all().order_by('-date_of_application').filter(
             status='new').exclude(
@@ -47,8 +60,6 @@ def home_view(request):
             status__in=['new', 'in_progress', 'pending_approval']).exclude(
             Q(date_of_completion__isnull=False) | Q(date_of_cancellation__isnull=False))[:5]
         # Формируем временной промежуток для сегодняшнего дня
-        start_of_day = dt.combine(date.today(), dt.min.time())
-        end_of_day = dt.combine(date.today(), dt.max.time())
         interviews = JobInterview.objects.filter(date_of_interview__gte=start_of_day,
                                                  date_of_interview__lte=end_of_day,
                                                  status='accepted')
@@ -57,7 +68,7 @@ def home_view(request):
         interviews_without_feedback = JobInterview.objects.filter(status='passed')
         for interview in interviews_without_feedback:
             interview.status_in_rus = get_russian_status_interview(interview.status)
-        application_responses = ApplicationsResponses.objects.filter(status='pending')
+        application_responses = ApplicationsResponses.objects.filter(status='pending').order_by('-evaluation')
         for application_response in application_responses:
             application_response.status_in_rus = get_russian_status_in_responses(application_response.status)
         unconfirmed_educations = EducationOfJobSeeker.objects.filter(document_confirmation__confirmation=None)

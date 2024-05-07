@@ -73,7 +73,7 @@ def select_report_view(request):
 @employee_required
 def applications_report(request):
     if request.method == 'POST':
-        form = DateRangeForm(request.POST)
+        form = ApplicationSettingForm(request.POST)
         if form.is_valid():
             start_date = form.cleaned_data['start_date'] or datetime.date.today().replace(day=1)
             end_date = form.cleaned_data['end_date'] or datetime.date.today().replace(
@@ -88,7 +88,8 @@ def applications_report(request):
             if employer:
                 applications = applications.filter(employer=employer)
             for application in applications:
-                application.employer.organization.okved_kode_text = get_okved_description(application.employer.organization.okved_kode)
+                application.employer.organization.okved_kode_text = get_okved_description(
+                    application.employer.organization.okved_kode)
                 application.responses = ApplicationsResponses.objects.filter(application=application)
                 application.status_in_rus = get_russian_status(application.status)
                 application.count_of_interviews = 0
@@ -107,6 +108,30 @@ def applications_report(request):
             return render(request, 'employees_templates/reports/applications_report.html', context)
     else:
         # Если метод запроса GET, показываем пустую форму
-        form = DateRangeForm()
+        form = ApplicationSettingForm()
 
-    return render(request, 'employees_templates/reports/date_range.html', {'form': form})
+    return render(request, 'employees_templates/reports/params/application_report_params.html', {'form': form})
+
+
+@employee_required
+def users_report(request):
+    if request.method == 'POST':
+        form = UsersSettingForm(request.POST)
+        if form.is_valid():
+            user_types = form.cleaned_data
+            all_users = CustomUser.objects.all().order_by('-last_login')
+            users = []
+            for user in all_users:
+                user.user_type = get_user_type(user.id)
+                if user.user_type not in user_types:
+                    users.append(user)
+                user.user_type = get_rus_user_type(get_user_type(user.id))
+            context = {
+                'users': users
+            }
+            return render(request, 'employees_templates/reports/users_report.html', context)
+    else:
+        # Если метод запроса GET, показываем пустую форму
+        form = UsersSettingForm()
+
+    return render(request, 'employees_templates/reports/params/users_report_params.html', {'form': form})

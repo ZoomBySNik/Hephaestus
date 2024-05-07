@@ -1,0 +1,43 @@
+{% block content %}
+    <div class="content-block flex-vertical gap-1em">
+        <h1 class="title">Не просмотренные приглашения на собеседование</h1>
+        <div class="content-box flex-vertical gap-1em">
+            <div class="content flex-vertical gap-1em">
+                <table class="table">
+                    <tr>
+                        <th>Организация</th>
+                        <th>Должность</th>
+                        <th>Время собеседования</th>
+                        <th>Вид проведения</th>
+                        <th>Место проведения/ссылка</th>
+                        <th>Подробнее</th>
+                    </tr>
+                    {% for interview in extra_data.interviews_pending %}
+                        <tr>
+                            <td>{{ interview.application_response.application.employer.organization }}</td>
+                            <td>{{ interview.application_response.application.position }}</td>
+                            <td>{{ interview.date_of_interview }}</td>
+                            <td>{% if interview.address %}Очное{% else %}Онлайн{% endif %}</td>
+                            <td>
+                                {% if interview.address %}
+                                    <a href="{{ interview.address.map_link }}">
+                                        {{ interview.address.locality }}, ул. {{ interview.address.street }}, д. {{ interview.address.number_of_building }}, {{ interview.address.apartment_number }}
+                                    </a>
+                                {% else %}
+                                    <a href="{{ interview.link }}">
+                                        <button class="button">Перейти на страницу</button>
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td><a href=""
+                                   style="width: 100%; height: 100%; display: inline-block">
+                                <button class="button"><img src="{% static 'icons/arrow_forward.svg' %}"
+                                                            class="icon"></button>
+                            </a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

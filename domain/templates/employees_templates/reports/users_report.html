@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="split-section flex-vertical gap-2em">
+        <div class="content-block flex-vertical gap-1em">
+            <h1 class="title">Отчёт по заявкам на подбор</h1>
+            <div class="content-box flex-vertical gap-1em">
+                <div class="content flex-vertical gap-05em" style="padding: 2em 4em">
+                    <div class="flex-vertical gap-2em">
+                        <div class="flex-horizontal" style="justify-content: space-between">
+                            <button class="button" onclick="exportToExcel('отчет_по_пользователям_')">Сохранить отчёт</button>
+                        </div>
+                        <div class="box-with-slider">
+                            <table class="table" style="white-space: nowrap;" id="export">
+                                <tr>
+                                    <th>№</th>
+                                    <th>Логин</th>
+                                    <th>Фамилия</th>
+                                    <th>Имя</th>
+                                    <th>Отчество</th>
+                                    <th>Почта</th>
+                                    <th>Номер телефона</th>
+                                    <th>Тип пользователя</th>
+                                    <th>Дата регистрации</th>
+                                    <th>Время последней активности</th>
+                                </tr>
+                                {% for user in users %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.last_name }}</td>
+                                        <td>{{ user.first_name }}</td>
+                                        <td>{{ user.patronymic }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.phone_number }}</td>
+                                        <td>{{ user.user_type }}</td>
+                                        <td>{{ user.date_joined }}</td>
+                                        <td>{{ user.last_login }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

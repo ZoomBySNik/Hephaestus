@@ -59,11 +59,22 @@ def invite_job_seeker_on_interview(request, application_response_id):
     if request.method == 'POST':
         form = JobInterviewForm(request.POST)
         if form.is_valid():
+            if form.cleaned_data['locality']:
+                address = get_or_create_address(form.cleaned_data['locality'],
+                                                form.cleaned_data['street'],
+                                                form.cleaned_data['number_of_building'],
+                                                form.cleaned_data['apartment_number'])
+                link = None
+            else:
+                link = form.cleaned_data['link']
+                address = None
             interview = JobInterview.objects.create(
                 application_response=application_response,
                 employee=form.cleaned_data['employee'],
                 date_of_interview=form.cleaned_data['date_of_interview'],
-                description=''
+                description='',
+                address=address,
+                link=link
             )
             interview.save()
             application_response.status = 'under_review'
@@ -71,7 +82,7 @@ def invite_job_seeker_on_interview(request, application_response_id):
             application.date_of_last_change = datetime.datetime.now()
             application.save()
             application_response.save()
-            return redirect(request.META.get('HTTP_REFERER', None))
+            return redirect('home')
     else:
         form = JobInterviewForm()
     context = {

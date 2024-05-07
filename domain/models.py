@@ -63,7 +63,7 @@ class Organization(models.Model):
                                           upload_to='organization_logos')
 
     def __str__(self):
-        return '%s' % self.name
+        return '%s "%s"' % (self.organizational_legal_form.short_name, self.name)
 
     class Meta:
         verbose_name = 'Организация'
@@ -101,7 +101,7 @@ class Employee(CustomUser):
                                           null=False, blank=False, verbose_name='Должность')
 
     def __str__(self):
-        return '%s %s %s' % (self.last_name, self.first_name, self.employee_position.name)
+        return '%s %s %s, %s' % (self.last_name, self.first_name, self.patronymic, self.employee_position.name)
 
     class Meta:
         verbose_name = 'Работник'

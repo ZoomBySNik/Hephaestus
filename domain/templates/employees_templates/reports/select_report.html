@@ -4,12 +4,18 @@
         <div class="content-block flex-vertical gap-1em">
             <h1 class="title">Выбор отчёта</h1>
             <div class="content-box flex-vertical gap-1em">
-                <div class="content flex-vertical gap-05em" style="padding: 2em 4em">
+                <div class="content flex-vertical gap-2em" style="padding: 2em 4em">
                     <div class="flex-horizontal gap-2em">
                         <a href="{% url 'applications_report' %}">
                             <button class="button">Отчёт о заявках</button>
                         </a>
                         <p>Настраиваемый отчёт по заявкам созданным внутри сервиса</p>
+                    </div>
+                    <div class="flex-horizontal gap-2em">
+                        <a href="{% url 'users_report' %}">
+                            <button class="button">Отчёт о заявках</button>
+                        </a>
+                        <p>Отчёт о данных пользователей сервиса</p>
                     </div>
                 </div>
             </div>

@@ -95,6 +95,18 @@ def get_user_type(user_id):
     return user_type
 
 
+def get_rus_user_type(user_type):
+    if user_type == 'job_seeker':
+        user_type = 'Соискатель'
+    elif user_type == 'employer':
+        user_type = 'Работодатель'
+    elif user_type == 'employee':
+        user_type = 'Работник'
+    else:
+        user_type = None
+    return user_type
+
+
 def get_user_data(user_id):
     user_type = get_user_type(user_id)
     if user_type == 'job_seeker':

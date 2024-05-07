@@ -14,9 +14,16 @@
                 {% endif %}
                 {% include 'employees_templates/home/components/applications_block.html' %}
             {% elif user_type == 'job_seeker' %}
+                {% if extra_data.interviews_pending %}
+                    {% include 'job_seekers_templates/home/components/not_viewed_interviews_block.html' %}
+                {% endif %}
+                {% if extra_data.interviews_today %}
+                    {% include 'job_seekers_templates/home/components/interviews_block.html' %}
+                {% endif %}
                 {% if extra_data.job_seeker.address %}
                     {% include 'job_seekers_templates/home/components/applications.html' %}
                 {% endif %}
+
             {% endif %}
         </div>
     </section>

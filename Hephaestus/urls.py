@@ -65,6 +65,7 @@ urlpatterns = [
         path('reports/', include([
             path('', select_report_view, name='select_report_view'),
             path('applications_report', applications_report, name='applications_report'),
+            path('users_report', users_report, name='users_report'),
         ])),
     ])),
 

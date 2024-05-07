@@ -1,6 +1,7 @@
 from datetime import timedelta, date
 from datetime import datetime as dt
 from django import forms
+from django.db.models import Case, When
 from django.shortcuts import redirect, render, get_object_or_404
 from domain.general_functions import *
 from domain.decorators import *
@@ -20,7 +21,7 @@ def skills_view(request):
             print(new_skills)
             skills = existing_skills
             for skill_name in new_skills:
-                if len(skill_name)>=3:
+                if len(skill_name) >= 3:
                     skill, created = Skill.objects.get_or_create(name=skill_name)
                     skills.append(skill)
 
@@ -112,7 +113,8 @@ def job_seeker_education_view(request):
         form = EducationForm(request.POST, request.FILES, )
         if form.is_valid():
             if form.cleaned_data['existing_education_organization']:
-                education_organization = EducationalOrganization.objects.get(id=form.cleaned_data['existing_education_organization'].id)
+                education_organization = EducationalOrganization.objects.get(
+                    id=form.cleaned_data['existing_education_organization'].id)
             else:
                 address = get_or_create_address(form.cleaned_data['education_organization_address_locality'],
                                                 form.cleaned_data['education_organization_address_street'],
@@ -161,7 +163,6 @@ def delete_education_view(request, education_id):
     return redirect('user_profile')
 
 
-
 @job_seeker_required
 def job_seeker_work_experience_view(request):
     job_seeker = JobSeeker.objects.get(id=request.user.id)
@@ -198,6 +199,7 @@ def delete_work_experience_view(request, work_experience_id):
     work_experience.delete()
 
     return redirect('user_profile')
+
 
 @job_seeker_required
 def job_seeker_application_view(request, application_id):
@@ -310,7 +312,8 @@ def job_seeker_interviews_view(request, archive=0):
     job_seeker = JobSeeker.objects.get(id=request.user.id)
     if not archive:
         interviews = JobInterview.objects.all().filter(application_response__job_seeker=job_seeker).exclude(
-            status__in=['rejected', 'with_feedback', 'overdue', 'passed']).order_by('-date_of_interview')
+            status__in=['rejected', 'with_feedback', 'overdue', 'passed']).order_by(
+            Case(When(status='pending', then=0), default=1), '-date_of_interview')
     else:
         interviews = JobInterview.objects.all().filter(application_response__job_seeker=job_seeker).exclude(
             status__in=['pending', 'accepted']).order_by('-date_of_interview')

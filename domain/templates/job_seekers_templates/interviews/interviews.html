@@ -37,12 +37,11 @@
                                     </p>
                                 {% endif %}
                             </div>
-                            <div class="flex-vertical gap-1em">
+                            <div class="flex-vertical gap-1em" style="align-items: flex-end">
                                 <a href="{% url 'job_seeker_application_view' interview.application_response.application.id %}">
-                                    <button>К заявке</button>
+                                    <button class="button">К заявке</button>
                                 </a>
-                                <p class="text1">Статус: {{ interview.status_in_rus }}
-                                </p>
+
                                 {% if interview.status == 'pending' %}
                                     <a href="{% url 'accept_invite_on_interview' interview.id %}">
                                         <button class="button submit">Принять</button>
@@ -55,6 +54,8 @@
                                     <br>
                                     <br>
                                 {% endif %}
+                                <p class="text1">Статус: {{ interview.status_in_rus }}
+                                </p>
                             </div>
                         </div>
                         {% if interview.description %}
