@@ -4,10 +4,18 @@
         <div class="content-block flex-vertical gap-1em">
             <h1 class="title">Подтверждение {% if flag == 'education' %}образования{% else %}опыта работы{% endif %}</h1>
             <div class="content-box flex-vertical gap-1em">
-                <div class="content flex-horizontal gap-1em" style="justify-content: space-between; padding: 2em 4em">
+                <div class="content flex-vertical gap-1em" style="justify-content: space-between; padding: 2em 4em">
                     <p>
-                        Соискатель: {% unconfirmed.job_seeker %}
+                        Соискатель: {{ unconfirmed.job_seeker }}
                     </p>
+                    {% if flag == 'education' %}
+                        <p>Наименование учебного заведения: {{ unconfirmed.education.organization.name }}</p>
+                        <p>Наименование и код специализации: "{{ unconfirmed.education.name }}" {{ unconfirmed.education.code }}</p>
+                        <p>Уровень образования: {{ unconfirmed.education.education_level }}</p>
+                        <p>Год окончания обучения: {{ unconfirmed.year_received }}</p>
+                    {% else %}
+
+                    {% endif %}
                 </div>
             </div>
         </div>

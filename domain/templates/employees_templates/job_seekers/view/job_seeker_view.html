@@ -161,7 +161,7 @@
                                                                 Не подтверждено
                                                             {% endif %}
                                                         {% else %}
-                                                            <a><button class="button" style="font-size: smaller">Подтвердить</button></a>
+                                                            <a href="{% url 'document_required_in_confirmation_view' education.document_confirmation.id %}"><button class="button" style="font-size: smaller">Подтвердить</button></a>
                                                         {% endif %}
                                                     </td>
                                                 </tr>
@@ -209,14 +209,14 @@
                                                         {% endif %}
                                                     </td>
                                                     <td>
-                                                        {% if education.document_confirmation.confirmation is not None %}
-                                                            {% if education.document_confirmation.confirmation %}
+                                                        {% if work_experience.document_confirmation.confirmation is not None %}
+                                                            {% if work_experience.document_confirmation.confirmation %}
                                                                 Подтверждено
                                                             {% else %}
                                                                 Не подтверждено
                                                             {% endif %}
                                                         {% else %}
-                                                            <a><button class="button">На страницу подтверждения</button></a>
+                                                            <a href="{% url 'document_required_in_confirmation_view' work_experience.document_confirmation.id %}"><button class="button">На страницу подтверждения</button></a>
                                                         {% endif %}
                                                     </td>
                                                 </tr>

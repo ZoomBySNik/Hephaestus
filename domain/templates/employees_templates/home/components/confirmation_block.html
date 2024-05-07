@@ -14,7 +14,9 @@
                             </span>
                             не подтверждено
                         </p>
-                        <button class="button">На страницу подтверждения</button>
+                        <a href="{% url 'document_required_in_confirmation_view' unconfirmed_education.id %}">
+                            <button class="button">На страницу подтверждения</button>
+                        </a>
                     </div>
                 {% endfor %}
             </div>
@@ -32,7 +34,9 @@
                             </span>
                             не подтвержден
                         </p>
-                        <button class="button">На страницу подтверждения</button>
+                        <a href="{% url 'document_required_in_confirmation_view' unconfirmed_work_experience.id %}">
+                            <button class="button">На страницу подтверждения</button>
+                        </a>
                     </div>
                 {% endfor %}
             </div>

@@ -127,3 +127,21 @@ def create_interview_feedback(request, interview_id):
         'application_response': response
     }
     return render(request, 'employees_templates/interviews/review_on_interview.html', context)
+
+
+def document_required_in_confirmation_view(request, document_confirmation_id):
+    document_confirmation = get_object_or_404(DocumentConfirmation, id=document_confirmation_id)
+
+    # Проверяем, связан ли документ с образованием или опытом работы
+    if document_confirmation.educationofjobseeker_set.exists():
+        # Документ связан с образованием
+        education_instance = EducationOfJobSeeker.objects.get(document_confirmation=document_confirmation)
+        flag = 'education'
+        context = {'unconfirmed': education_instance}
+    elif document_confirmation.workexperience_set.exists():
+        # Документ связан с опытом работы
+        work_experience_instance = WorkExperience.objects.get(document_confirmation=document_confirmation)
+        flag = 'work_experience'
+        context = {'unconfirmed': work_experience_instance}
+    context['flag'] = flag
+    return render(request, 'employees_templates/job_seekers/confirmation/confirmation.html', context)
