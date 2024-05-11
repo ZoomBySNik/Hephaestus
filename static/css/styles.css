@@ -323,7 +323,6 @@
 
 .input-form p input:focus {
     all: unset;
-    flex: 1;
     width: 70%;
     align-items: center;
     font-size: inherit;

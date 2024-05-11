@@ -42,7 +42,7 @@ def reject_job_seeker_response(request, application_response_id):
             application_response.description = form.cleaned_data['description']
             application_response.status = 'rejected'
             application_response.save()
-            return redirect(request.META.get('HTTP_REFERER', None))
+            return redirect('applications_view_detail', application_response.application.id)
     else:
         form = ApplicationResponseRejectForm()
     context = {
