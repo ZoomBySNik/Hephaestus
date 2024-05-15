@@ -128,7 +128,6 @@ def create_interview_feedback(request, interview_id):
             interview.status = 'with_feedback'
             response.save()
             application = interview.application_response.application
-            application.date_of_last_change = datetime.datetime.now()
             application.save()
             interview.save()
             return redirect(request.META.get('HTTP_REFERER', None))

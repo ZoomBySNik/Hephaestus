@@ -32,6 +32,11 @@
             <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}:</label>
             {{ form.password2 }}
         </p>
+        <div class="flex-horizontal gap-05em">
+            <input type="checkbox" checked>
+            <p style="display: inline">Я соглашаюсь с <a style="text-decoration: underline; color: -webkit-link">условием обработки персональных данных</a>.</p>
+        </div>
+
         <button type="submit" class="button submit" style="width: fit-content;">Создать</button>
     </form>
 {% endblock %}

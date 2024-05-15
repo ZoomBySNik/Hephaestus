@@ -313,7 +313,7 @@ def job_seeker_interviews_view(request, archive=0):
     if not archive:
         interviews = JobInterview.objects.all().filter(application_response__job_seeker=job_seeker).exclude(
             status__in=['rejected', 'with_feedback', 'overdue', 'passed']).order_by(
-            Case(When(status='pending', then=0), default=1), '-date_of_interview')
+            Case(When(status='pending', then=0), default=1), 'date_of_interview')
     else:
         interviews = JobInterview.objects.all().filter(application_response__job_seeker=job_seeker).exclude(
             status__in=['pending', 'accepted']).order_by('-date_of_interview')

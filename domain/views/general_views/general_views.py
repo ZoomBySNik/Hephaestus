@@ -62,7 +62,9 @@ def home_view(request):
         # Формируем временной промежуток для сегодняшнего дня
         interviews = JobInterview.objects.filter(date_of_interview__gte=start_of_day,
                                                  date_of_interview__lte=end_of_day,
-                                                 status='accepted')
+                                                 status='accepted',
+                                                 employee_id=request.user.id
+                                                )
         for interview in interviews:
             interview.status_in_rus = get_russian_status_interview(interview.status)
         interviews_without_feedback = JobInterview.objects.filter(status='passed')

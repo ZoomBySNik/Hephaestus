@@ -165,6 +165,6 @@ def apply_job_seeker(request, application_response_id):
             return redirect(request.META.get('HTTP_REFERER', None))
     else:
         return confirmation(request,
-                            str('Вы собираетесь принять соискателя ' + application_response.job_seeker.last_name +
-                                application_response.job_seeker.first_name +
+                            str('Вы собираетесь принять соискателя ' + application_response.job_seeker.last_name + ' '+
+                                application_response.job_seeker.first_name + ' '+
                                 application_response.job_seeker.patronymic + ' и закрыть заявку?'))
