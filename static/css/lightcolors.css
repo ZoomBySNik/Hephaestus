@@ -1,11 +1,11 @@
 :root {
-    --body-bg: #ebf2ff;
-    --table-bg: #c2d8fe;
-    --hover-bg: #aecbfe;
-    --td-bg: #86b2fd;
-    --div-bg: #72a5fc;
-    --text-color: #092042;
-    --text-hover: #051125;
+    --body-bg: #e5eeff;
+    --table-bg: #b6cefe;
+    --hover-bg: #a3bffe;
+    --td-bg: #84a6fc;
+    --div-bg: #779bfb;
+    --text-color: #0c294e;
+    --text-hover: #07172f;
     --element-shadow: rgba(0, 0, 0, 0.1);
     --shadow-next: rgba(48, 48, 48, 0.3);
 

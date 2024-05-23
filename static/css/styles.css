@@ -201,11 +201,11 @@
     flex: 1;
     padding: 1em;
     text-align: center;
-    background: var(--td-bg);
+    background: var(--hover-bg);
 }
 
 .splitted-part:hover {
-    background: var(--hover-bg);
+    background: var(--td-bg);
 }
 
 .splitted-part.left {
@@ -406,7 +406,7 @@ button.reject:hover {
 }
 
 th {
-    background: var(--td-bg);
+    background: var(--hover-bg);
     padding: 0.5em 1em;
     font-size: smaller;
 }
@@ -422,7 +422,7 @@ th:last-child {
 
 td {
     padding: 0.5em 1em;
-    background: var(--td-bg);
+    background: var(--hover-bg);
     word-wrap: break-word;
     font-size: smaller;
 }
@@ -440,7 +440,7 @@ tr td:last-child {
 }
 
 tr:hover td {
-    background: var(--table-bg);
+    background: var(--td-bg);
 }
 
 .flex-horizontal {
@@ -533,7 +533,7 @@ tr:hover td {
 }
 
 .persons-div {
-    background: var(--div-bg);
+    background: var(--hover-bg);
     border-radius: 1em;
     padding: 1em;
 }
@@ -622,6 +622,7 @@ tr:hover td {
 
 .box-with-slider {
     overflow-x: auto;
+    border-radius: 1.5em;
 }
 
 .box-with-slider::-webkit-scrollbar {
