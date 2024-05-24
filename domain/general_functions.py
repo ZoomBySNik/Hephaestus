@@ -1,16 +1,20 @@
 import datetime
+import os
 import xml.etree.ElementTree as ET
 import requests
 from urllib.parse import urlencode
+
+from PIL import Image
 from django.conf import settings
 from dadata import Dadata
+from django.core.files.storage import default_storage
 from django.db.models import Q
 import math
 from django.utils import timezone
 
 from Hephaestus.settings import YANDEX_MAPS_API_KEY, DADATA_API_KEY
 from domain.models import JobSeeker, Employer, Employee, Application, ApplicationsResponses, JobInterview, Address, \
-    SoftwareAndHardwareTool
+    SoftwareAndHardwareTool, CustomUser, Organization
 
 
 def calculate_matching_between_job_seeker_and_application(job_seeker, application):

@@ -18,7 +18,7 @@ def references_view(request, reference='OrganizationalLegalForm'):
         'OrganizationalLegalForm': [OrganizationalLegalForm, 'Организационно-правовые формы'],
         'Skill': [Skill, 'Навыки'],
         'Specialization': [Specialization, 'Специализации'],
-        'SoftwareAndHardwareTool': [SoftwareAndHardwareTool, 'Программно-технические средства'],
+        'SoftwareAndHardwareTool': [SoftwareAndHardwareTool, 'Ключевые навыки'],
         'WorkSchedule': [WorkSchedule, 'Графики работы'],
         'EducationLevel': [EducationLevel, 'Уровень образования'],
         'Position': [Position, 'Должность'],

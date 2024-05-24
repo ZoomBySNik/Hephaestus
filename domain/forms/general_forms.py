@@ -1,3 +1,6 @@
+import os
+
+from PIL import Image
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
@@ -27,8 +30,22 @@ class PhotoSaveForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.profile_photo = self.cleaned_data['profile_photo']
+        profile_photo = self.cleaned_data['profile_photo']
+        if profile_photo:
+            # Сохранение временного изображения для обработки
+            user.profile_photo = profile_photo
+            if commit:
+                user.save()
 
+            # Полный путь к сохраненному изображению
+            image_path = user.profile_photo.path
+
+            # Открытие изображения и конвертация в WebP
+            img = Image.open(image_path)
+            webp_path = os.path.splitext(image_path)[0] + '.webp'
+            img.save(webp_path, 'webp')
+            # Обновление ссылки на изображение пользователя
+            user.profile_photo.name = user.profile_photo.name.rsplit('.', 1)[0] + '.webp'
         if commit:
             user.save()
         return user

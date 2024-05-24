@@ -180,8 +180,8 @@ class SoftwareAndHardwareTool(models.Model):
         return '%s' % self.name
 
     class Meta:
-        verbose_name = 'Программно-техническое средство'
-        verbose_name_plural = 'Программно-технические средства'
+        verbose_name = 'Ключевой навык'
+        verbose_name_plural = 'Ключевые навыки'
 
 
 class WorkSchedule(models.Model):

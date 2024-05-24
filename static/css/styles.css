@@ -11,6 +11,10 @@
     all: unset;
 }
 
+img{
+    content-visibility: auto;
+}
+
 .body {
     background: var(--body-bg);
     position: relative;

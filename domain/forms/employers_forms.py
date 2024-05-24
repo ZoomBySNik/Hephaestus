@@ -32,6 +32,32 @@ class OrganizationForm(forms.ModelForm):
 
     field_group_address = [locality, street, number_of_building, apartment_number]
 
+    def save(self, commit=True):
+        organization = super().save(commit=False)
+        organization_logo = self.cleaned_data.get('organization_logo')
+
+        if organization_logo:
+            # Временно сохраняем оригинальное изображение
+            organization.organization_logo = organization_logo
+            if commit:
+                organization.save()
+
+            # Путь к сохраненному изображению
+            image_path = organization.organization_logo.path
+
+            # Открытие изображения и конвертация в WebP
+            img = Image.open(image_path)
+            webp_path = os.path.splitext(image_path)[0] + '.webp'
+            img.save(webp_path, 'webp')
+
+            # Обновление ссылки на изображение организации
+            organization.organization_logo.name = organization.organization_logo.name.rsplit('.', 1)[0] + '.webp'
+
+        if commit:
+            organization.save()
+
+        return organization
+
 
 class ApplicationForm(forms.ModelForm):
     min_desired_date = (dt.now() + timedelta(days=10)).strftime('%Y-%m-%d')
@@ -50,7 +76,7 @@ class ApplicationForm(forms.ModelForm):
     software_and_hardware_tools = forms.ModelMultipleChoiceField(queryset=SoftwareAndHardwareTool.objects.all(),
                                                                  required=False,
                                                                  widget=forms.CheckboxSelectMultiple,
-                                                                 label='Требуемые программно-технические средства')
+                                                                 label='Требуемые ключевые навыки')
     experience = forms.IntegerField(label='Минимальный опыт работы(лет)')
     work_schedule = forms.ModelChoiceField(queryset=WorkSchedule.objects.all(), label='График работы')
     work_format = forms.ModelChoiceField(queryset=WorkFormat.objects.all(), label='Формат работы')
