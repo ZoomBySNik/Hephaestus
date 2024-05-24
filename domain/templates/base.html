@@ -6,15 +6,16 @@
     <title>Гефест</title>
 </head>
 <body class="body">
-{% include 'components/navbar.html' %}
-<section class="main">
-    {% block content %}
-    {% endblock %}
-</section>
-<div style="padding: 4em"></div>
-{% include 'components/footer.html' %}
+    {% include 'components/navbar.html' %}
+    <section class="main">
+        {% block content %}
+        {% endblock %}
+    </section>
+    <div style="padding: 4em"></div>
+    {% include 'components/footer.html' %}
 </body>
 {% include 'components/scripts.html' %}
+
 <style>
     @font-face {
         font-family: 'GagarinStarMixCyrillic';

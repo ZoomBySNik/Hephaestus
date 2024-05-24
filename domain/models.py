@@ -195,6 +195,17 @@ class WorkSchedule(models.Model):
         verbose_name_plural = 'Графики работы'
 
 
+class WorkFormat(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = 'Формат работы'
+        verbose_name_plural = 'Форматы работы'
+
+
 class JobSeeker(CustomUser):
     LOCATION_CHOICES = [
         ('remote', 'Удалённая работа'),
@@ -226,8 +237,6 @@ class WorkExperience(models.Model):
     organization = models.CharField(max_length=255, blank=False, null=False, verbose_name='Организация')
     position = models.ForeignKey('Position', blank=False, null=False,
                                  on_delete=models.PROTECT, verbose_name='Должность')
-    document_confirmation = models.ForeignKey('DocumentConfirmation', blank=False, null=False,
-                                              on_delete=models.CASCADE, verbose_name='Подтверждение образования')
 
     def __str__(self):
         return '%s %s лет %s' % \
@@ -259,8 +268,6 @@ class EducationOfJobSeeker(models.Model):
                                   on_delete=models.PROTECT, verbose_name='Образование')
     year_choices = [(year, str(year)) for year in range(datetime.datetime.now().year, 1979, -1)]
     year_received = models.IntegerField(choices=year_choices, blank=False, null=False, verbose_name='Год получения')
-    document_confirmation = models.ForeignKey('DocumentConfirmation', blank=False, null=False,
-                                              on_delete=models.CASCADE, verbose_name='Подтверждение образования')
 
     def __str__(self):
         return '%s %s лет %s' % (self.job_seeker.__str__(), self.education.__str__(), self.year_received)
@@ -359,6 +366,8 @@ class Application(models.Model):
     experience = models.IntegerField(blank=False, null=False, default=0, verbose_name='Опыт (лет)')
     work_schedule = models.ForeignKey('WorkSchedule', blank=False, null=False,
                                       on_delete=models.PROTECT, verbose_name='График работы')
+    work_format = models.ForeignKey('WorkFormat', blank=False, null=False,
+                                      on_delete=models.PROTECT, default=3, verbose_name='Формат работы')
     employee = models.ForeignKey('Employee', blank=True, null=True,
                                  on_delete=models.PROTECT, verbose_name='Работник')
     date_of_completion = models.DateField(blank=True, null=True, verbose_name='Дата выполнения')

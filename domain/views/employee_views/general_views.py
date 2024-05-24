@@ -22,6 +22,7 @@ def references_view(request, reference='OrganizationalLegalForm'):
         'WorkSchedule': [WorkSchedule, 'Графики работы'],
         'EducationLevel': [EducationLevel, 'Уровень образования'],
         'Position': [Position, 'Должность'],
+        'WorkFormat': [WorkFormat, 'Формат работы'],
     }
 
     if reference in references_dict:

@@ -23,7 +23,7 @@
                                                           style="font-size: unset">{{ application.position }}</span>
                                         с
                                         графиком работы: <span class="title"
-                                                               style="font-size: unset">{{ application.work_schedule.name.lower }}</span>
+                                                               style="font-size: unset">{{ application.work_schedule.name.lower }} ({{ application.work_format.name.lower }})</span>
                                         и зарплатой <span class="title"
                                                           style="font-size: unset">{{ application.salary|floatformat:0|intcomma }}</span>
                                         рублей

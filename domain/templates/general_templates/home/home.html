@@ -20,7 +20,7 @@
                 {% if extra_data.interviews_today %}
                     {% include 'job_seekers_templates/home/components/interviews_block.html' %}
                 {% endif %}
-                {% if extra_data.job_seeker.address %}
+                {% if extra_data.job_seeker.address and extra_data.applications %}
                     {% include 'job_seekers_templates/home/components/applications.html' %}
                 {% endif %}
 

@@ -51,14 +51,15 @@ class ApplicationForm(forms.ModelForm):
                                                                  required=False,
                                                                  widget=forms.CheckboxSelectMultiple,
                                                                  label='Требуемые программно-технические средства')
-    experience = forms.IntegerField(label='Опыт(лет)')
+    experience = forms.IntegerField(label='Минимальный опыт работы(лет)')
     work_schedule = forms.ModelChoiceField(queryset=WorkSchedule.objects.all(), label='График работы')
+    work_format = forms.ModelChoiceField(queryset=WorkFormat.objects.all(), label='Формат работы')
 
     class Meta:
         model = Application
         fields = ['position', 'salary', 'desired_date', 'final_date', 'specialization', 'education_level', 'skills',
                   'software_and_hardware_tools',
-                  'experience', 'work_schedule']
+                  'experience', 'work_schedule', 'work_format']
 
 
 class ChangeStateOfApplicationForm(forms.ModelForm):

@@ -132,13 +132,10 @@ def job_seeker_education_view(request):
                 code=form.cleaned_data['code'],
                 education_level=form.cleaned_data['education_level']
             )
-            document_confirmation = DocumentConfirmation.objects.create(file=form.cleaned_data['document_photo'])
-            document_confirmation.save()
             education_job_seeker = EducationOfJobSeeker.objects.create(
                 job_seeker=job_seeker,
                 education=education,
                 year_received=form.cleaned_data['year_received'],
-                document_confirmation=document_confirmation
             )
             education_job_seeker.save()
             return redirect('user_profile')
@@ -156,8 +153,6 @@ def job_seeker_education_view(request):
 @job_seeker_required
 def delete_education_view(request, education_id):
     education = get_object_or_404(EducationOfJobSeeker, pk=education_id)
-    document_confirmation = DocumentConfirmation.objects.get(id=education.document_confirmation.id)
-    document_confirmation.delete()
     education.delete()
 
     return redirect('user_profile')
@@ -169,15 +164,12 @@ def job_seeker_work_experience_view(request):
     if request.method == 'POST':
         form = WorkExperienceForm(request.POST, request.FILES)
         if form.is_valid():
-            document_confirmation = DocumentConfirmation.objects.create(file=form.cleaned_data['document_photo'])
-            document_confirmation.save()
             work_experience = WorkExperience.objects.create(
                 job_seeker=job_seeker,
                 organization=form.cleaned_data['organization'],
                 position=form.cleaned_data['position'],
                 date_of_employment=form.cleaned_data['date_of_employment'],
                 date_of_dismissal=form.cleaned_data['date_of_dismissal'],
-                document_confirmation=document_confirmation
             )
             work_experience.save()
             return redirect('user_profile')
@@ -194,8 +186,6 @@ def job_seeker_work_experience_view(request):
 @job_seeker_required
 def delete_work_experience_view(request, work_experience_id):
     work_experience = get_object_or_404(WorkExperience, pk=work_experience_id)
-    document_confirmation = DocumentConfirmation.objects.get(id=work_experience.document_confirmation.id)
-    document_confirmation.delete()
     work_experience.delete()
 
     return redirect('user_profile')

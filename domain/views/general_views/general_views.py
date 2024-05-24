@@ -73,16 +73,12 @@ def home_view(request):
         application_responses = ApplicationsResponses.objects.filter(status='pending').order_by('-evaluation')
         for application_response in application_responses:
             application_response.status_in_rus = get_russian_status_in_responses(application_response.status)
-        unconfirmed_educations = EducationOfJobSeeker.objects.filter(document_confirmation__confirmation=None)
-        unconfirmed_work_experiences = WorkExperience.objects.filter(document_confirmation__confirmation=None)
         extra_data = {
             'interviews': interviews,
             'interviews_without_feedback': interviews_without_feedback,
             'applications_by_new': applications_by_new,
             'applications_by_final_date': applications_by_final_date,
             'application_responses': application_responses,
-            'unconfirmed_educations': unconfirmed_educations,
-            'unconfirmed_work_experiences': unconfirmed_work_experiences,
         }
 
     response = {

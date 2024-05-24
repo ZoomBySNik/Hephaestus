@@ -47,11 +47,6 @@ urlpatterns = [
         path('jobseeker/', include([
             path('view', job_seeker_all_view, name='job_seeker_list'),
             path('<str:job_seeker_id>', job_seeker_view, name='job_seeker_view'),
-            path('document/', include([
-                path('view/<str:document_confirmation_id>', document_required_in_confirmation_view, name='document_required_in_confirmation_view'),
-                path('confirm/<str:document_confirmation_id>', document_confirm_view, name='document_confirm_view'),
-                path('reject/<str:document_confirmation_id>', document_reject_view, name='document_reject_view'),
-            ])),
         ])),
 
         path('responce/reject/<str:application_response_id>', reject_job_seeker_response,

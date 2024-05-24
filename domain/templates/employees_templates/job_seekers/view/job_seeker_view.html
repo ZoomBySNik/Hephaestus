@@ -131,7 +131,6 @@
                                                 <th>Уровень образования</th>
                                                 <th>Учебное заведение</th>
                                                 <th>Год получения образования</th>
-                                                <th>Статус подтверждения</th>
                                             </tr>
                                             {% for education in job_seeker.educationofjobseeker_set.all %}
                                                 <tr>
@@ -152,17 +151,6 @@
                                                     </td>
                                                     <td>
                                                         {{ education.year_received }}
-                                                    </td>
-                                                    <td>
-                                                        {% if education.document_confirmation.confirmation is not None %}
-                                                            {% if education.document_confirmation.confirmation %}
-                                                                Подтверждено
-                                                            {% else %}
-                                                                Не подтверждено
-                                                            {% endif %}
-                                                        {% else %}
-                                                            <a href="{% url 'document_required_in_confirmation_view' education.document_confirmation.id %}"><button class="button" style="font-size: smaller">Подтвердить</button></a>
-                                                        {% endif %}
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -185,7 +173,7 @@
                                                 <th>Организация</th>
                                                 <th>Дата трудоустройства</th>
                                                 <th>Дата увольнения</th>
-                                                <th>Статус подтверждения</th>
+                                                <th>Количество отработанных лет</th>
                                             </tr>
                                             {% for work_experience in work_experiences %}
                                                 <tr>
@@ -209,15 +197,7 @@
                                                         {% endif %}
                                                     </td>
                                                     <td>
-                                                        {% if work_experience.document_confirmation.confirmation is not None %}
-                                                            {% if work_experience.document_confirmation.confirmation %}
-                                                                Подтверждено
-                                                            {% else %}
-                                                                Не подтверждено
-                                                            {% endif %}
-                                                        {% else %}
-                                                            <a href="{% url 'document_required_in_confirmation_view' work_experience.document_confirmation.id %}"><button class="button">На страницу подтверждения</button></a>
-                                                        {% endif %}
+                                                        -
                                                     </td>
                                                 </tr>
                                             {% endfor %}

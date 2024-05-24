@@ -100,27 +100,29 @@
         }
 
         $(document).ready(function () {
-            // Проверяем, сохранена ли тема в куки
             var theme = getCookie("theme");
             if (theme) {
-                $('#theme-link').attr('href', theme);
+                applyTheme(theme);
+            } else {
+                var defaultTheme = '{% static 'css/lightcolors.css' %}';
+                applyTheme(defaultTheme);
+                document.cookie = "theme=" + defaultTheme + ";path=/";
             }
 
-            // Обработчик события нажатия на кнопку
             $('#theme-toggle').click(function () {
                 var currentTheme = $('#theme-link').attr('href');
                 var newTheme = currentTheme.includes('darkcolors.css') ? '{% static 'css/lightcolors.css' %}' : '{% static 'css/darkcolors.css' %}';
                 if (Math.random() < 1 / 10) {
                     newTheme = '{% static 'css/jokecolors.css' %}';
                 }
-                // Сохраняем выбранную тему в куки
+                applyTheme(newTheme);
                 document.cookie = "theme=" + newTheme + ";path=/";
-
-                // Применяем новую тему
-                $('#theme-link').attr('href', newTheme);
             });
 
-            // Функция для получения значения куки по имени
+            function applyTheme(theme) {
+                $('#theme-link').attr('href', theme);
+            }
+
             function getCookie(name) {
                 var value = "; " + document.cookie;
                 var parts = value.split("; " + name + "=");
