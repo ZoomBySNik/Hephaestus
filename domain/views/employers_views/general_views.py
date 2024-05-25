@@ -100,7 +100,17 @@ def application_create_view(request):
             application.date_of_last_change = datetime.datetime.now()
             application.save()
             form.save_m2m()
-
+            new_tools = form.cleaned_data['new_software_and_hardware_tools'].split(',')
+            for new_tool in new_tools:
+                    if len(new_tool) >= 3:
+                        tool, created = SoftwareAndHardwareTool.objects.get_or_create(name=new_tool)
+                        application.software_and_hardware_tools.add(tool)
+            new_skills = form.cleaned_data['new_skills'].split(',')
+            for skill_name in new_skills:
+                if len(skill_name) >= 3:
+                    skill, created = Skill.objects.get_or_create(name=skill_name)
+                    application.skills.add(skill)
+            application.save()
             return redirect('home')
     else:
         form = ApplicationForm()

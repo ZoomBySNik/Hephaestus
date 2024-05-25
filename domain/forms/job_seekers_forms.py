@@ -2,7 +2,6 @@ from datetime import timedelta
 from datetime import datetime as dt
 from django import forms
 from django.core.exceptions import ValidationError
-
 from domain.models import *
 
 
@@ -33,7 +32,7 @@ class SkillsForm(forms.ModelForm):
 class SpecializationForm(forms.ModelForm):
     specializations = forms.ModelMultipleChoiceField(queryset=Specialization.objects.all().order_by('name'),
                                                      widget=forms.CheckboxSelectMultiple,
-                                                     label='Специализции')
+                                                     label='Специализации')
     new_specializations = forms.CharField(label='Добавить новые навыки', required=False)
 
     class Meta:

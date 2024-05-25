@@ -1,5 +1,7 @@
+import os
 from datetime import timedelta
 from datetime import datetime as dt
+from PIL import Image
 from django import forms
 from domain.models import *
 
@@ -80,12 +82,14 @@ class ApplicationForm(forms.ModelForm):
     experience = forms.IntegerField(label='Минимальный опыт работы(лет)')
     work_schedule = forms.ModelChoiceField(queryset=WorkSchedule.objects.all(), label='График работы')
     work_format = forms.ModelChoiceField(queryset=WorkFormat.objects.all(), label='Формат работы')
+    new_software_and_hardware_tools = forms.CharField(label='Добавить новые навыки', required=False)
+    new_skills = forms.CharField(label='Добавить новые навыки', required=False)
 
     class Meta:
         model = Application
         fields = ['position', 'salary', 'desired_date', 'final_date', 'specialization', 'education_level', 'skills',
                   'software_and_hardware_tools',
-                  'experience', 'work_schedule', 'work_format']
+                  'experience', 'work_schedule', 'work_format', 'new_software_and_hardware_tools', 'new_skills']
 
 
 class ChangeStateOfApplicationForm(forms.ModelForm):
