@@ -36,7 +36,7 @@
                         </p>
                         <p>
                             Минимальный опыт работы: <span class="title" style="font-size: unset"
-                                               id="experience{{ application.id }}">{{ application.experience }}</span>
+                                                           id="experience{{ application.id }}">{{ application.experience }}</span>
                         </p>
                         <p>
                             Образование: <span class="title"
@@ -54,6 +54,12 @@
                                 {% if not forloop.last %},{% endif %}
                             {% endfor %}
                         </p>
+                        <div class="flex-vertical gap-05em">
+                            {% if application.description %}
+                                <h1 class="title">Дополнительное описание вакансии</h1>
+                                {{ application.description|linebreaks }}
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="flex-vertical gap-1em">
                         <h1 class="title" style="font-size: x-large">Техническая информация о заявке</h1>
@@ -98,6 +104,8 @@
 
 
 
+
+
                                                         {{ MEDIA_URL }}{{ application_response.job_seeker.profile_photo.url }}"
                                                      class="person-img-preview">
                                             {% else %}
@@ -113,7 +121,8 @@
                                                 <p>{{ application_response.job_seeker.email }}</p>
                                             </div>
                                             <div class="flex-vertical gap-05em">
-                                                <p class="text1">Процент соответствия вакансии: {{ application_response.evaluation|floatformat }}%</p>
+                                                <p class="text1">Процент соответствия
+                                                    вакансии: {{ application_response.evaluation|floatformat }}%</p>
                                                 <div class="flex-horizontal gap-05em">
                                                     {% if application_response.status == 'pending' %}
                                                         <a href="{% url 'invite_job_seeker_on_interview' application_response.id %}">

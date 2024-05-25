@@ -33,6 +33,11 @@
                         <label for="{{ form.final_date.id_for_label }}">{{ form.final_date.label }}: </label>
                         {{ form.final_date }}
                     </p>
+                    <p class="flex-horizontal gap-2em">
+                        <label for="{{ form.description.id_for_label }}">{{ form.description.label }}: </label>
+                        {{ form.description|add_class:'input-field' }}
+                    </p>
+
                     <h1 class="title text-size-larger">Требования к специалисту</h1>
                     <p class="flex-horizontal gap-2em">
                         <label for="{{ form.specialization.id_for_label }}">{{ form.specialization.label }}: </label>

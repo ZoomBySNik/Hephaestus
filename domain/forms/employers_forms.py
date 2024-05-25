@@ -74,7 +74,7 @@ class ApplicationForm(forms.ModelForm):
     final_date = forms.DateField(label='Последний срок исполнения',
                                  widget=forms.DateInput(attrs={'type': 'date', 'min': min_final_date}), )
     skills = forms.ModelMultipleChoiceField(queryset=Skill.objects.all(), widget=forms.CheckboxSelectMultiple,
-                                            required=False, label='Навыки')
+                                            required=False, label='Гибкие навыки')
     software_and_hardware_tools = forms.ModelMultipleChoiceField(queryset=SoftwareAndHardwareTool.objects.all(),
                                                                  required=False,
                                                                  widget=forms.CheckboxSelectMultiple,
@@ -89,7 +89,7 @@ class ApplicationForm(forms.ModelForm):
         model = Application
         fields = ['position', 'salary', 'desired_date', 'final_date', 'specialization', 'education_level', 'skills',
                   'software_and_hardware_tools',
-                  'experience', 'work_schedule', 'work_format', 'new_software_and_hardware_tools', 'new_skills']
+                  'experience', 'work_schedule', 'work_format', 'new_software_and_hardware_tools', 'new_skills', 'description']
 
 
 class ChangeStateOfApplicationForm(forms.ModelForm):

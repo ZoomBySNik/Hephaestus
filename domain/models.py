@@ -375,6 +375,7 @@ class Application(models.Model):
     status = models.CharField(blank=False, null=False, max_length=20, choices=STATUS_CHOICES,
                               default='new', verbose_name='Статус')
     date_of_last_change = models.DateTimeField(blank=True, null=True, verbose_name='Дата последней правки')
+    description = models.TextField(blank=True, null=True, verbose_name='Описание вакансии')
 
     def __str__(self):
         return 'Заявка %s от %s на должность %s' % (self.employer.__str__, self.skills.__str__, self.position)

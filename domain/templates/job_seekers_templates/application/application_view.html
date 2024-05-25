@@ -24,7 +24,8 @@
                             графиком работы: <span class="title"
                                                    style="font-size: unset">{{ application.work_schedule.name.lower }} ({{ application.work_format.name.lower }})</span>
                             и зарплатой <span class="title"
-                                              style="font-size: unset">{{ application.salary|floatformat:0|intcomma }}</span> рублей</p>
+                                              style="font-size: unset">{{ application.salary|floatformat:0|intcomma }}</span>
+                            рублей</p>
                     </div>
                     <div class="flex-vertical gap-1em">
                         <h1 class="title" style="font-size: x-large">
@@ -36,7 +37,7 @@
                         </p>
                         <p>
                             Требуемый минимальный опыт работы: <span class="title" style="font-size: unset"
-                                               id="experience{{ application.id }}">{{ application.experience }}</span>
+                                                                     id="experience{{ application.id }}">{{ application.experience }}</span>
                         </p>
                         <p>
                             Образование: <span class="title"
@@ -55,13 +56,19 @@
                             {% endfor %}
                         </p>
                     </div>
+                    <div class="flex-vertical gap-05em">
+                        {% if application.description %}
+                            <h1 class="title">Дополнительное описание вакансии</h1>
+                            {{ application.description|linebreaks }}
+                        {% endif %}
+                    </div>
                     <div class="flex-horizontal gap-2em">
                         {% if not response_was_created %}
                             <a href="{% url 'job_seeker_application_response_create' application.id %}">
                                 <button class="button submit">Откликнуться</button>
                             </a>
                         {% elif can_be_withdrawn %}
-                             <a href="{% url 'job_seeker_application_response_withdraw' application.id %}">
+                            <a href="{% url 'job_seeker_application_response_withdraw' application.id %}">
                                 <button class="button reject">Отозвать отклик</button>
                             </a>
                         {% endif %}
