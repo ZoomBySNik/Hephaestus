@@ -1,20 +1,15 @@
 import datetime
-import os
 import xml.etree.ElementTree as ET
 import requests
 from urllib.parse import urlencode
-
-from PIL import Image
-from django.conf import settings
 from dadata import Dadata
-from django.core.files.storage import default_storage
 from django.db.models import Q
 import math
 from django.utils import timezone
 
 from Hephaestus.settings import YANDEX_MAPS_API_KEY, DADATA_API_KEY
 from domain.models import JobSeeker, Employer, Employee, Application, ApplicationsResponses, JobInterview, Address, \
-    SoftwareAndHardwareTool, CustomUser, Organization
+    SoftwareAndHardwareTool
 
 
 def calculate_matching_between_job_seeker_and_application(job_seeker, application):
@@ -59,6 +54,10 @@ def calculate_matching_between_job_seeker_and_application(job_seeker, applicatio
             if skill in application.skills.all():
                 skill_factor += 1
         skill_factor = skill_factor / count_of_skills
+        if skill_factor*2 >= 1:
+            skill_factor = 1
+        else:
+            skill_factor = skill_factor * 2
 
     software_and_hardware_tools = job_seeker.softwareandhardwaretoolofjobseeker_set.all()
     count_of_software_and_hardware_tools = len(application.software_and_hardware_tools.all())
@@ -74,7 +73,6 @@ def calculate_matching_between_job_seeker_and_application(job_seeker, applicatio
     percent = education_factor * (specialization_factor + experience_factor +
             skill_factor + software_and_hardware_tool_factor) / 5 * 100
     percent = round(percent, 0)
-    print('perecnt ' + str(percent))
     return percent
 
 
@@ -113,6 +111,12 @@ def get_user_data(user_id):
         try:
             job_seeker = JobSeeker.objects.get(id=user_id)
             job_seeker.work_experiences = job_seeker.workexperience_set.all().order_by('-date_of_employment')
+            for work_experience in job_seeker.work_experiences:
+                date_of_employment = work_experience.date_of_employment
+                date_of_dismissal = work_experience.date_of_dismissal
+                if date_of_dismissal == None:
+                    date_of_dismissal = datetime.datetime.today()
+                work_experience.years = date_of_dismissal.year - date_of_employment.year
             return job_seeker
         except JobSeeker.DoesNotExist:
             return None

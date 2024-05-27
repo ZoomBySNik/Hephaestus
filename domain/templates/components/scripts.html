@@ -13,7 +13,7 @@
             if ($(this).get(0).setSelectionRange) {
                 $(this).get(0).setSelectionRange(pos, pos);
             } else if ($(this).get(0).createTextRange) {
-                var range = $(this).get(0).createTextRange();
+                let range = $(this).get(0).createTextRange();
                 range.collapse(true);
                 range.moveEnd('character', pos);
                 range.moveStart('character', pos);
@@ -49,15 +49,15 @@
 
         function filterCheckboxes(input, containerId) {
             clearTimeout(timeout);
-            var filter = input.value.toUpperCase();
-            var checkboxesContainer = document.getElementById(containerId);
-            var checkboxes = checkboxesContainer.getElementsByTagName("div");
-            var delay = 500;
+            let filter = input.value.toUpperCase();
+            let checkboxesContainer = document.getElementById(containerId);
+            let checkboxes = checkboxesContainer.getElementsByTagName("div");
+            let delay = 500;
             timeout = setTimeout(function () {
-                for (var i = 0; i < checkboxes.length; i++) {
-                    var label = checkboxes[i].getElementsByTagName("label")[0];
+                for (let i = 0; i < checkboxes.length; i++) {
+                    let label = checkboxes[i].getElementsByTagName("label")[0];
                     if (label) {
-                        var textValue = label.textContent || label.innerText;
+                        let textValue = label.textContent || label.innerText;
                         if (textValue.toUpperCase().indexOf(filter) > -1) {
                             checkboxes[i].style.display = "";
                         } else {
@@ -71,18 +71,18 @@
         function filterResults(input) {
             clearTimeout(timeout);
 
-            var inputValue = input.value.toLowerCase();
+            let inputValue = input.value.toLowerCase();
 
-            var container = input.parentNode.parentNode;
-            var delay = 500;
+            let container = input.parentNode.parentNode;
+            let delay = 500;
 
             timeout = setTimeout(function () {
-                var results = container.querySelectorAll('[id^="search_results"]');
+                let results = container.querySelectorAll('[id^="search_results"]');
 
-                var resultsFound = false;
+                let resultsFound = false;
 
                 results.forEach(function (result) {
-                    var textContent = Array.from(result.querySelectorAll('p')).map(function (p) {
+                    let textContent = Array.from(result.querySelectorAll('p')).map(function (p) {
                         return p.textContent.toLowerCase();
                     }).join(' ');
 
@@ -94,24 +94,24 @@
                     }
                 });
 
-                var noResultsMessage = container.querySelector('[id="noResultsMessage"]');
+                let noResultsMessage = container.querySelector('[id="noResultsMessage"]');
                 noResultsMessage.style.display = resultsFound ? 'none' : 'block';
             }, delay);
         }
 
         $(document).ready(function () {
-            var theme = getCookie("theme");
+            let theme = getCookie("theme");
             if (theme) {
                 applyTheme(theme);
             } else {
-                var defaultTheme = '{% static 'css/lightcolors.css' %}';
+                let defaultTheme = '{% static 'css/lightcolors.css' %}';
                 applyTheme(defaultTheme);
                 document.cookie = "theme=" + defaultTheme + ";path=/";
             }
 
             $('#theme-toggle').click(function () {
-                var currentTheme = $('#theme-link').attr('href');
-                var newTheme = currentTheme.includes('darkcolors.css') ? '{% static 'css/lightcolors.css' %}' : '{% static 'css/darkcolors.css' %}';
+                let currentTheme = $('#theme-link').attr('href');
+                let newTheme = currentTheme.includes('darkcolors.css') ? '{% static 'css/lightcolors.css' %}' : '{% static 'css/darkcolors.css' %}';
                 if (Math.random() < 1 / 10) {
                     newTheme = '{% static 'css/jokecolors.css' %}';
                 }
@@ -124,40 +124,40 @@
             }
 
             function getCookie(name) {
-                var value = "; " + document.cookie;
-                var parts = value.split("; " + name + "=");
+                let value = "; " + document.cookie;
+                let parts = value.split("; " + name + "=");
                 if (parts.length === 2) return parts.pop().split(";").shift();
             }
         });
 
         function exportToExcel(name) {
-            var table = document.getElementById('export');
+            let table = document.getElementById('export');
 
             // Клонируем таблицу для исключения столбцов с id=ignore-export
-            var clonedTable = table.cloneNode(true);
-            var columnsToRemove = clonedTable.querySelectorAll("#ignore-export");
+            let clonedTable = table.cloneNode(true);
+            let columnsToRemove = clonedTable.querySelectorAll("#ignore-export");
             columnsToRemove.forEach(function (column) {
                 column.parentNode.removeChild(column);
             });
 
             // Создаем новый Excel-документ из клонированной таблицы
-            var wb = XLSX.utils.table_to_book(clonedTable);
+            let wb = XLSX.utils.table_to_book(clonedTable);
 
             // Сохраняем Excel-документ в файл
-            var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'});
+            let wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'});
 
             function s2ab(s) {
-                var buf = new ArrayBuffer(s.length);
-                var view = new Uint8Array(buf);
-                for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+                let buf = new ArrayBuffer(s.length);
+                let view = new Uint8Array(buf);
+                for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
                 return buf;
             }
 
-            var now = new Date();
-            var timestamp = now.toISOString().slice(0, 19).replace(/[-T]/g, '').replace(/:/g, '');
+            let now = new Date();
+            let timestamp = now.toISOString().slice(0, 19).replace(/[-T]/g, '').replace(/:/g, '');
 
             // Задаем имя файла как время генерации отчета + название
-            var filename = name + timestamp + '.xlsx';
+            let filename = name + timestamp + '.xlsx';
             saveAs(new Blob([s2ab(wbout)], {type: "application/octet-stream"}), filename);
         }
 
@@ -191,7 +191,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            var requiredInputs = document.querySelectorAll('input[required]');
+            let requiredInputs = document.querySelectorAll('input[required]');
 
             requiredInputs.forEach(function (input) {
                 input.addEventListener('blur', function () {

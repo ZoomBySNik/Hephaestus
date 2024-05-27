@@ -1,239 +1,209 @@
 {% block content %}
-    <div class="flex-vertical extra-part">
-        <div class="top-splitter-two flex-horizontal">
-            <div class="splitted-part left {% if data.skill.exists and data.specialization.exists and data.specialization.exists and data.softwareandhardwaretoolofjobseeker_set.exists and data.educationofjobseeker_set.exists and data.workexperience_set.exists %}
-            active
-            {% else %}
-
-            {% endif %}" onclick="toggleSplitter(this)">Публикации
-            </div>
-            <div class="splitted-part right {% if data.skill.exists and data.specialization.exists and data.specialization.exists and data.softwareandhardwaretoolofjobseeker_set.exists and data.educationofjobseeker_set.exists and data.workexperience_set.exists %}
-
-            {% else %}
-            active
-            {% endif %}" onclick="toggleSplitter(this)">Профессиональные
-                качества
-            </div>
-        </div>
-        <div class="flex-vertical gap-1em inner-part">
-            <div class="content flex-vertical gap-3em {% if data.skill.exists and data.specialization.exists and data.specialization.exists and data.softwareandhardwaretoolofjobseeker_set.exists and data.educationofjobseeker_set.exists and data.workexperience_set.exists %}
-            active-content
-            {% else %}
-            inactive-content
-            {% endif %}" style="padding: 2em 4em;">
-                <div class="flex-horizontal">
-                    <a href="#">
-                        <button class="button">Создать новую публикацию</button>
-                    </a>
-                </div>
-            </div>
-            <div class="content flex-vertical gap-3em {% if data.skill.exists and data.specialization.exists and data.specialization.exists and data.softwareandhardwaretoolofjobseeker_set.exists and data.educationofjobseeker_set.exists and data.workexperience_set.exists %}
-            inactive-content
-            {% else %}
-            active-content
-            {% endif %}" style="padding: 2em 4em;">
-                <div class="flex-vertical gap-2em">
-                    <div class="flex-vertical gap-1em">
-                        <h1 class="title" style="font-size: xx-large">Навыки:</h1>
-                        {% if data.skill.exists %}
-                            <table class="table">
+    <div class="flex-vertical gap-1em inner-part">
+        <div class="content flex-vertical gap-3em" style="padding: 2em 4em;">
+            <h1 class="title">Профессиональные качества</h1>
+            <div class="flex-vertical gap-2em">
+                <div class="flex-vertical gap-1em">
+                    <h1 class="title" style="font-size: xx-large">Гибкие навыки:</h1>
+                    {% if data.skill.exists %}
+                        <table class="table">
+                            <tr>
+                                <th>№</th>
+                                <th>Наименование</th>
+                            </tr>
+                            {% for skill in data.skill.all %}
                                 <tr>
-                                    <th>№</th>
-                                    <th>Наименование</th>
+                                    <td>
+                                        {{ forloop.counter }}
+                                    </td>
+                                    <td>
+                                        {{ skill.name }}
+                                    </td>
                                 </tr>
-                                {% for skill in data.skill.all %}
-                                    <tr>
-                                        <td>
-                                            {{ forloop.counter }}
-                                        </td>
-                                        <td>
-                                            {{ skill.name }}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        {% else %}
-                            <p class="error-message">Вы пока не добавили навыки</p>
-                        {% endif %}
-                        <div class="flex-horizontal">
-                            <a href="{% url 'job_seeker_skills' %}">
-                                <button class="button submit">Изменить навыки</button>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="flex-vertical gap-1em">
-                        <h1 class="title" style="font-size: xx-large">Специализации:</h1>
-                        {% if data.specialization.exists %}
-                            <table class="table">
-                                <tr>
-                                    <th>№</th>
-                                    <th>Наименование</th>
-                                </tr>
-                                {% for specialization in data.specialization.all %}
-                                    <tr>
-                                        <td>
-                                            {{ forloop.counter }}
-                                        </td>
-                                        <td>
-                                            {{ specialization.name }}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        {% else %}
-                            <p class="error-message">Вы пока не добавили специализаций</p>
-                        {% endif %}
-                        <div class="flex-horizontal">
-                            <a href="{% url 'job_seeker_specializations' %}">
-                                <button class="button submit">Изменить специализации</button>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="flex-vertical gap-1em">
-                        <h1 class="title" style="font-size: xx-large">Программно-технические средства:</h1>
-                        {% if data.softwareandhardwaretoolofjobseeker_set.exists %}
-                            <table class="table">
-                                <tr>
-                                    <th>№</th>
-                                    <th>Наименование</th>
-                                </tr>
-                                {% for software_and_hardware_tool in data.softwareandhardwaretoolofjobseeker_set.all %}
-                                    <tr>
-                                        <td>
-                                            {{ forloop.counter }}
-                                        </td>
-                                        <td>
-                                            {{ software_and_hardware_tool.software_and_hardware_tool.name }}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        {% else %}
-                            <p class="error-message">Вы пока не добавили программно-технических средств</p>
-                        {% endif %}
-                        <div class="flex-horizontal">
-                            <a href="{% url 'job_seeker_software_and_hardware_tools' %}">
-                                <button class="button submit">Изменить программно технические средства</button>
-                            </a>
-                        </div>
+                            {% endfor %}
+                        </table>
+                    {% else %}
+                        <p class="error-message">Вы пока не добавили навыки</p>
+                    {% endif %}
+                    <div class="flex-horizontal">
+                        <a href="{% url 'job_seeker_skills' %}">
+                            <button class="button submit">Изменить навыки</button>
+                        </a>
                     </div>
                 </div>
-                <div class="flex-vertical gap-2em">
-                    <h1 class="title">Данные об образовании</h1>
-                    <div class="flex-vertical gap-1em">
-                        <h1 class="title" style="font-size: xx-large">Образование:</h1>
-                        {% if data.educationofjobseeker_set.exists %}
-                            <table class="table">
+                <div class="flex-vertical gap-1em">
+                    <h1 class="title" style="font-size: xx-large">Специализации:</h1>
+                    {% if data.specialization.exists %}
+                        <table class="table">
+                            <tr>
+                                <th>№</th>
+                                <th>Наименование</th>
+                            </tr>
+                            {% for specialization in data.specialization.all %}
                                 <tr>
-                                    <th>№</th>
-                                    <th>Наименование</th>
-                                    <th>Код</th>
-                                    <th>Уровень образования</th>
-                                    <th>Учебное заведение</th>
-                                    <th>Год получения образования</th>
-                                    <th></th>
+                                    <td>
+                                        {{ forloop.counter }}
+                                    </td>
+                                    <td>
+                                        {{ specialization.name }}
+                                    </td>
                                 </tr>
-                                {% for education in data.educationofjobseeker_set.all %}
-                                    <tr>
-                                        <td>
-                                            {{ forloop.counter }}
-                                        </td>
-                                        <td>
-                                            {{ education.education.name }}
-                                        </td>
-                                        <td>
-                                            {{ education.education.code }}
-                                        </td>
-                                        <td>
-                                            {{ education.education.education_level.name }}
-                                        </td>
-                                        <td>
-                                            {{ education.education.organization.name }}
-                                        </td>
-                                        <td>
-                                            {{ education.year_received }}
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'delete_education' education.id %}">
-                                                <button class="button reject">
-                                                    <img src="{% static 'icons/delete.svg' %}" class="icon">
-                                                </button>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        {% else %}
-                            <p class="error-message">Вы пока не добавили образование</p>
-                        {% endif %}
-                        <div class="flex-horizontal">
-                            <a href="{% url 'job_seeker_education' %}">
-                                <button class="button submit">Добавить образование</button>
-                            </a>
-                        </div>
+                            {% endfor %}
+                        </table>
+                    {% else %}
+                        <p class="error-message">Вы пока не добавили специализаций</p>
+                    {% endif %}
+                    <div class="flex-horizontal">
+                        <a href="{% url 'job_seeker_specializations' %}">
+                            <button class="button submit">Изменить специализации</button>
+                        </a>
                     </div>
                 </div>
-                <div class="flex-vertical gap-2em">
-                    <h1 class="title">Данные об предыдущей работе</h1>
-                    <div class="flex-vertical gap-1em">
-                        <h1 class="title" style="font-size: xx-large">Опыт работы:</h1>
-                        {% if data.workexperience_set.exists %}
-                            <table class="table">
+                <div class="flex-vertical gap-1em">
+                    <h1 class="title" style="font-size: xx-large">Ключевые навыки:</h1>
+                    {% if data.softwareandhardwaretoolofjobseeker_set.exists %}
+                        <table class="table">
+                            <tr>
+                                <th>№</th>
+                                <th>Наименование</th>
+                            </tr>
+                            {% for software_and_hardware_tool in data.softwareandhardwaretoolofjobseeker_set.all %}
                                 <tr>
-                                    <th>№</th>
-                                    <th>Должность</th>
-                                    <th>Организация</th>
-                                    <th>Дата трудоустройства</th>
-                                    <th>Дата увольнения</th>
-                                    <th>Количество отработанных лет</th>
-                                    <th style="width: 5%"></th>
+                                    <td>
+                                        {{ forloop.counter }}
+                                    </td>
+                                    <td>
+                                        {{ software_and_hardware_tool.software_and_hardware_tool.name }}
+                                    </td>
                                 </tr>
-                                {% for work_experience in data.work_experiences %}
-                                    <tr>
-                                        <td>
-                                            {{ forloop.counter }}
-                                        </td>
-                                        <td>
-                                            {{ work_experience.position.name }}
-                                        </td>
-                                        <td>
-                                            {{ work_experience.organization }}
-                                        </td>
-                                        <td>
-                                            {{ work_experience.date_of_employment }}
-                                        </td>
-                                        <td>
-                                            {% if work_experience.date_of_dismissal %}
-                                                {{ work_experience.date_of_dismissal }}
-                                            {% else %}
-                                                -
-                                            {% endif %}
-                                        </td>
-                                        <td>
+                            {% endfor %}
+                        </table>
+                    {% else %}
+                        <p class="error-message">Вы пока не добавили навыки</p>
+                    {% endif %}
+                    <div class="flex-horizontal">
+                        <a href="{% url 'job_seeker_software_and_hardware_tools' %}">
+                            <button class="button submit">Изменить программно технические средства</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-vertical gap-2em">
+                <h1 class="title">Данные об образовании</h1>
+                <div class="flex-vertical gap-1em">
+                    <h1 class="title" style="font-size: xx-large">Образование:</h1>
+                    {% if data.educationofjobseeker_set.exists %}
+                        <table class="table">
+                            <tr>
+                                <th>№</th>
+                                <th>Наименование</th>
+                                <th>Код</th>
+                                <th>Уровень образования</th>
+                                <th>Учебное заведение</th>
+                                <th>Год получения образования</th>
+                                <th></th>
+                            </tr>
+                            {% for education in data.educationofjobseeker_set.all %}
+                                <tr>
+                                    <td>
+                                        {{ forloop.counter }}
+                                    </td>
+                                    <td>
+                                        {{ education.education.name }}
+                                    </td>
+                                    <td>
+                                        {{ education.education.code }}
+                                    </td>
+                                    <td>
+                                        {{ education.education.education_level.name }}
+                                    </td>
+                                    <td>
+                                        {{ education.education.organization.name }}
+                                    </td>
+                                    <td>
+                                        {{ education.year_received }}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'delete_education' education.id %}">
+                                            <button class="button reject">
+                                                <img src="{% static 'icons/delete.svg' %}" class="icon">
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% else %}
+                        <p class="error-message">Вы пока не добавили образование</p>
+                    {% endif %}
+                    <div class="flex-horizontal">
+                        <a href="{% url 'job_seeker_education' %}">
+                            <button class="button submit">Добавить образование</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-vertical gap-2em">
+                <h1 class="title">Данные об предыдущей работе</h1>
+                <div class="flex-vertical gap-1em">
+                    <h1 class="title" style="font-size: xx-large">Опыт работы:</h1>
+                    {% if data.workexperience_set.exists %}
+                        <table class="table">
+                            <tr>
+                                <th>№</th>
+                                <th>Должность</th>
+                                <th>Организация</th>
+                                <th>Дата трудоустройства</th>
+                                <th>Дата увольнения</th>
+                                <th>Количество отработанных лет</th>
+                                <th style="width: 5%"></th>
+                            </tr>
+                            {% for work_experience in data.work_experiences %}
+                                <tr>
+                                    <td>
+                                        {{ forloop.counter }}
+                                    </td>
+                                    <td>
+                                        {{ work_experience.position.name }}
+                                    </td>
+                                    <td>
+                                        {{ work_experience.organization }}
+                                    </td>
+                                    <td>
+                                        {{ work_experience.date_of_employment }}
+                                    </td>
+                                    <td>
+                                        {% if work_experience.date_of_dismissal %}
+                                            {{ work_experience.date_of_dismissal }}
+                                        {% else %}
                                             -
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'delete_work_experience_view' work_experience.id %}">
-                                                <button class="button reject">
-                                                    <img src="{% static 'icons/delete.svg' %}" class="icon">
-                                                </button>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        {% else %}
-                            <p class="error-message">Вы пока не добавили информацию о предыдущей
-                                работе</p>
-                        {% endif %}
-                        <div class="flex-horizontal">
-                            <a href="{% url 'job_seeker_work_experience' %}">
-                                <button class="button submit">Изменить опыт работы</button>
-                            </a>
-                        </div>
-
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ work_experience.years }}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'delete_work_experience_view' work_experience.id %}">
+                                            <button class="button reject">
+                                                <img src="{% static 'icons/delete.svg' %}" class="icon">
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% else %}
+                        <p class="error-message">Вы пока не добавили информацию о предыдущей
+                            работе</p>
+                    {% endif %}
+                    <div class="flex-horizontal">
+                        <a href="{% url 'job_seeker_work_experience' %}">
+                            <button class="button submit">Изменить опыт работы</button>
+                        </a>
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
 {% endblock content %}

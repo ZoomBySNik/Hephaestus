@@ -42,7 +42,7 @@
                             Образование: <span class="title"
                                                style="font-size: unset">{{ application.education_level }}</span>
                         </p>
-                        <p>Навыки:
+                        <p>Гибкие навыки:
                             {% for skill in application.skills.all %}
                                 <span class="title" style="font-size: unset">{{ skill }}</span>
                                 {% if not forloop.last %},{% endif %}

@@ -16,7 +16,7 @@ from domain.models import *
 def references_view(request, reference='OrganizationalLegalForm'):
     references_dict = {
         'OrganizationalLegalForm': [OrganizationalLegalForm, 'Организационно-правовые формы'],
-        'Skill': [Skill, 'Навыки'],
+        'Skill': [Skill, 'Гибкие навыки'],
         'Specialization': [Specialization, 'Специализации'],
         'SoftwareAndHardwareTool': [SoftwareAndHardwareTool, 'Ключевые навыки'],
         'WorkSchedule': [WorkSchedule, 'Графики работы'],
