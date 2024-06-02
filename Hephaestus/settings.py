@@ -60,8 +60,7 @@ ROOT_URLCONF = 'Hephaestus.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'domain/templates']
-        ,
+        'DIRS': [BASE_DIR / 'domain/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

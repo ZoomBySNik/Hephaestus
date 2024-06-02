@@ -1,8 +1,12 @@
 import os
 from datetime import timedelta
 from datetime import datetime as dt
+from io import BytesIO
+
 from PIL import Image
 from django import forms
+from django.core.files.base import ContentFile
+
 from domain.models import *
 
 
@@ -39,21 +43,28 @@ class OrganizationForm(forms.ModelForm):
         organization_logo = self.cleaned_data.get('organization_logo')
 
         if organization_logo:
-            # Временно сохраняем оригинальное изображение
-            organization.organization_logo = organization_logo
-            if commit:
-                organization.save()
+            # Сохранение изображения временно
+            temp_name = organization_logo.name
+            organization.organization_logo.save(temp_name, ContentFile(organization_logo.read()), save=False)
 
             # Путь к сохраненному изображению
             image_path = organization.organization_logo.path
 
             # Открытие изображения и конвертация в WebP
-            img = Image.open(image_path)
-            webp_path = os.path.splitext(image_path)[0] + '.webp'
-            img.save(webp_path, 'webp')
+            try:
+                img = Image.open(image_path)
+                webp_io = BytesIO()
+                img.save(webp_io, format='webp')
+                webp_io.seek(0)
 
-            # Обновление ссылки на изображение организации
-            organization.organization_logo.name = organization.organization_logo.name.rsplit('.', 1)[0] + '.webp'
+                # Замена оригинального изображения на WebP
+                webp_name = os.path.splitext(temp_name)[0] + '.webp'
+                organization.organization_logo.save(webp_name, ContentFile(webp_io.read()), save=False)
+
+                # Удаление старого изображения
+                os.remove(image_path)
+            except Exception as e:
+                print(f"Error converting image: {e}")
 
         if commit:
             organization.save()

@@ -1,10 +1,6 @@
 import calendar
 from datetime import date
-
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse
 from domain.general_functions import *
 from domain.decorators import *
