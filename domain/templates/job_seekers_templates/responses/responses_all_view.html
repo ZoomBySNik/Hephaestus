@@ -21,7 +21,7 @@
 
                         </div>
                         <div class="flex-vertical gap-1em"
-                             style="justify-content: flex-start; height: 100%">
+                             style="justify-content: flex-end; width: 40%;">
                             <p class="text1">Статус вашего отклика на заявку: {{ response.status_in_rus }}</p>
                             <p class="text1">Статус заявки: {{ response.application.status_in_rus }}</p>
                             <a href="{% url 'job_seeker_application_view' response.application.id %}">

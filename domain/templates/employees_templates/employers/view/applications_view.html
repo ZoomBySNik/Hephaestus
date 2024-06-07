@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
     <section class="split-section flex-vertical gap-2em">
+        <h1 class="title">{% if not archive %}Активные{% else %}Архивные{% endif %} заявки</h1>
         <div class="content-block flex-vertical gap-1em">
             <div class="content-box flex-vertical gap-1em">
                 <div class="content flex-vertical gap-1em">
                     {% if not archive %}
                     <a href="{% url 'applications_view' 'archive_by_new' %}">
-                        <button class="button">Архивные заявки</button>
+                        <button class="button">Просмотреть архивные заявки</button>
                     </a>
                     {% else %}
                     <a href="{% url 'applications_view' %}">
@@ -23,7 +24,7 @@
                                 <h1 class="title" style="font-size: xx-large">Заявка
                                     от {{ application.date_of_application.date }}</h1>
                                 <p>
-                                    Заявитель: {{ application.employer.last_name }} {{ application.employer.name }} {{ application.employer.patronymic }} {{ application.employer.position }}, {{ application.employer.position }}
+                                    Заявитель: {{ application.employer.last_name }} {{ application.employer.first_name }} {{ application.employer.patronymic }} {{ application.employer.position }}, {{ application.employer.position }}
                                     организации {{ application.employer.organization.organizational_legal_form }}
                                     "{{ application.employer.organization.name }}"
                                 </p>

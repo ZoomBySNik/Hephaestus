@@ -1,12 +1,9 @@
 import datetime
-
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from phonenumber_field.modelfields import PhoneNumberField
 
 
-# Create your models here.
 class CustomUser(AbstractUser):
     patronymic = models.CharField(max_length=255, blank=False, null=False, verbose_name='Отчество')
     phone_number = models.CharField(max_length=18, blank=False, null=False, verbose_name='Номер телефона')
@@ -280,7 +277,8 @@ class EducationOfJobSeeker(models.Model):
 class DocumentConfirmation(models.Model):
     confirmation = models.BooleanField(blank=True, null=True, verbose_name='Факт подтверждения')
     file = models.ImageField(blank=False, null=False,
-                            verbose_name='Фотография документа', upload_to='attachment_to_confirmation')
+                             verbose_name='Фотография документа',
+                             upload_to='attachment_to_confirmation')
 
     def __str__(self):
         return self.file.name
@@ -367,7 +365,7 @@ class Application(models.Model):
     work_schedule = models.ForeignKey('WorkSchedule', blank=False, null=False,
                                       on_delete=models.PROTECT, verbose_name='График работы')
     work_format = models.ForeignKey('WorkFormat', blank=False, null=False,
-                                      on_delete=models.PROTECT, default=3, verbose_name='Формат работы')
+                                    on_delete=models.PROTECT, default=3, verbose_name='Формат работы')
     employee = models.ForeignKey('Employee', blank=True, null=True,
                                  on_delete=models.PROTECT, verbose_name='Работник')
     date_of_completion = models.DateField(blank=True, null=True, verbose_name='Дата выполнения')

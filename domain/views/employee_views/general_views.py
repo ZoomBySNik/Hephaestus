@@ -27,7 +27,7 @@ def references_view(request, reference='OrganizationalLegalForm'):
             display_model = selected_model.objects.all().order_by('-code')
         else:
             display_model = selected_model.objects.all().order_by('name')
-        display_name = selected_model._meta.verbose_name_plural
+        display_name = references_dict[reference][1]
         fields_names = [field for field in selected_model._meta.get_fields() if
                         not field.is_relation and field.name != 'id']
         if request.method == 'POST':
